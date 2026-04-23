@@ -768,6 +768,13 @@
     let saveTimer = null;
 
     function init() {
+        // SECURITY CHECK
+        const auth = localStorage.getItem('amassed_auth');
+        if (auth !== 'amassed2026') {
+            location.href = 'index.html';
+            return;
+        }
+
         const params = new URLSearchParams(window.location.search);
         let moduleId = parseInt(params.get('module')) || 0;
         navigateModule(moduleId, false); // Don't update history on initial load
@@ -947,7 +954,7 @@
     function setVolume(val) {
         if (audio) audio.volume = val / 100;
         const icon = document.getElementById('playerVolumeIcon');
-        if (val == 0) icon.innerHTML = '🔇'; // Muted icon
+        if (val == 0) icon.innerHTML = '0️'; // Muted icon
         else if (val < 50) icon.innerHTML = '🔉';
         else icon.innerHTML = '🔊';
     }
