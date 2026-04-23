@@ -308,7 +308,7 @@
     <nav>
         <div class='logo'>AMASSED</div>
         <div class='nav-links'>
-            <a href='#curriculum'>Curriculum</a>
+            <a href='#' onclick='enterCourse()'>Curriculum</a>
             <a href='#pricing'>Enroll</a>
             <a href='#about'>About</a>
         </div>
@@ -324,7 +324,7 @@
             <div class='hero-sub'>Remember • Recount • Recertify</div>
             <p style='font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 3rem;'>A high-end leadership experience designed to forge unshakable conviction through the RRR Framework.</p>
             <div class='btn-group'>
-                <button class='btn btn-primary' onclick='location.href="#curriculum"'>Begin Journey</button>
+                <button class='btn btn-primary' onclick='enterCourse()'>Begin Journey</button>
                 <button class='btn btn-outline' onclick='location.href="#pricing"'>View Packages</button>
             </div>
         </div>
@@ -336,37 +336,37 @@
             <h2>The Curriculum</h2>
         </div>
         <div class='module-grid'>
-            <div class='module-card' onclick='location.href="lesson.html?module=0"'>
+            <div class='module-card' onclick='enterCourse("lesson.html?module=0")'>
                 <span class='module-num'>MODULE 00</span>
                 <h3>Introductory Essentials</h3>
                 <p>The Joy of the Lord and the RRR Framework. From chilled meat to fresh BBQ.</p>
                 <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class='module-card' onclick='location.href="lesson.html?module=1"'>
+            <div class='module-card' onclick='enterCourse("lesson.html?module=1")'>
                 <span class='module-num'>MODULE 01</span>
                 <h3>For Christ</h3>
                 <p>Remembering... the battle is the Lord's. Grounding leadership in victory.</p>
                 <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class='module-card' onclick='location.href="lesson.html?module=2"'>
+            <div class='module-card' onclick='enterCourse("lesson.html?module=2")'>
                 <span class='module-num'>MODULE 02</span>
                 <h3>Christ Leads, Always</h3>
                 <p>Recounting His leadership. Accuracy, peaks, and God not wasting a hurt.</p>
                 <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class='module-card' onclick='location.href="lesson.html?module=3"'>
+            <div class='module-card' onclick='enterCourse("lesson.html?module=3")'>
                 <span class='module-num'>MODULE 03</span>
                 <h3>Bring Them Back</h3>
                 <p>The ministry of Recertification. Declaring Christ's presence in every story.</p>
                 <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class='module-card' onclick='location.href="lesson.html?module=4"'>
+            <div class='module-card' onclick='enterCourse("lesson.html?module=4")'>
                 <span class='module-num'>MODULE 04</span>
                 <h3>Practice, Always</h3>
                 <p>Moving from theory to daily rhythm. Forgiveness, courage, and fellowship.</p>
                 <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class='module-card' onclick='location.href="lesson.html?module=5"'>
+            <div class='module-card' onclick='enterCourse("lesson.html?module=5")'>
                 <span class='module-num'>MODULE 05</span>
                 <h3>What About Us?</h3>
                 <p>The 14 Leadership Traits. Evaluating the character of a Christ-centered leader.</p>
@@ -429,5 +429,25 @@
             <p style='margin-top: 5rem; font-size: 0.7rem; opacity: 0.3; letter-spacing: 2px;'>© 2026 AMASSED | ALL RIGHTS RESERVED</p>
         </div>
     </footer>
+
+    <script>
+        function enterCourse(url) {
+            const pass = localStorage.getItem('amassed_auth');
+            if (pass === 'amassed2026') {
+                if (url) location.href = url;
+                else location.href = '#curriculum';
+                return;
+            }
+            
+            const input = prompt('The mission is restricted. Please enter your Editorial Access Code:');
+            if (input === 'amassed2026') {
+                localStorage.setItem('amassed_auth', 'amassed2026');
+                if (url) location.href = url;
+                else location.href = '#curriculum';
+            } else if (input !== null) {
+                alert('Access Denied. You are not authorized for this mission.');
+            }
+        }
+    </script>
 </body>
 </html>
