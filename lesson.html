@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>AMASSED | Course Player</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel='preconnect' href='https://fonts.googleapis.com'>
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
     <style>
         :root {
             --gold: #D4A853;
@@ -28,6 +28,7 @@
             overflow: hidden;
         }
 
+        /* Sidebar */
         aside {
             width: 350px;
             background: var(--black-soft);
@@ -79,20 +80,11 @@
         }
 
         .lesson-item h4 { font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .progress-dots {
-            display: flex;
-            gap: 4px;
-        }
-        .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-        }
-        .dot.done {
-            background: var(--gold);
-        }
+        .progress-dots { display: flex; gap: 4px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+        .dot.done { background: var(--gold); }
 
+        /* Main Player */
         main {
             flex: 1;
             overflow-y: auto;
@@ -107,7 +99,7 @@
         }
 
         .rrr-nav {
-            display: flex;
+            display: flex; 
             gap: 1px;
             background: var(--glass-border);
             border-radius: 8px;
@@ -127,10 +119,7 @@
             transition: var(--transition);
             color: rgba(255,255,255,0.4);
         }
-        .rrr-tab.active {
-            background: var(--gold);
-            color: #000;
-        }
+        .rrr-tab.active { background: var(--gold); color: #000; }
 
         .lesson-content h2 {
             font-family: 'Playfair Display', serif;
@@ -161,9 +150,7 @@
             outline: none;
             transition: var(--transition);
         }
-        textarea:focus {
-            border-color: var(--gold);
-        }
+        textarea:focus { border-color: var(--gold); }
 
         .btn {
             padding: 1.2rem 3rem;
@@ -176,154 +163,183 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        .btn:hover {
-            background: var(--gold-bright);
-            transform: translateY(-2px);
-        }
+        .btn:hover { background: var(--gold-bright); transform: translateY(-2px); }
 
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            aside {
-                width: 100%;
-                height: auto;
-            }
-            .content-container {
-                padding: 2rem;
-            }
+            body { flex-direction: column; }
+            aside { width: 100%; height: auto; }
+            .content-container { padding: 2rem; }
         }
     </style>
 </head>
 <body>
     <aside>
-        <div class="sidebar-header">
-            <a href="index.html" class="back-link">← Dashboard</a>
-            <div class="module-title" id="moduleTitle">Module 00</div>
+        <div class='sidebar-header'>
+            <a href='index.html' class='back-link'>← Dashboard</a>
+            <div class='module-title' id='moduleTitle'>Module 00</div>
         </div>
-        <div class="lesson-list" id="lessonList"></div>
+        <div class='lesson-list' id='lessonList'>
+            <!-- Lessons injected here -->
+        </div>
     </aside>
 
     <main>
-        <div class="content-container">
-            <div class="rrr-nav">
-                <div class="rrr-tab active" id="tab0" onclick="setStep(0)">Remember</div>
-                <div class="rrr-tab" id="tab1" onclick="setStep(1)">Recount</div>
-                <div class="rrr-tab" id="tab2" onclick="setStep(2)">Recertify</div>
+        <div class='content-container'>
+            <div class='rrr-nav'>
+                <div class='rrr-tab active' id='tab0' onclick='setStep(0)'>Remember</div>
+                <div class='rrr-tab' id='tab1' onclick='setStep(1)'>Recount</div>
+                <div class='rrr-tab' id='tab2' onclick='setStep(2)'>Recertify</div>
             </div>
 
-            <div class="lesson-content" id="lessonContent"></div>
+            <div class='lesson-content' id='lessonContent'>
+                <!-- Content injected here -->
+            </div>
         </div>
     </main>
 
     <script>
         const DATA = {
-            0: {
-                title: "Introductory Essentials",
-                lessons: [
-                    {
-                        title: "The Joy of the Lord",
-                        remember: "The Joy of the LORD is your strength (Nehemiah 8:10). This isn't just a feeling, it's a strategic foundation for leadership. From chilled meat to fresh BBQ - the fire of God's joy makes you ready to serve.",
-                        recount: "Where have you seen the fire of God's joy turn a 'chilled' season into a 'ready' season?",
-                        quiz: "What is the fuel of the BBQ in our analogy? (Answer: Joy)"
-                    },
-                    {
-                        title: "The RRR Framework",
-                        remember: "Remember the Word. Recount the Story. Recertify the Conviction. This is the cycle of transformation.",
-                        recount: "Write about a time you remembered a promise and it changed your recount of a situation.",
-                        quiz: "What does the first R stand for? (Answer: Remember)"
-                    }
+        "0": {
+                "title": "Introductory Essentials",
+                "lessons": [
+                        {
+                                "title": "The Joy of the Lord",
+                                "remember": "The Joy of the LORD is your strength (Nehemiah 8:10). This isn't just a feeling, it's a strategic foundation for leadership. From chilled meat to fresh BBQ - the fire of God's joy makes you ready to serve.",
+                                "recount": "Where have you seen the fire of God's joy turn a 'chilled' season into a 'ready' season?",
+                                "quiz": "What is the fuel of the BBQ in our analogy? (Answer: Joy)"
+                        },
+                        {
+                                "title": "The RRR Framework",
+                                "remember": "Remember the Word. Recount the Story. Recertify the Conviction. This is the cycle of transformation.",
+                                "recount": "Write about a time you remembered a promise and it changed your recount of a situation.",
+                                "quiz": "What does the first R stand for? (Answer: Remember)"
+                        }
                 ]
-            },
-            1: {
-                title: "For Christ",
-                lessons: [
-                    {
-                        title: "Grounding in Victory",
-                        remember: "The battle is the Lord's. We lead FROM victory, not FOR it.",
-                        recount: "Share a battle you handed back to Him.",
-                        quiz: "Who does the battle belong to?"
-                    },
-                    {
-                        title: "The Mission",
-                        remember: "Everything we do is for His glory alone.",
-                        recount: "How does 'For Christ' change your daily tasks?",
-                        quiz: "What is the ultimate goal of Amassed?"
-                    }
+        },
+        "1": {
+                "title": "For Christ",
+                "lessons": [
+                        {
+                                "title": "Grounding in Victory",
+                                "remember": "The battle is the Lord's. We lead FROM victory, not FOR it.",
+                                "recount": "Share a battle you handed back to Him.",
+                                "quiz": "Who does the battle belong to?"
+                        },
+                        {
+                                "title": "The Mission",
+                                "remember": "Everything we do is for His glory alone.",
+                                "recount": "How does 'For Christ' change your daily tasks?",
+                                "quiz": "What is the ultimate goal of Amassed?"
+                        }
                 ]
-            },
-            2: {
-                title: "Christ Leads, Always",
-                lessons: [
-                    {
-                        title: "Accuracy in Story",
-                        remember: "God doesn't waste a hurt. Every peak and valley has a purpose.",
-                        recount: "Recount a valley that became a peak later.",
-                        quiz: "Does God waste a hurt?"
-                    },
-                    {
-                        title: "Leading with Scars",
-                        remember: "Your scars are proof of His healing and leadership.",
-                        recount: "How can your scars help someone else lead?",
-                        quiz: "Are scars something to hide?"
-                    }
+        },
+        "2": {
+                "title": "Christ Leads, Always",
+                "lessons": [
+                        {
+                                "title": "Accuracy in Story",
+                                "remember": "God doesn't waste a hurt. Every peak and valley has a purpose.",
+                                "recount": "Recount a valley that became a peak later.",
+                                "quiz": "Does God waste a hurt?"
+                        },
+                        {
+                                "title": "Leading with Scars",
+                                "remember": "Your scars are proof of His healing and leadership.",
+                                "recount": "How can your scars help someone else lead?",
+                                "quiz": "Are scars something to hide?"
+                        }
                 ]
-            }
-        };
+        },
+        "3": {
+                "title": "Bring Them Back",
+                "lessons": [
+                        {
+                                "title": "The Art of Gnorizo",
+                                "remember": "Gnorizo means to make known or declare. We recertify by declaring Christ's presence in our story.",
+                                "recount": "Who in your life needs to hear the message of Christ's presence right now?",
+                                "quiz": "What does Gnorizo mean? (Answer: To make known/declare)"
+                        },
+                        {
+                                "title": "Red the Elder",
+                                "remember": "Reconciliation and recertification go hand in hand. Don't wait until it's too late.",
+                                "recount": "Is there a relationship in your life that needs recertification?",
+                                "quiz": "What is the core lesson from the story of Red the Elder?"
+                        }
+                ]
+        },
+        "4": {
+                "title": "Practice, Always",
+                "lessons": [
+                        {
+                                "title": "The Cave Analogy",
+                                "remember": "Moving from the darkest spot in the cave to the sunlight is the journey of faith in practice.",
+                                "recount": "Describe a 'darkest spot' moment and the first step you took toward the light.",
+                                "quiz": "What does the cave entrance represent? (Answer: God's radiant clarity)"
+                        },
+                        {
+                                "title": "Daily Disciplines",
+                                "remember": "Be Still, Forgiveness, Service, Courage, and Fellowship. These are the five pillars of daily practice.",
+                                "recount": "Which of the five pillars do you find most challenging to practice daily?",
+                                "quiz": "Name the five pillars of daily practice taught in Chapter 4."
+                        }
+                ]
+        },
+        "5": {
+                "title": "What About Us?",
+                "lessons": [
+                        {
+                                "title": "The 14 Traits",
+                                "remember": "Bearing, Courage, Decisiveness, Dependability, Endurance, Enthusiasm, Initiative, Integrity, Judgment, Justice, Knowledge, Loyalty, Tact, and Unselfishness.",
+                                "recount": "Choose one trait and describe how it has been tested in your leadership.",
+                                "quiz": "How many leadership traits are in the AMASSED framework? (Answer: 14)"
+                        },
+                        {
+                                "title": "The Chapstick Moment",
+                                "remember": "Even in the smallest details, God shows His care. Leadership is lived in the seemingly insignificant moments.",
+                                "recount": "Share a 'small detail' where you saw God's care recently.",
+                                "quiz": "What does the Chapstick represent in Chapter 5?"
+                        }
+                ]
+        }
+};
 
         let currentModule = new URLSearchParams(window.location.search).get('module') || 0;
         let currentLesson = 0;
         let currentStep = 0;
 
         function render() {
-            const m = DATA[currentModule];
-            if (!m) return;
+            const m = DATA[currentModule] || DATA[0];
             document.getElementById('moduleTitle').innerText = m.title;
-
+            
+            // Sidebar
             let lessonHtml = '';
             m.lessons.forEach((l, i) => {
-                lessonHtml += `
-                    <div class="lesson-item ${i == currentLesson ? 'active' : ''}" onclick="setLesson(${i})">
-                        <h4>${l.title}</h4>
-                        <div class="progress-dots">
-                            <div class="dot done"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                        </div>
-                    </div>
-                `;
+                lessonHtml += "<div class='lesson-item " + (i == currentLesson ? 'active' : '') + "' onclick='setLesson(" + i + ")'><h4>" + l.title + "</h4><div class='progress-dots'><div class='dot done'></div><div class='dot'></div><div class='dot'></div></div></div>";
             });
             document.getElementById('lessonList').innerHTML = lessonHtml;
 
+            // Content
             const l = m.lessons[currentLesson];
-            let content = `<h2>${l.title}</h2>`;
-
+            let content = "<h2>" + l.title + "</h2>";
+            
             if (currentStep === 0) {
-                content += `<div class="scripture-card">${l.remember}</div><button class="btn" onclick="setStep(1)">Next Step</button>`;
+                content += "<div class='scripture-card'>" + l.remember + "</div><button class='btn' onclick='setStep(1)'>Next Step</button>";
             } else if (currentStep === 1) {
-                content += `<p style="color: var(--gold); font-weight: 800; margin-bottom: 1rem;">THE RECOUNT PROMPT</p><p>${l.recount}</p><textarea placeholder="Type your story here..."></textarea><button class="btn" onclick="setStep(2)">Submit Recount</button>`;
+                content += "<p style='color: var(--gold); font-weight: 800; margin-bottom: 1rem;'>THE RECOUNT PROMPT</p><p>" + l.recount + "</p><textarea placeholder='Type your story here...'></textarea><button class='btn' onclick='setStep(2)'>Submit Recount</button>";
             } else {
-                content += `<p style="color: var(--gold); font-weight: 800; margin-bottom: 1rem;">RECERTIFY</p><p>${l.quiz}</p><div style="margin: 2rem 0;"><button class="btn" onclick="alert('Certified!')">Complete Lesson</button></div>`;
+                content += "<p style='color: var(--gold); font-weight: 800; margin-bottom: 1rem;'>RECERTIFY</p><p>" + l.quiz + "</p><div style='margin: 2rem 0;'><button class='btn' onclick='alert(\"Certified!\")'>Complete Lesson</button></div>";
             }
 
             document.getElementById('lessonContent').innerHTML = content;
 
-            for (let i = 0; i < 3; i++) {
-                const tab = document.getElementById('tab' + i);
-                if (tab) tab.className = 'rrr-tab' + (i == currentStep ? ' active' : '');
+            // Tabs
+            for(let i=0; i<3; i++) {
+                document.getElementById('tab'+i).className = 'rrr-tab' + (i == currentStep ? ' active' : '');
             }
         }
 
-        function setLesson(i) {
-            currentLesson = i;
-            currentStep = 0;
-            render();
-        }
-
-        function setStep(i) {
-            currentStep = i;
-            render();
-        }
+        function setLesson(i) { currentLesson = i; currentStep = 0; render(); }
+        function setStep(i) { currentStep = i; render(); }
 
         render();
     </script>

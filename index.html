@@ -1,1211 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMASSED | Learner Portal</title>
-  <meta name="description" content="AMASSED: Remember. Recount. Recertify. A leadership course by Sheri Kammerzell, David Setzer, and Dana 'Dr.D' Richardson.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-  <style>
-    /* ======= RESET & BASE ======= */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --orange-50: #fff7ed;
-      --orange-100: #ffedd5;
-      --orange-200: #fed7aa;
-      --orange-300: #fdba74;
-      --orange-400: #fb923c;
-      --orange-500: #f97316;
-      --orange-600: #ea580c;
-      --orange-700: #c2410c;
-      --black: #0a0a0a;
-      --black-light: #141414;
-      --black-card: #1a1a1a;
-      --black-border: #2a2a2a;
-      --gray-400: #9ca3af;
-      --gray-300: #d1d5db;
-      --gray-200: #e5e7eb;
-      --white: #ffffff;
-      --radius: 16px;
-      --radius-sm: 10px;
-      --shadow-card: 0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
-      --shadow-card-hover: 0 12px 40px rgba(249,115,22,0.15), 0 4px 16px rgba(0,0,0,0.4);
-      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--black);
-      color: var(--white);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    img { max-width: 100%; display: block; }
-    a { text-decoration: none; color: inherit; }
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>AMASSED | The Leadership Experience</title>
+    <link rel='preconnect' href='https://fonts.googleapis.com'>
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
+    <style>
+        :root {
+            --gold: #D4A853;
+            --gold-bright: #F0D78C;
+            --orange: #F97316;
+            --black: #050505;
+            --black-soft: #121212;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    /* ======= NAVIGATION ======= */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: var(--transition);
-      background: transparent;
-    }
-    .nav.scrolled {
-      background: rgba(10, 10, 10, 0.92);
-      background-filter: blur(20px);
-      -webkit-background-filter: blur(20px);
-      border-bottom: 1px solid var(--black-border);
-      padding: 0.75rem 2rem;
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 900;
-      letter-spacing: 0.15em;
-      color: var(--orange-500);
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-    .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--gray-400);
-      transition: color var(--transition);
-    }
-    .nav-links a:hover { color: var(--orange-400); }
-    .nav-cta {
-      background: var(--orange-500) !important;
-      color: var(--black) !important;
-      padding: 0.5rem 1.25rem;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      transition: background var(--transition), transform var(--transition) !important;
-    }
-    .nav-cta:hover {
-      background: var(--orange-400) !important;
-      transform: translateY(-1px) !important;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--black);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    /* ======= HERO ======= */
-    .hero {
-      position: relative;
-      min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .hero-bg{position:absolute;inset:0;z-index:0}
-    .hero-bg-image { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.25) saturate(1.2); }
-    .hero-bg-gradient {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 50% 30%, rgba(249,115,22,0.12) 0%, transparent 60%),
-        linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.1) 40%, rgba(10,10,10,0.7) 80%, var(--black) 100%);
-    }
-    .hero-layout {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 3rem;
-      padding: 2rem;
-      max-width: 1200px;
-      width: 100%;
-    }
-    .hero-content {
-      text-align: left;
-      max-width: 600px;
-      flex: 1;
-    }
-    .hero-cover-float { flex-shrink: 0; width: 260px; animation: floatBook 4s ease-in-out infinite; }
-    .hero-cover-float img { width: 100%; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(249,115,22,0.15); transition: transform var(--transition); }
-    .hero-cover-float img:hover { transform: scale(1.03) rotate(-1deg); }
-    @keyframes floatBook { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(249, 115, 22, 0.1);
-      border: 1px solid rgba(249, 115, 22, 0.3);
-      padding: 0.5rem 1.25rem;
-      border-radius: 100px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--orange-400);
-      margin-bottom: 2rem;
-      animation: fadeInDown 0.8s ease-out;
-    }
-    .hero-badge-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--orange-500);
-      border-radius:50%;
-      animation: pulse-dot 2s infinite;
-    }
-    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 10vw, 7rem);
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      line-height: 1;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--white) 0%, var(--orange-200) 50%, var(--orange-400) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-    .hero-subtitle {
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--orange-300);
-      margin-bottom: 1rem;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-    .hero-description {
-      font-size: 1.05rem;
-      color: var(--gray-400);
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.6s both;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      cursor: pointer;
-      border: none;
-      transition: all var(--transition);
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
-      color: var(--white);
-      box-shadow: 0 4px 20px rgba(249,115,22,0.35);
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--orange-400), var(--orange-500));
-      box-shadow: 0 8px 32px rgba(249,115,22,0.45);
-      transform: translateY(-2px);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    .btn-outline:hover {
-      border-color: var(--orange-500);
-      color: var(--orange-400);
-      background: rgba(249,115,22,0.05);
-    }
-    .btn-icon { font-size: 1.1rem; }
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      animation: bounce 2s infinite;
-    }
-    .scroll-indicator-inner {
-      width: 28px;
-      height: 44px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 14px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 8px;
-    }
-    .scroll-indicator-dot {
-      width: 4px;
-      height: 8px;
-      background: var(--orange-400);
-      border-radius: 2px;
-      animation: scroll-down 2s infinite;
-    }
+        /* Glitzy Background */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 30%, rgba(212, 168, 83, 0.08) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
-    @keyframes scroll-down { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            backdrop-filter: blur(10px);
+        }
 
-    /* ======= STATS BAR ======= */
-    .stats-bar {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--black-border);
-      border-top: 1px solid var(--black-border);
-      border-bottom: 1px solid var(--black-border);
-    }
-    .stat-item {
-      background: var(--black-light);
-      padding: 2rem 1.5rem;
-      text-align: center;
-    }
-    .stat-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--orange-500);
-      line-height: 1.2;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gray-400);
-      margin-top: 0.25rem;
-    }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(212, 168, 83, 0.3);
+        }
 
-    /* ======= SECTION SHARED ======= */
-    .section {
-      padding: 6rem 2rem;
-    }
-    .section-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-    .section-eyebrow {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--orange-500);
-      margin-bottom: 1rem;
-    }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-    .section-desc {
-      font-size: 1.05rem;
-      color: var(--gray-400);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.6);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--gold-bright); }
 
-    /* ======= COURSE EDITIONS ======= */
-    #editions { background: var(--black-light); }
-    .editions-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-    .edition-card {
-      background: var(--black-card);
-      border: 1px solid var(--black-border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: all var(--transition);
-      cursor: pointer;
-    }
-    .edition-card:hover {
-      border-color: rgba(249,115,22,0.4);
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-card-hover);
-    }
-    .edition-cover-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      background: var(--black);
-    }
-    .edition-cover-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .edition-card:hover .edition-cover-wrap img {
-      transform: scale(1.04);
-    }
-    .edition-cover-shine {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.3) 100%);
-      pointer-events: none;
-    }
-    .edition-info {
-      padding: 1.5rem;
-      text-align: center;
-    }
-    .edition-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange-500);
-      margin-bottom: 0.4rem;
-    }
-    .edition-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.3;
-    }
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 0 2rem;
+        }
 
-    /* ======= MODULES / CURRICULUM ======= */
-    #curriculum { background: var(--black); }
-    .modules-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.5rem;
-    }
-    .module-card {
-      position: relative;
-      background: var(--black-card);
-      border: 1px solid var(--black-border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      transition: all var(--transition);
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .module-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--orange-600), var(--orange-400));
-      opacity: 0;
-      transition: opacity var(--transition);
-    }
-    .module-card:hover {
-      border-color: rgba(249,115,22,0.3);
-      box-shadow: var(--shadow-card-hover);
-      transform: translateY(-4px);
-    }
-    .module-card:hover::before { opacity: 1; }
-    .module-card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .module-number {
-      flex-shrink: 0;
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--orange-600), var(--orange-500));
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--white);
-    }
-    .module-meta {
-      flex: 1;
-    }
-    .module-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--orange-400);
-      margin-bottom: 0.25rem;
-    }
-    .module-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-    .module-description {
-      font-size: 0.95rem;
-      color: var(--gray-400);
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-    .module-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .module-tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .module-tag {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.75rem;
-      border-radius: 100px;
-      background: rgba(249,115,22,0.08);
-      color: var(--orange-400);
-      border: 1px solid rgba(249,115,22,0.15);
-    }
-    .module-arrow {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gray-400);
-      transition: all var(--transition);
-      font-size: 1.1rem;
-    }
-    .module-card:hover .module-arrow {
-      background: var(--orange-500);
-      color: var(--white);
-    }
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.3) saturate(1.2);
+            z-index: -1;
+        }
 
-    /* ======= MODULE KEY TEACHINGS ======= */
-    .module-teachings {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--black-border);
-    }
-    .teachings-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-      border: 1px solid rgba(249,115,22,0.2);
-      background: rgba(249,115,22,0.05);
-      color: var(--orange-400);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all var(--transition);
-      width: 100%;
-      justify-content: center;
-    }
-    .teachings-toggle:hover {
-      background: rgba(249,115,22,0.12);
-      border-color: var(--orange-500);
-    }
-    .teachings-toggle .toggle-icon {
-      transition: transform var(--transition);
-      font-size: 0.7rem;
-    }
-    .teachings-toggle.open .toggle-icon {
-      transform: rotate(180deg);
-    }
-    .teachings-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-      opacity: 0;
-    }
-    .teachings-content.expanded {
-      max-height: 800px;
-      opacity: 1;
-      margin-top: 0.75rem;
-    }
-    .teachings-inner {
-      background: rgba(249,115,22,0.03);
-      border: 1px solid rgba(249,115,22,0.1);
-      border-radius: var(--radius-sm);
-      padding: 1.25rem;
-    }
-    .teachings-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange-500);
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .teachings-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .teachings-list li {
-      font-size: 0.85rem;
-      color: var(--gray-300);
-      line-height: 1.5;
-      padding-left: 1.2rem;
-      position: relative;
-    }
-    .teachings-list li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: var(--orange-500);
-      font-size: 0.6rem;
-      top: 3px;
-    }
-    .teachings-analogy {
-      margin-top: 0.75rem;
-      padding: 0.75rem 1rem;
-      background: rgba(249,115,22,0.06);
-      border-left: 3px solid var(--orange-500);
-      border-radius: 0 8px 8px 0;
-      font-size: 0.85rem;
-      color: var(--orange-300);
-      line-height: 1.6;
-      font-style: italic;
-    }
-    .teachings-analogy strong {
-      color: var(--orange-400);
-      font-style: normal;
-    }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--black) 5%, transparent 40%, rgba(0,0,0,0.6) 100%);
+            z-index: -1;
+        }
 
-    /* =Audio Player =*/
-    .module-audio {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--black-border);
-    }
-    .audio-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.6rem 1.2rem;
-      border-radius: 100px;
-      border: 1px solid rgba(249,115,22,0.3);
-      background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(249,115,22,0.05));
-      color: var(--orange-400);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    .audio-btn:hover {
-      background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(249,115,22,0.1));
-      border-color: var(--orange-500);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(249,115,22,0.2);
-    }
-    .audio-btn.playing {
-      background: linear-gradient(135deg, var(--orange-600), var(--orange-500));
-      color: var(--white);
-      border-color: var(--orange-500);
-      box-shadow: 0 4px 20px rgba(249,115,22,0.35);
-    }
-    .audio-btn-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-    }
-    .audio-waveform {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      height: 16px;
-    }
-    .audio-waveform span {
-      display: block;
-      width: 3px;
-      border-radius: 3px;
-      background: currentColor;
-      transition: height 0.15s ease;
-    }
-    .audio-waveform span:nth-child(1) { height: 6px; }
-    .audio-waveform span:nth-child(2) { height: 12px; }
-    .audio-waveform span:nth-child(3) { height: 8px; }
-    .audio-waveform span:nth-child(4) { height: 14px; }
-    .audio-waveform span:nth-child(5) { height: 10px; }
-    @keyframes wave1 { 0%,100%{height:6px} 50%{height:14px} }
-    @keyframes wave2 { 0%,100%{height:12px} 50%{height:5px} }
-    @keyframes wave3 { 0%,100%{height:8px} 50%{height:16px} }
-    @keyframes wave4 { 0%,100%{height:14px} 50%{height:6px} }
-    @keyframes wave5 { 0%,100%{height:10px} 50%{height:4px} }
-    .audio-btn.playing .audio-waveform span:nth-child(1) { animation: wave1 0.8s ease-in-out infinite; }
-    .audio-btn.playing .audio-waveform span:nth-child(2) { animation: wave2 0.7s ease-in-out infinite 0.1s; }
-    .audio-btn.playing .audio-waveform span:nth-child(3) { animation: wave3 0.9s ease-in-out infinite 0.05s; }
-    .audio-btn.playing .audio-waveform span:nth-child(4) { animation: wave4 0.6s ease-in-out infinite 0.15s; }
-    .audio-btn.playing .audio-waveform span:nth-child(5) { animation: wave5 0.85s ease-in-out infinite 0.08s; }
+        .hero-content {
+            max-width: 900px;
+            animation: fadeIn 1.5s ease;
+        }
 
-    .audio-progress-wrap {
-      display: none;
-      align-items: center;
-      gap: 0.6rem;
-      margin-top: 0.75rem;
-    }
-    .audio-progress-wrap.visible { display: flex; }
-    .audio-time {
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--gray-400);
-      font-variant-numeric: tabular-nums;
-      min-width: 36px;
-    }
-    .audio-progress-bar {
-      flex: 1;
-      height: 4px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 4px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .audio-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--orange-600), var(--orange-400));
-      border-radius: 4px;
-      width: 0%;
-      transition: width 0.1s linear;
-    }
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            background: rgba(212, 168, 83, 0.1);
+            border: 1px solid rgba(212, 168, 83, 0.3);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold-bright);
+            margin-bottom: 2rem;
+        }
 
-    /* ======= ABOUT / RRR ======= */
-    #about { background: var(--black); }
-    .rrr-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    .rrr-card {
-      text-align: center;
-      padding: 2.5rem 2rem;
-      border: 1px solid var(--black-border);
-      border-radius: var(--radius);
-      transition: all var(--transition);
-    }
-    .rrr-card:hover {
-      border-color: rgba(249,115,22,0.3);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-card-hover);
-    }
-    .rrr-icon {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, var(--orange-600), var(--orange-500));
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.75rem;
-      color: var(--white);
-      margin: 0 auto 1.5rem;
-      box-shadow: 0 8px 24px rgba(249,115,22,0.2);
-    }
-    .rrr-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-      color: var(--white);
-    }
-    .rrr-text {
-      font-size: 0.95rem;
-      color: var(--gray-400);
-      line-height: 1.6;
-    }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff 30%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* ======= RESOURCES ======= */
-    #resources { background: var(--black-light); }
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .resource-card {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      background: var(--black-card);
-      border: 1px solid var(--black-border);
-      border-radius: var(--radius-sm);
-      padding: 1.25rem;
-      transition: all var(--transition);
-    }
-    .resource-card:hover {
-      border-color: var(--orange-500);
-      background: rgba(249,115,22,0.03);
-    }
-    .resource-icon {
-      font-size: 1.75rem;
-      color: var(--orange-500);
-    }
-    .resource-info h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-    .resource-info p {
-      font-size: 0.85rem;
-      color: var(--gray-400);
-    }
+        .hero-sub {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            color: var(--gold);
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
 
-    /* ======= FOOTER ======= */
-    .footer {
-      padding: 5rem 2rem 3rem;
-      background: var(--black);
-      border-top: 1px solid var(--black-border);
-      text-align: center;
-    }
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 900;
-      letter-spacing: 0.2em;
-      color: var(--orange-500);
-      margin-bottom: 2rem;
-    }
-    .footer-authors {
-      font-size: 1.1rem;
-      color: var(--gray-300);
-      margin-bottom: 1.5rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .footer-authors strong {
-      color: var(--white);
-      font-weight: 700;
-    }
-    .footer-authors em {
-      color: var(--orange-400);
-      font-style: normal;
-      font-weight: 500;
-      margin-right: 0.5rem;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-    }
-    .footer-team {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-top: 3rem;
-      padding: 2rem;
-      background: var(--black-light);
-      border-radius: var(--radius);
-      border: 1px solid var(--black-border);
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .footer-team-eyebrow {
-      display: block;
-      width: 100%;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--orange-500);
-      margin-bottom: 1rem;
-    }
-    .footer-team strong {
-      font-size: 0.95rem;
-      color: var(--gray-200);
-      font-weight: 600;
-    }
-    .footer-divider {
-      height: 1px;
-      background: var(--black-border);
-      max-width: 200px;
-      margin: 3rem auto;
-    }
-    .footer-bottom {
-      font-size: 0.85rem;
-      color: var(--gray-400);
-    }
+        .btn-group { display: flex; gap: 1.5rem; justify-content: center; }
+        .btn {
+            padding: 1.2rem 3rem;
+            border-radius: 4px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* ======= VIDEO ======= */
-    .video-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    .video-grid iframe {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    }
+        .btn-primary {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            box-shadow: 0 10px 40px rgba(212, 168, 83, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            background: var(--gold-bright);
+            box-shadow: 0 20px 60px rgba(212, 168, 83, 0.4);
+        }
 
-    /* ======= RESPONSIVE ======= */
-    @media (max-width: 1024px) {
-      .hero-layout { flex-direction: column; text-align: center; gap: 2rem; }
-      .hero-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
-      .hero-description { margin-left: auto; margin-right: auto; }
-      .hero-actions { justify-content: center; }
-      .editions-grid { grid-template-columns: repeat(2, 1fr); }
-      .rrr-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    }
-    @media (max-width: 768px) {
-      .nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .stats-bar { grid-template-columns: repeat(2, 1fr); }
-      .editions-grid { grid-template-columns: 1fr; }
-      .modules-grid { grid-template-columns: 1fr; }
-      .video-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.05);
+        }
+
+        /* Modules Grid */
+        section { padding: 8rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .section-title p { color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: var(--black-soft);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            border-color: var(--gold);
+            transform: scale(1.02);
+            background: #181818;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+        .module-card:hover::before { transform: translateX(100%); }
+
+        .module-num {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .module-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .price-card {
+            padding: 4rem 2rem;
+            background: #0c0c0c;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .price-card.featured {
+            border: 2px solid var(--gold);
+            transform: scale(1.05);
+            background: #111;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 2rem 0;
+            color: var(--gold);
+        }
+
+        /* Footer & Credits */
+        footer {
+            padding: 6rem 2rem;
+            background: #030303;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .credits {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .authors h4 { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 3px; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+        .authors p { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold-bright); margin-bottom: 3rem; }
+
+        .partners {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            opacity: 0.6;
+        }
+        .partners div { text-align: center; }
+        .partners span { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+        .partners p { font-size: 0.9rem; font-weight: 600; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            h1 { font-size: 3.5rem; }
+            .price-card.featured { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
-
-  <!-- ======= NAVIGATION ======= -->
-  <nav class="nav" id="mainNav">
-    <div class="nav-logo">AMASSED</div>
-    <div class="nav-links">
-      <a href="#hero">Home</a>
-      <a href="#editions">Editions</a>
-      <a href="#curriculum">Curriculum</a>
-      <a href="#about">The Framework</a>
-      <a href="#resources">Resources</a>
-      <a href="lesson.html" class="nav-cta">Start Learning</a>
-    </div>
-  </nav>
-
-  <!-- ======= HERO SECTION ======= -->
-  <section class="hero" id="hero">
-    <div class="hero-bg">
-      <img class="hero-bg-image" src="https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg" alt="Background">
-      <div class="hero-bg-gradient"></div>
-    </div>
-
-    <div class="hero-layout">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          New Course Experience
+    <div class='bg-glow'></div>
+    
+    <nav>
+        <div class='logo'>AMASSED</div>
+        <div class='nav-links'>
+            <a href='#curriculum'>Curriculum</a>
+            <a href='#pricing'>Enroll</a>
+            <a href='#about'>About</a>
         </div>
-        <div class="hero-subtitle">Battlefield Discipleship Presents</div>
-        <h1 class="hero-title">AMASSED</h1>
-        <p class="hero-description">
-          Forging high-conviction leaders through the RRR Framework. Ground your faith, sharpen your recount, and lead with Christ-centered authority.
-        </p>
-        <div class="hero-actions">
-          <a href="lesson.html" class="btn btn-primary">
-            Begin Journey
-            <span class="btn-icon">→</span>
-          </a>
-          <a href="#curriculum" class="btn btn-outline">Explore Curriculum</a>
-        </div>
-      </div>
+        <div style='width: 100px;'></div> <!-- Spacer -->
+    </nav>
 
-      <div class="hero-cover-float">
-        <img src="https://customer-assets.emergentagent.com/wingman/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/attachments/bc33eb030baa4174b0458bf99e0f7306_cover-populace.png" alt="Amassed Main Cover">
-      </div>
-    </div>
-
-    <div class="scroll-indicator">
-      <div class="scroll-indicator-inner">
-        <div class="scroll-indicator-dot"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======= STATS BAR ======= -->
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-number">06</div>
-      <div class="stat-label">Core Chapters</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">180m+</div>
-      <div class="stat-label">Audio Teaching</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">RRR</div>
-      <div class="stat-label">Proven Framework</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">5.0</div>
-      <div class="stat-label">Rating</div>
-    </div>
-  </div>
-
-  <!-- ======= COURSE EDITIONS ======= -->
-  <section class="section" id="editions">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="section-eyebrow">Choose Your Path</div>
-        <h2 class="section-title">Course Editions</h2>
-        <p class="section-desc">
-          Three ways to experience the AMASSED curriculum, each designed for a specific mission.
-        </p>
-      </div>
-
-      <div class="editions-grid">
-        <!-- Populace -->
-        <div class="edition-card">
-          <div class="edition-cover-wrap">
-            <img src="https://customer-assets.emergentagent.com/wingman/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/attachments/bc33eb030baa4174b0458bf99e0f7306_cover-populace.png" alt="Populace Edition">
-            <div class="edition-cover-shine"></div>
-          </div>
-          <div class="edition-info">
-            <div class="edition-label">Standard</div>
-            <div class="edition-name">Populace</div>
-          </div>
-        </div>
-
-        <!-- Youth -->
-        <div class="edition-card">
-          <div class="edition-cover-wrap">
-            <img src="https://customer-assets.emergentagent.com/wingman/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/attachments/821d2a87b84d455e907cbc0d4680b44c_cover-youth.png" alt="Youth Edition">
-            <div class="edition-cover-shine"></div>
-          </div>
-          <div class="edition-info">
-            <div class="edition-label">Space Matrix</div>
-            <div class="edition-name">Youth Ministry</div>
-          </div>
-        </div>
-
-        <!-- Legacy -->
-        <div class="edition-card">
-          <div class="edition-cover-wrap">
-            <img src="https://customer-assets.emergentagent.com/wingman/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/attachments/a57cfcd97a9c4f17bd799dbe084b34ea_cover-mid.png" alt="Legacy Edition">
-            <div class="edition-cover-shine"></div>
-          </div>
-          <div class="edition-info">
-            <div class="edition-label">Clockwork & Keys</div>
-            <div class="edition-name">Legacy</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Videos Section -->
-      <div class="video-grid">
-        <iframe src="https://www.youtube.com/embed/l--hVwx4CDM" title="Amassed Preview 1" frameborder="0" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/ljQUdf1MpLo" title="Amassed Preview 2" frameborder="0" allowfullscreen></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======= CURRICULUM ======= -->
-  <section class="section" id="curriculum">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="section-eyebrow">The Roadmap</div>
-        <h2 class="section-title">Course Curriculum</h2>
-        <p class="section-desc">
-          A comprehensive journey from introductory essentials to advanced leadership practice.
-        </p>
-      </div>
-
-      <div class="modules-grid">
-        <!-- Module 0 -->
-        <div class="module-card">
-          <div class="module-card-header">
-            <div class="module-number">0</div>
-            <div class="module-meta">
-              <div class="module-label">The Foundation</div>
-              <h3 class="module-title">Introductory Essentials</h3>
+    <section class='hero'>
+        <img class='hero-img' src='https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg' alt='Battlefield Silhouette'>
+        <div class='hero-overlay'></div>
+        <div class='hero-content'>
+            <div class='hero-badge'>A Battlefield Discipleship Course</div>
+            <h1>AMASSED</h1>
+            <div class='hero-sub'>Remember • Recount • Recertify</div>
+            <p style='font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 3rem;'>A high-end leadership experience designed to forge unshakable conviction through the RRR Framework.</p>
+            <div class='btn-group'>
+                <button class='btn btn-primary' onclick='location.href="#curriculum"'>Begin Journey</button>
+                <button class='btn btn-outline' onclick='location.href="#pricing"'>View Packages</button>
             </div>
-          </div>
-          <p class="module-description">
-            The Joy of the Lord and the RRR Framework. Transitioning from chilled meat to fresh BBQ.
-          </p>
-          <div class="module-footer">
-            <div class="module-tags">
-              <span class="module-tag">Core</span>
-              <span class="module-tag">RRR Intro</span>
+        </div>
+    </section>
+
+    <section id='curriculum'>
+        <div class='section-title'>
+            <p>The Path Forward</p>
+            <h2>The Curriculum</h2>
+        </div>
+        <div class='module-grid'>
+            <div class='module-card' onclick='location.href="lesson.html?module=0"'>
+                <span class='module-num'>MODULE 00</span>
+                <h3>Introductory Essentials</h3>
+                <p>The Joy of the Lord and the RRR Framework. From chilled meat to fresh BBQ.</p>
+                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class="module-arrow">→</div>
-          </div>
-        </div>
-
-        <!-- Chapter 1 -->
-        <div class="module-card">
-          <div class="module-card-header">
-            <div class="module-number">1</div>
-            <div class="module-meta">
-              <div class="module-label">Posture</div>
-              <h3 class="module-title">For Christ</h3>
+            <div class='module-card' onclick='location.href="lesson.html?module=1"'>
+                <span class='module-num'>MODULE 01</span>
+                <h3>For Christ</h3>
+                <p>Remembering... the battle is the Lord's. Grounding leadership in victory.</p>
+                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-          </div>
-          <p class="module-description">
-            Remembering that the battle is the Lord's. Grounding your leadership in His ultimate victory.
-          </p>
-          <div class="module-footer">
-            <div class="module-tags">
-              <span class="module-tag">Posture</span>
-              <span class="module-tag">Victory</span>
+            <div class='module-card' onclick='location.href="lesson.html?module=2"'>
+                <span class='module-num'>MODULE 02</span>
+                <h3>Christ Leads, Always</h3>
+                <p>Recounting His leadership. Accuracy, peaks, and God not wasting a hurt.</p>
+                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class="module-arrow">→</div>
-          </div>
-        </div>
-
-        <!-- Chapter 2 -->
-        <div class="module-card">
-          <div class="module-card-header">
-            <div class="module-number">2</div>
-            <div class="module-meta">
-              <div class="module-label">Recount</div>
-              <h3 class="module-title">Christ Leads, Always</h3>
+            <div class='module-card' onclick='location.href="lesson.html?module=3"'>
+                <span class='module-num'>MODULE 03</span>
+                <h3>Bring Them Back</h3>
+                <p>The ministry of Recertification. Declaring Christ's presence in every story.</p>
+                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-          </div>
-          <p class="module-description">
-            Accuracy in your story. God doesn't waste a hurt. Seeing His hand in every peak and valley.
-          </p>
-          <div class="module-footer">
-            <div class="module-tags">
-              <span class="module-tag">Story</span>
-              <span class="module-tag">Healing</span>
+            <div class='module-card' onclick='location.href="lesson.html?module=4"'>
+                <span class='module-num'>MODULE 04</span>
+                <h3>Practice, Always</h3>
+                <p>Moving from theory to daily rhythm. Forgiveness, courage, and fellowship.</p>
+                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
-            <div class="module-arrow">→</div>
-          </div>
+            <div class='module-card' onclick='location.href="lesson.html?module=5"'>
+                <span class='module-num'>MODULE 05</span>
+                <h3>What About Us?</h3>
+                <p>The 14 Leadership Traits. Evaluating the character of a Christ-centered leader.</p>
+                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ======= THE FRAMEWORK (RRR) ======= -->
-  <section class="section" id="about">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="section-eyebrow">The Methodology</div>
-        <h2 class="section-title">The RRR Framework</h2>
-        <p class="section-desc">
-          Our proprietary system for transforming biblical truth into lived conviction.
-        </p>
-      </div>
-
-      <div class="rrr-grid">
-        <div class="rrr-card">
-          <div class="rrr-icon">📖</div>
-          <h3 class="rrr-title">Remember</h3>
-          <p class="rrr-text">
-            Ground yourself in the Word. Every lesson starts by anchoring our hearts to the unchanging promises of Scripture.
-          </p>
+    <section id='pricing' style='background: #080808;'>
+        <div class='section-title'>
+            <p>Investment</p>
+            <h2>Join the Mission</h2>
         </div>
-        <div class="rrr-card">
-          <div class="rrr-icon">✍️</div>
-          <h3 class="rrr-title">Recount</h3>
-          <p class="rrr-text">
-            Connect the truth to your life. Through guided journaling, you'll see how Christ has been leading your specific story.
-          </p>
+        <div class='pricing-grid'>
+            <div class='price-card'>
+                <h3>Individual</h3>
+                <div class='price'>$5.02</div>
+                <p style='margin-bottom: 2rem; opacity: 0.6;'>Full access to all course modules and the RRR interactive player.</p>
+                <button class='btn btn-outline' style='width: 100%;'>Enroll Now</button>
+            </div>
+            <div class='price-card featured'>
+                <h3>Bundle</h3>
+                <div class='price'>$12.02</div>
+                <p style='margin-bottom: 2rem; opacity: 0.8;'>Course Access + 1hr Private Leadership Consulting Session.</p>
+                <button class='btn btn-primary' style='width: 100%;'>Most Popular</button>
+            </div>
+            <div class='price-card'>
+                <h3>Group</h3>
+                <div class='price'>$24.99</div>
+                <p style='margin-bottom: 2rem; opacity: 0.6;'>Group rate for 10+ learners. Perfect for teams and ministries.</p>
+                <button class='btn btn-outline' style='width: 100%;'>Contact Us</button>
+            </div>
         </div>
-        <div class="rrr-card">
-          <div class="rrr-icon">🎯</div>
-          <h3 class="rrr-title">Recertify</h3>
-          <p class="rrr-text">
-            Lock in the conviction. Finalize each chapter with a declaration of faith and an actionable plan for your leadership.
-          </p>
+    </section>
+
+    <footer>
+        <div class='credits'>
+            <div class='authors'>
+                <h4>Created & Written By</h4>
+                <p>Dana "Dr.D" Richardson, Sheri Kammerzell, & David Setzer</p>
+            </div>
+            <div class='partners'>
+                <div>
+                    <span>Mission Partner</span>
+                    <p>Terri Goodhouse</p>
+                </div>
+                <div>
+                    <span>Mission Partner</span>
+                    <p>Mel Alberts</p>
+                </div>
+                <div>
+                    <span>Mission Partner</span>
+                    <p>Ricky Thornton Jr.</p>
+                </div>
+            </div>
+            <p style='margin-top: 5rem; font-size: 0.7rem; opacity: 0.3; letter-spacing: 2px;'>© 2026 AMASSED | ALL RIGHTS RESERVED</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======= RESOURCES ======= -->
-  <section class="section" id="resources">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="section-eyebrow">Deepen Your Study</div>
-        <h2 class="section-title">Core Resources</h2>
-        <p class="section-desc">Download materials to accompany your journey through the course.</p>
-      </div>
-
-      <div class="resources-grid">
-        <a href="https://customer-assets.emergentagent.com/wingman/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/attachments/c4b18ca808af44939d680f4266abaf32_Amassed_Glitzy_Presentation.pptx" class="resource-card">
-          <div class="resource-icon">📊</div>
-          <div class="resource-info">
-            <h4>Glitzy Presentation</h4>
-            <p>Visual slides for the RRR Framework</p>
-          </div>
-        </a>
-        <a href="https://customer-assets.emergentagent.com/wingman/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/attachments/286424ec94984ce0ad35b9955f59c108_Battlefield Discipleship_ A Comprehensive Study Guide.pdf" class="resource-card">
-          <div class="resource-icon">📕</div>
-          <div class="resource-info">
-            <h4>Study Guide PDF</h4>
-            <p>Comprehensive Battlefield Discipleship Guide</p>
-          </div>
-        </a>
-        <a href="#" class="resource-card">
-          <div class="resource-icon">🎧</div>
-          <div class="resource-info">
-            <h4>Audio Companion</h4>
-            <p>Listen to all chapters on the go</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======= FOOTER ======= -->
-  <footer class="footer">
-    <div class="section-inner">
-      <div class="footer-logo">AMASSED</div>
-      <p class="footer-authors">
-        <em>Co-Authors:</em> <strong>Sheri Kammerzell</strong>, <strong>David Setzer</strong>, and <strong>Dana 'Dr.D' Richardson</strong>
-      </p>
-      <p class="footer-team">
-        <span class="footer-team-eyebrow">Mission Partners</span>
-        <strong>Terri Goodhouse</strong>, <strong>Mel Alberts</strong>, and <strong>Ricky Thornton Jr.</strong>
-      </p>
-      <div class="footer-divider"></div>
-      <p class="footer-bottom">
-        &copy; 2026 AMASSED. All rights reserved. &nbsp;|&nbsp; Remember. Recount. Recertify.
-      </p>
-    </div>
-  </footer>
-
-  <script>
-    // Sticky Nav Scroll Logic
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-    });
-  </script>
+    </footer>
 </body>
 </html>
