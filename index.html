@@ -1,373 +1,269 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>AMASSED | The Leadership Experience</title>
-    <link rel='preconnect' href='https://fonts.googleapis.com'>
-    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
-    <style>
-        :root {
-            --gold: #D4A853;
-            --gold-bright: #F0D78C;
-            --orange: #F97316;
-            --black: #050505;
-            --black-soft: #121212;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMASSED — Learner Portal</title>
+  <meta name="description" content="AMASSED: Remember. Recount. Recertify. A leadership course by Sheri Kammerzell, David Setzer, and Dana 'Dr.D' Richardson.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ======= RESET & BASE ======= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #D4A853;
+      --gold-bright: #F0D78C;
+      --orange: #F97316;
+      --black: #050505;
+      --black-soft: #121212;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: var(--black);
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+    /* ======= GLITZY BG ======= */
+    .bg-glow {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 30%, rgba(212, 168, 83, 0.08) 0%, transparent 60%);
+      z-index: -1; pointer-events: none;
+    }
 
-        .bg-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(212, 168, 83, 0.08) 0%, transparent 60%);
-            z-index: -1;
-            pointer-events: none;
-        }
+    /* ======= NAVIGATION ======= */
+    nav {
+      position: fixed; top: 0; width: 100%; padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8rem;
+      letter-spacing: 4px; background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(212, 168, 83, 0.3);
+    }
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a {
+      text-transform: uppercase; font-size: 0.75rem; font-weight: 800; letter-spacing: 2px;
+      color: rgba(255,255,255,0.6); transition: var(--transition); cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--gold-bright); }
 
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-            backdrop-filter: blur(10px);
-        }
+    /* ======= HERO ======= */
+    .hero {
+      height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative; padding: 0 2rem;
+    }
+    .hero-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: brightness(0.3) saturate(1.2); z-index: -1;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, var(--black) 5%, transparent 40%, rgba(0,0,0,0.6) 100%);
+      z-index: -1;
+    }
+    .hero-content { max-width: 900px; animation: fadeIn 1.5s ease; }
+    .hero-badge {
+      display: inline-block; padding: 0.4rem 1.2rem; background: rgba(212, 168, 83, 0.1);
+      border: 1px solid rgba(212, 168, 83, 0.3); border-radius: 50px;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold-bright);
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 900; line-height: 0.9; margin-bottom: 1.5rem; letter-spacing: -2px;
+      background: linear-gradient(to bottom, #fff 30%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.2rem; text-transform: uppercase; letter-spacing: 8px; color: var(--gold);
+      margin-bottom: 3rem; opacity: 0.8;
+    }
+    .btn-group { display: flex; gap: 1.5rem; justify-content: center; }
+    .btn {
+      padding: 1.2rem 3rem; border-radius: 4px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 2px; font-size: 0.8rem; cursor: pointer; transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--gold); color: #000; border: none; box-shadow: 0 10px 40px rgba(212, 168, 83, 0.2);
+    }
+    .btn-primary:hover {
+      transform: translateY(-5px); background: var(--gold-bright); box-shadow: 0 20px 60px rgba(212, 168, 83, 0.4);
+    }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-weight: 900;
-            font-size: 1.8rem;
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(212, 168, 83, 0.3);
-        }
+    /* ======= SECTIONS ======= */
+    section { padding: 8rem 2rem; max-width: 1400px; margin: 0 auto; }
+    .section-title { text-align: center; margin-bottom: 5rem; }
+    .section-title h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 1rem; }
+    .section-title p { color: rgba(255,255,255,0.5); letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem; }
 
-        .nav-links { display: flex; gap: 2.5rem; }
-        .nav-links a {
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.6);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        .nav-links a:hover { color: var(--gold-bright); }
+    /* ======= VIDEO GRID ======= */
+    .vid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2.5rem; margin-bottom: 4rem; }
+    .vid-card {
+      aspect-ratio: 16/9; background: #000; border: 1px solid var(--glass-border);
+      border-radius: 12px; overflow: hidden; position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .vid-card iframe { width: 100%; height: 100%; border: none; }
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            padding: 0 2rem;
-        }
+    /* ======= MODULES GRID ======= */
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 2.5rem; }
+    .module-card {
+      background: var(--black-soft); border: 1px solid var(--glass-border); padding: 4rem 3rem;
+      position: relative; transition: var(--transition); cursor: pointer; overflow: hidden;
+    }
+    .module-card:hover { border-color: var(--gold); transform: translateY(-10px); background: #181818; }
+    .module-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: translateX(-100%); transition: 0.8s;
+    }
+    .module-card:hover::before { transform: translateX(100%); }
+    .module-num { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 1.5rem; display: block; letter-spacing: 2px; }
+    .module-card h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+    .module-card p { color: rgba(255,255,255,0.6); font-size: 1rem; }
 
-        .hero-img {
-            position: absolute;
-            inset: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: brightness(0.3) saturate(1.2);
-            z-index: -1;
-        }
+    /* ======= FOOTER ======= */
+    footer { padding: 8rem 2rem; background: #030303; border-top: 1px solid var(--glass-border); text-align: center; }
+    .credits { max-width: 900px; margin: 0 auto; }
+    .authors h4 { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.4); margin-bottom: 2rem; }
+    .authors p { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-bright); margin-bottom: 4rem; }
+    .partners { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; opacity: 0.7; }
+    .partners div { text-align: center; }
+    .partners span { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.75rem; color: var(--gold); }
+    .partners p { font-size: 1.1rem; font-weight: 600; }
 
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, var(--black) 5%, transparent 40%, rgba(0,0,0,0.6) 100%);
-            z-index: -1;
-        }
-
-        .hero-content { max-width: 900px; animation: fadeIn 1.5s ease; }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 0.4rem 1.2rem;
-            background: rgba(212, 168, 83, 0.1);
-            border: 1px solid rgba(212, 168, 83, 0.3);
-            border-radius: 50px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--gold-bright);
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 12vw, 8rem);
-            font-weight: 900;
-            line-height: 0.9;
-            margin-bottom: 1.5rem;
-            letter-spacing: -2px;
-            background: linear-gradient(to bottom, #fff 30%, var(--gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-sub {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            color: var(--gold);
-            margin-bottom: 3rem;
-            opacity: 0.8;
-        }
-
-        .btn-group { display: flex; gap: 1.5rem; justify-content: center; }
-        .btn {
-            padding: 1.2rem 3rem;
-            border-radius: 4px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: var(--gold);
-            color: #000;
-            border: none;
-            box-shadow: 0 10px 40px rgba(212, 168, 83, 0.2);
-        }
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            background: var(--gold-bright);
-            box-shadow: 0 20px 60px rgba(212, 168, 83, 0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(212, 168, 83, 0.05);
-        }
-
-        /* Videos */
-        .vid-section { padding: 8rem 2rem; background: #080808; }
-        .vid-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .vid-card {
-            aspect-ratio: 16/9;
-            background: var(--black-soft);
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-        }
-        .vid-card iframe { width: 100%; height: 100%; border: none; }
-
-        /* Curriculum */
-        section { padding: 8rem 2rem; max-width: 1400px; margin: 0 auto; }
-        .section-title { text-align: center; margin-bottom: 5rem; }
-        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; }
-        .section-title p { color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
-
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .module-card {
-            background: var(--black-soft);
-            border: 1px solid var(--glass-border);
-            padding: 3rem;
-            position: relative;
-            transition: var(--transition);
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .module-card:hover {
-            border-color: var(--gold);
-            transform: scale(1.02);
-            background: #181818;
-        }
-
-        .module-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            transform: translateX(-100%);
-            transition: 0.6s;
-        }
-        .module-card:hover::before { transform: translateX(100%); }
-
-        .module-num { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 1rem; display: block; }
-        .module-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem; }
-
-        footer {
-            padding: 6rem 2rem;
-            background: #030303;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-        }
-
-        .credits { max-width: 800px; margin: 0 auto; }
-        .authors h4 { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 3px; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
-        .authors p { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold-bright); margin-bottom: 3rem; }
-
-        .partners { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; opacity: 0.6; }
-        .partners div { text-align: center; }
-        .partners span { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
-        .partners p { font-size: 0.9rem; font-weight: 600; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 768px) {
-            nav { padding: 1rem 1.5rem; }
-            .nav-links { display: none; }
-            h1 { font-size: 3.5rem; }
-            .vid-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) {
+      nav { padding: 1.5rem; }
+      .nav-links { display: none; }
+      h1 { font-size: 4rem; }
+      .vid-grid { grid-template-columns: 1fr; }
+      .section-title h2 { font-size: 2.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class='bg-glow'></div>
-    
-    <nav>
-        <div class='logo'>AMASSED</div>
-        <div class='nav-links'>
-            <a onclick='enterCourse()'>Curriculum</a>
-            <a href='#about'>About</a>
-        </div>
-        <div style='width: 100px;'></div>
-    </nav>
+  <div class='bg-glow'></div>
+  
+  <nav>
+    <div class='logo'>AMASSED</div>
+    <div class='nav-links'>
+      <a onclick='enterCourse()'>Curriculum</a>
+      <a href='#about'>About</a>
+    </div>
+    <div style='width: 100px;'></div>
+  </nav>
 
-    <section class='hero'>
-        <img class='hero-img' src='https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg' alt='Battlefield Silhouette'>
-        <div class='hero-overlay'></div>
-        <div class='hero-content'>
-            <div class='hero-badge'>A Battlefield Discipleship Course</div>
-            <h1>AMASSED</h1>
-            <div class='hero-sub'>Remember • Recount • Recertify</div>
-            <p style='font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 3rem;'>A high-end leadership experience designed to forge unshakable conviction through the RRR Framework.</p>
-            <div class='btn-group'>
-                <button class='btn btn-primary' onclick='enterCourse()'>Begin Journey</button>
-            </div>
-        </div>
-    </section>
+  <section class='hero'>
+    <img class='hero-img' src='https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg' alt='Battlefield Silhouette'>
+    <div class='hero-overlay'></div>
+    <div class='hero-content'>
+      <div class='hero-badge'>A Battlefield Discipleship Course</div>
+      <h1>AMASSED</h1>
+      <div class='hero-sub'>Remember • Recount • Recertify</div>
+      <p style='font-size: 1.2rem; color: rgba(255,255,255,0.7); max-width: 700px; margin: 0 auto 3.5rem;'>The definitive leadership experience for forging unshakable conviction through the RRR Framework.</p>
+      <div class='btn-group'>
+        <button class='btn btn-primary' onclick='enterCourse()'>Begin Journey</button>
+      </div>
+    </div>
+  </section>
 
-    <section class='vid-section'>
-        <div class='section-title'>
-            <p>Visual Journey</p>
-            <h2>The Mission in Motion</h2>
-        </div>
-        <div class='vid-grid'>
-            <div class='vid-card'><iframe src='https://www.youtube.com/embed/l--hVwx4CDM' allowfullscreen></iframe></div>
-            <div class='vid-card'><iframe src='https://www.youtube.com/embed/ljQUdf1MpLo' allowfullscreen></iframe></div>
-        </div>
-    </section>
+  <section id='visuals'>
+    <div class='section-title'>
+      <p>Mission Intelligence</p>
+      <h2>The Battlefield Vision</h2>
+    </div>
+    <div class='vid-grid'>
+      <div class='vid-card'><iframe src='https://www.youtube.com/embed/l--hVwx4CDM' allowfullscreen></iframe></div>
+      <div class='vid-card'><iframe src='https://www.youtube.com/embed/ljQUdf1MpLo' allowfullscreen></iframe></div>
+    </div>
+  </section>
 
-    <section id='curriculum'>
-        <div class='section-title'>
-            <p>The Path Forward</p>
-            <h2>The Curriculum</h2>
-        </div>
-        <div class='module-grid'>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=0")'>
-                <span class='module-num'>MODULE 00</span>
-                <h3>Introductory Essentials</h3>
-                <p>The Joy of the Lord and the RRR Framework. From chilled meat to fresh BBQ.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=1")'>
-                <span class='module-num'>MODULE 01</span>
-                <h3>For Christ</h3>
-                <p>Remembering... the battle is the Lord's. Grounding leadership in victory.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=2")'>
-                <span class='module-num'>MODULE 02</span>
-                <h3>Christ Leads, Always</h3>
-                <p>Recounting His leadership. Accuracy, peaks, and God not wasting a hurt.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=3")'>
-                <span class='module-num'>MODULE 03</span>
-                <h3>Bring Them Back</h3>
-                <p>The ministry of Recertification. Declaring Christ's presence in every story.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=4")'>
-                <span class='module-num'>MODULE 04</span>
-                <h3>Practice, Always</h3>
-                <p>Moving from theory to daily rhythm. Forgiveness, courage, and fellowship.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=5")'>
-                <span class='module-num'>MODULE 05</span>
-                <h3>What About Us?</h3>
-                <p>The 14 Leadership Traits. Evaluating the character of a Christ-centered leader.</p>
-            </div>
-        </div>
-    </section>
+  <section id='curriculum'>
+    <div class='section-title'>
+      <p>The Path of Mastery</p>
+      <h2>The Curriculum</h2>
+    </div>
+    <div class='module-grid'>
+      <div class='module-card' onclick='enterCourse("lesson.html?module=0")'>
+        <span class='module-num'>MODULE 00</span>
+        <h3>Introductory Essentials</h3>
+        <p>The foundation of Joy and the RRR Framework. Moving from chilled meat to fresh BBQ.</p>
+      </div>
+      <div class='module-card' onclick='enterCourse("lesson.html?module=1")'>
+        <span class='module-num'>MODULE 01</span>
+        <h3>For Christ</h3>
+        <p>Remembering the Battle is the Lord's. Grounding every action in Kingdom victory.</p>
+      </div>
+      <div class='module-card' onclick='enterCourse("lesson.html?module=2")'>
+        <span class='module-num'>MODULE 02</span>
+        <h3>Christ Leads, Always</h3>
+        <p>Recounting His leadership with accuracy. Mapping peaks and redeeming hurts.</p>
+      </div>
+      <div class='module-card' onclick='enterCourse("lesson.html?module=3")'>
+        <span class='module-num'>MODULE 03</span>
+        <h3>Bring Them Back</h3>
+        <p>The ministry of Recertification. Declaring Christ's presence through Gnorizo.</p>
+      </div>
+      <div class='module-card' onclick='enterCourse("lesson.html?module=4")'>
+        <span class='module-num'>MODULE 04</span>
+        <h3>Practice, Always</h3>
+        <p>The daily rhythm of the redeemed. Forgiveness, courage, and the cave walk.</p>
+      </div>
+      <div class='module-card' onclick='enterCourse("lesson.html?module=5")'>
+        <span class='module-num'>MODULE 05</span>
+        <h3>What About Us?</h3>
+        <p>The 14 Leadership Traits. Evaluating the character of a Christ-centered leader.</p>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <div class='credits'>
-            <div class='authors'>
-                <h4>Created & Written By</h4>
-                <p>Sheri Kammerzell, David Setzer, & Dana "Dr.D" Richardson</p>
-            </div>
-            <div class='partners'>
-                <div><span>Mission Partner</span><p>Terri Goodhouse</p></div>
-                <div><span>Mission Partner</span><p>Mel Alberts</p></div>
-                <div><span>Mission Partner</span><p>Ricky Thornton Jr.</p></div>
-                <div><span>Mission Partner</span><p>Carol Wright</p></div>
-            </div>
-            <p style='margin-top: 5rem; font-size: 0.7rem; opacity: 0.3; letter-spacing: 2px;'>© 2026 AMASSED | ALL RIGHTS RESERVED</p>
-        </div>
-    </footer>
+  <footer>
+    <div class='credits'>
+      <div class='authors'>
+        <h4>Created & Written By</h4>
+        <p>Sheri Kammerzell, David Setzer, & Dana "Dr.D" Richardson</p>
+      </div>
+      <div class='partners'>
+        <div><span>Mission Partner</span><p>Terri Goodhouse</p></div>
+        <div><span>Mission Partner</span><p>Mel Alberts</p></div>
+        <div><span>Mission Partner</span><p>Ricky Thornton Jr.</p></div>
+        <div><span>Mission Partner</span><p>Carol Wright</p></div>
+      </div>
+      <p style='margin-top: 6rem; font-size: 0.75rem; opacity: 0.3; letter-spacing: 3px;'>© 2026 AMASSED | ALL RIGHTS RESERVED</p>
+    </div>
+  </footer>
 
-    <script>
-        function enterCourse(url) {
-            const pass = localStorage.getItem('amassed_auth');
-            if (pass === 'amassed2026') {
-                if (url) location.href = url;
-                else location.href = '#curriculum';
-                return;
-            }
-            
-            const input = prompt('The mission is restricted. Please enter your Editorial Access Code:');
-            if (input === 'amassed2026') {
-                localStorage.setItem('amassed_auth', 'amassed2026');
-                if (url) location.href = url;
-                else location.href = '#curriculum';
-            } else if (input !== null) {
-                alert('Access Denied. You are not authorized for this mission.');
-            }
-        }
-    </script>
+  <script>
+    function enterCourse(url) {
+      const pass = localStorage.getItem('amassed_auth');
+      if (pass === 'amassed2026') {
+        if (url) location.href = url;
+        else location.href = '#curriculum';
+        return;
+      }
+      
+      const input = prompt('The mission is restricted. Please enter your Editorial Access Code:');
+      if (input === 'amassed2026') {
+        localStorage.setItem('amassed_auth', 'amassed2026');
+        if (url) location.href = url;
+        else location.href = '#curriculum';
+      } else if (input !== null) {
+        alert('Access Denied. You are not authorized for this mission.');
+      }
+    }
+  </script>
 </body>
 </html>
