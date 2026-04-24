@@ -29,7 +29,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Glitzy Background */
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,7 +37,6 @@
             pointer-events: none;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0; width: 100%;
@@ -70,10 +68,10 @@
             letter-spacing: 2px;
             color: rgba(255,255,255,0.6);
             transition: var(--transition);
+            cursor: pointer;
         }
         .nav-links a:hover { color: var(--gold-bright); }
 
-        /* Hero Section */
         .hero {
             height: 100vh;
             display: flex;
@@ -100,10 +98,7 @@
             z-index: -1;
         }
 
-        .hero-content {
-            max-width: 900px;
-            animation: fadeIn 1.5s ease;
-        }
+        .hero-content { max-width: 900px; animation: fadeIn 1.5s ease; }
 
         .hero-badge {
             display: inline-block;
@@ -176,17 +171,27 @@
             background: rgba(212, 168, 83, 0.05);
         }
 
-        /* Modules Grid */
+        /* Videos */
+        .vid-section { padding: 8rem 2rem; background: #080808; }
+        .vid-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .vid-card {
+            aspect-ratio: 16/9;
+            background: var(--black-soft);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+        .vid-card iframe { width: 100%; height: 100%; border: none; }
+
+        /* Curriculum */
         section { padding: 8rem 2rem; max-width: 1400px; margin: 0 auto; }
-        .section-title {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-        .section-title h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
+        .section-title { text-align: center; margin-bottom: 5rem; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; }
         .section-title p { color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
 
         .module-grid {
@@ -221,48 +226,9 @@
         }
         .module-card:hover::before { transform: translateX(100%); }
 
-        .module-num {
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--gold);
-            margin-bottom: 1rem;
-            display: block;
-        }
+        .module-num { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 1rem; display: block; }
+        .module-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem; }
 
-        .module-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Pricing Section */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .price-card {
-            padding: 4rem 2rem;
-            background: #0c0c0c;
-            border: 1px solid var(--glass-border);
-            text-align: center;
-            transition: var(--transition);
-        }
-        .price-card.featured {
-            border: 2px solid var(--gold);
-            transform: scale(1.05);
-            background: #111;
-        }
-
-        .price {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 2rem 0;
-            color: var(--gold);
-        }
-
-        /* Footer & Credits */
         footer {
             padding: 6rem 2rem;
             background: #030303;
@@ -270,21 +236,11 @@
             text-align: center;
         }
 
-        .credits {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
+        .credits { max-width: 800px; margin: 0 auto; }
         .authors h4 { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 3px; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
         .authors p { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold-bright); margin-bottom: 3rem; }
 
-        .partners {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-            opacity: 0.6;
-        }
+        .partners { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; opacity: 0.6; }
         .partners div { text-align: center; }
         .partners span { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
         .partners p { font-size: 0.9rem; font-weight: 600; }
@@ -298,7 +254,7 @@
             nav { padding: 1rem 1.5rem; }
             .nav-links { display: none; }
             h1 { font-size: 3.5rem; }
-            .price-card.featured { transform: scale(1); }
+            .vid-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -308,11 +264,10 @@
     <nav>
         <div class='logo'>AMASSED</div>
         <div class='nav-links'>
-            <a href='#' onclick='enterCourse()'>Curriculum</a>
-            <a href='#pricing'>Enroll</a>
+            <a onclick='enterCourse()'>Curriculum</a>
             <a href='#about'>About</a>
         </div>
-        <div style='width: 100px;'></div> <!-- Spacer -->
+        <div style='width: 100px;'></div>
     </nav>
 
     <section class='hero'>
@@ -325,8 +280,18 @@
             <p style='font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 3rem;'>A high-end leadership experience designed to forge unshakable conviction through the RRR Framework.</p>
             <div class='btn-group'>
                 <button class='btn btn-primary' onclick='enterCourse()'>Begin Journey</button>
-                <button class='btn btn-outline' onclick='location.href="#pricing"'>View Packages</button>
             </div>
+        </div>
+    </section>
+
+    <section class='vid-section'>
+        <div class='section-title'>
+            <p>Visual Journey</p>
+            <h2>The Mission in Motion</h2>
+        </div>
+        <div class='vid-grid'>
+            <div class='vid-card'><iframe src='https://www.youtube.com/embed/l--hVwx4CDM' allowfullscreen></iframe></div>
+            <div class='vid-card'><iframe src='https://www.youtube.com/embed/ljQUdf1MpLo' allowfullscreen></iframe></div>
         </div>
     </section>
 
@@ -340,64 +305,31 @@
                 <span class='module-num'>MODULE 00</span>
                 <h3>Introductory Essentials</h3>
                 <p>The Joy of the Lord and the RRR Framework. From chilled meat to fresh BBQ.</p>
-                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
             <div class='module-card' onclick='enterCourse("lesson.html?module=1")'>
                 <span class='module-num'>MODULE 01</span>
                 <h3>For Christ</h3>
                 <p>Remembering... the battle is the Lord's. Grounding leadership in victory.</p>
-                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
             <div class='module-card' onclick='enterCourse("lesson.html?module=2")'>
                 <span class='module-num'>MODULE 02</span>
                 <h3>Christ Leads, Always</h3>
                 <p>Recounting His leadership. Accuracy, peaks, and God not wasting a hurt.</p>
-                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
             <div class='module-card' onclick='enterCourse("lesson.html?module=3")'>
                 <span class='module-num'>MODULE 03</span>
                 <h3>Bring Them Back</h3>
                 <p>The ministry of Recertification. Declaring Christ's presence in every story.</p>
-                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
             <div class='module-card' onclick='enterCourse("lesson.html?module=4")'>
                 <span class='module-num'>MODULE 04</span>
                 <h3>Practice, Always</h3>
                 <p>Moving from theory to daily rhythm. Forgiveness, courage, and fellowship.</p>
-                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
             </div>
             <div class='module-card' onclick='enterCourse("lesson.html?module=5")'>
                 <span class='module-num'>MODULE 05</span>
                 <h3>What About Us?</h3>
                 <p>The 14 Leadership Traits. Evaluating the character of a Christ-centered leader.</p>
-                <div style='margin-top: 2rem; color: var(--gold); font-weight: 800; font-size: 0.7rem;'>EXPLORE MODULE →</div>
-            </div>
-        </div>
-    </section>
-
-    <section id='pricing' style='background: #080808;'>
-        <div class='section-title'>
-            <p>Investment</p>
-            <h2>Join the Mission</h2>
-        </div>
-        <div class='pricing-grid'>
-            <div class='price-card'>
-                <h3>Individual</h3>
-                <div class='price'>$5.02</div>
-                <p style='margin-bottom: 2rem; opacity: 0.6;'>Full access to all course modules and the RRR interactive player.</p>
-                <button class='btn btn-outline' style='width: 100%;'>Enroll Now</button>
-            </div>
-            <div class='price-card featured'>
-                <h3>Bundle</h3>
-                <div class='price'>$12.02</div>
-                <p style='margin-bottom: 2rem; opacity: 0.8;'>Course Access + 1hr Private Leadership Consulting Session.</p>
-                <button class='btn btn-primary' style='width: 100%;'>Most Popular</button>
-            </div>
-            <div class='price-card'>
-                <h3>Group</h3>
-                <div class='price'>$24.99</div>
-                <p style='margin-bottom: 2rem; opacity: 0.6;'>Group rate for 10+ learners. Perfect for teams and ministries.</p>
-                <button class='btn btn-outline' style='width: 100%;'>Contact Us</button>
             </div>
         </div>
     </section>
@@ -409,22 +341,10 @@
                 <p>Sheri Kammerzell, David Setzer, & Dana "Dr.D" Richardson</p>
             </div>
             <div class='partners'>
-                <div>
-                    <span>Mission Partner</span>
-                    <p>Terri Goodhouse</p>
-                </div>
-                <div>
-                    <span>Mission Partner</span>
-                    <p>Mel Alberts</p>
-                </div>
-                <div>
-                    <span>Mission Partner</span>
-                    <p>Ricky Thornton Jr.</p>
-                </div>
-                <div>
-                    <span>Mission Partner</span>
-                    <p>Carol Wright</p>
-                </div>
+                <div><span>Mission Partner</span><p>Terri Goodhouse</p></div>
+                <div><span>Mission Partner</span><p>Mel Alberts</p></div>
+                <div><span>Mission Partner</span><p>Ricky Thornton Jr.</p></div>
+                <div><span>Mission Partner</span><p>Carol Wright</p></div>
             </div>
             <p style='margin-top: 5rem; font-size: 0.7rem; opacity: 0.3; letter-spacing: 2px;'>© 2026 AMASSED | ALL RIGHTS RESERVED</p>
         </div>
