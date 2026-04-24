@@ -12,1046 +12,286 @@
     /* ========= RESET & BASE ========= */
     *, ::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-        --orange-50: #fff7ed;
-        --orange-100: #ffedd5;
-        --orange-200: #fed7aa;
-        --orange-300: #fdbba74;
-        --orange-400: #fb923c;
-        --orange-500: #f97316;
-        --orange-600: #ea580c;
-        --orange-700: #c2410c;
-        --black: #0a0a0a;
-        --black-light: #141414;
-        --black-card: #1a1a1a;
-        --black-border: #2a2a2a;
-        --gray-400: #9ca3af;
-        --gray-300: #d1d5db;
-        --gray-200: #e5e7eb;
-        --white: #ffffff;
-        --radius: 16px;
-        --radius-sm: 10px;
-        --shadow-card: 0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
-        --shadow-card-hover: 0 12px 40px rgba(249,115,22,0.15), 0 4px 16px rgba(0,0,0,0.4);
-        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        --sidebar-width: 320px;
-        --player-height: 80px;
-        --teal-500: #14b8a6;
-        --teal-400: #2dd4bf;
-        --teal-300: #5eeae4;
-        --purple-500: #a855f7;
-        --purple-400: #c084fc;
+        --orange-50: #fff7ed; --orange-100: #ffedd5; --orange-200: #fed7aa; --orange-300: #fdbba74; --orange-400: #fb923c; --orange-500: #f97316; --orange-600: #ea580c; --orange-700: #c2410c;
+        --black: #0a0a0a; --black-light: #141414; --black-card: #1a1a1a; --black-border: #2a2a2a;
+        --gray-400: #9ca3af; --gray-300: #d1d5db; --gray-200: #e5e7eb; --white: #ffffff;
+        --radius: 16px; --radius-sm: 10px; --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --sidebar-width: 320px; --player-height: 80px; --teal-500: #14b8a6; --teal-300: #5eeae4;
     }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    html { scroll-behavior: smooth; }
     body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: var(--black);
-        color: var(--white);
-        line-height: 1.6;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; overflow-x: hidden;
         min-height: 100vh;
     }
-    img { max-width: 100%; display: block; }
     a { text-decoration: none; color: inherit; }
 
-    /* ========= LAYOUT: SIDEBAR & MAIN ========= */
+    /* ========= LAYOUT ========= */
     .app-layout { display: flex; min-height: 100vh; }
 
     /* ========= SIDEBAR ========= */
     .sidebar {
-        position: fixed; top: 0; left: 0; bottom: 0;
-        width: var(--sidebar-width);
-        background: var(--black-light);
-        border-right: 1px solid var(--black-border);
-        display: flex; flex-direction: column; z-index: 50;
-        transition: transform var(--transition);
+        position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-width); background: var(--black-light);
+        border-right: 1px solid var(--black-border); display: flex; flex-direction: column; z-index: 50; transition: transform var(--transition);
     }
-    .sidebar-header {
-        padding: 1.5rem 1.5rem 1rem;
-        border-bottom: 1px solid var(--black-border);
-        flex-shrink: 0;
-    }
-    .sidebar-logo {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.35rem; font-weight: 900;
-        letter-spacing: 0.15em; color: var(--orange-500); margin-bottom: 0.25rem;
-    }
-    .sidebar-back {
-        display: inline-flex; align-items: center; gap: 0.4rem;
-        font-size: 0.78rem; font-weight: 500; color: var(--gray-400); transition: color var(--transition); cursor: pointer;
-    }
-    .sidebar-back:hover { color: var(--orange-400); }
-    .sidebar-progress {
-        padding: 1.25rem 1.5rem;
-        border-bottom: 1px solid var(--black-border);
-        flex-shrink: 0;
-    }
-    .progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-    .progress-label-text { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); }
-    .progress-label-pct { font-size: 0.8rem; font-weight: 700; color: var(--orange-400); }
+    .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--black-border); }
+    .sidebar-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 900; color: var(--orange-500); margin-bottom: 0.25rem; }
+    .sidebar-back { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--gray-400); cursor: pointer; }
+    .sidebar-progress { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--black-border); }
     .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--orange-600), var(--orange-400)); border-radius: 6px; transition: width 0.6s ease; width: 0%; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--orange-600), var(--orange-400)); width: 0%; transition: width 0.6s ease; }
     .sidebar-greeting { padding: 1rem 1.5rem; font-size: 0.85rem; color: var(--gray-300); }
-    .sidebar-greeting strong { color: var(--orange-400); }
     .sidebar-modules { flex: 1; overflow-y: auto; padding: 0.5rem 0; }
-    .sidebar-module-item {
-        display: flex; align-items: center; gap: 0.85rem;
-        padding: 0.9rem 1.5rem; cursor: pointer;
-        transition: all var(--transition);
-        border-left: 3px solid transparent; position: relative;
-    }
-    .sidebar-module-item:hover { background: rgba(249,115,22,0.04); }
+    .sidebar-module-item { display: flex; align-items: center; gap: 0.85rem; padding: 0.9rem 1.5rem; cursor: pointer; border-left: 3px solid transparent; }
     .sidebar-module-item.active { background: rgba(249,115,22,0.08); border-left-color: var(--orange-500); }
-    .sidebar-module-item.completed .mod-check { background: var(--orange-500); border-color: var(--orange-500); color: var(--white); }
-    .mod-check {
-        width: 28px; height: 28px; border-radius: 8px;
-        border: 2px solid var(--black-border);
-        background: rgba(255,255,255,0.03);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 0.7rem; flex-shrink: 0;
-        transition: all var(--transition); color: transparent;
-    }
-    .mod-check-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 0.8rem; color: var(--gray-400); }
-    .sidebar-module-item.completed .mod-check-num { display: none; }
-    .sidebar-module-item.completed .mod-check::after {
-        content: '✔'; font-size: 0.85rem; font-weight: 700;
-    }
-    .mod-info { flex: 1; min-width: 0; }
-    .mod-info-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); line-height: 1; margin-bottom: 2px; }
-    .sidebar-module-item.active .mod-info-label { color: var(--orange-500); }
-    .mod-info-title { font-size: 0.88rem; font-weight: 600; color: var(--gray-200); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sidebar-module-item.active .mod-info-title { color: var(--white); }
-    .mod-status-badge {
-        font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem;
-        border-radius: 100px; background: rgba(249,115,22,0.1);
-        color: var(--orange-400); letter-spacing: 0.05em;
-        text-transform: uppercase; flex-shrink: 0; display: none;
-    }
-    .sidebar-module-item.active .mod-status-badge { display: inline; }
-    .sidebar-module-item.completed .mod-status-badge { display: inline; background: rgba(34,197,94,0.1); color: #22c55e; }
-    .sidebar-module-item.completed.active .mod-status-badge { background: rgba(34,197,94,0.1); color: #22c55e; }
-    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--black-border); flex-shrink: 0; }
-    .sidebar-footer-text { font-size: 0.7rem; color: rgba(156,163,175,0.5); text-align: center; }
+    .mod-info-title { font-size: 0.88rem; font-weight: 600; color: var(--gray-200); }
 
-    /* ========= MOBILE SIDEBAR TOGGLE ========= */
-    .sidebar-toggle {
-        display: none; position: fixed; top: 1rem; left: 1rem; z-index: 60;
-        width: 44px; height: 44px; border-radius: 12px;
-        background: rgba(20,20,20,0.95); backdrop-filter: blur(12px);
-        border: 1px solid var(--black-border);
-        align-items: center; justify-content: center; cursor: pointer;
-        transition: all var(--transition);
-    }
-    .sidebar-toggle:hover { border-color: var(--orange-500); }
-    .sidebar-toggle-bars { display: flex; flex-direction: column; gap: 4px; }
-    .sidebar-toggle-bars span { width: 20px; height: 2px; background: var(--white); border-radius: 2px; transition: all var(--transition); }
-    .sidebar-toggle.active .sidebar-toggle-bars span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
-    .sidebar-toggle.active .sidebar-toggle-bars span:nth-child(2) { opacity: 0; }
-    .sidebar-toggle.active .sidebar-toggle-bars span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
-    .sidebar-overlay {
-        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 45;
-    }
-
-    /* ========= MAIN CONTENT AREA ========= */
+    /* ========= MAIN CONTENT ========= */
     .main-content { flex: 1; margin-left: var(--sidebar-width); padding-bottom: calc(var(--player-height) + 2rem); min-height: 100vh; }
+    .lesson-header { padding: 3rem; background: linear-gradient(180deg, rgba(249,115,22,0.04) 0%, transparent 100%); }
+    .lesson-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--white) 0%, var(--orange-200) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .reading-area { max-width: 800px; margin: 0 auto; padding: 0 3rem 3rem; min-height: 50vh; }
+    .page-content { animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ========= LESSON HEADER ========= */
-    .lesson-header {
-        padding: 3rem 3rem 2rem;
-        background: linear-gradient(180deg, rgba(249,115,22,0.04) 0%, transparent 100%);
-    }
-    .lesson-eyebrow {
-        display: inline-flex; align-items: center; gap: 0.5rem;
-        font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-        text-transform: uppercase; color: var(--orange-500); margin-bottom: 0.75rem;
-    }
-    .lesson-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange-500); animation: pulse-dot 2s infinite; }
-    @keyframes pulse-dot {
-        0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
-    }
-    .lesson-title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
-        margin-bottom: 0.75rem;
-        background: linear-gradient(135deg, var(--white) 0%, var(--orange-200) 100%);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .lesson-subtitle { font-size: 1.05rem; color: var(--gray-300); font-style: italic; margin-bottom: 1rem; line-height: 1.5; }
-    .lesson-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-    .lesson-meta-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--gray-400); }
-    .lesson-meta-icon { font-size: 1rem; opacity: 0.7; }
+    .vid-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius); margin: 2rem 0; background: #000; border: 1px solid var(--black-border); }
+    .vid-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-    /* ========= READING AREA ========= */
-    .reading-area { max-width: 780px; margin: 0 auto; padding: 3rem; }
-    .reading-area h2 {
-        font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 800;
-        margin-top: 2.5rem; margin-bottom: 1rem; color: var(--orange-300); line-height: 1.3;
-    }
-    .reading-area h2:first-child { margin-top: 0; }
-    .reading-area h3 { font-size: 1.2rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--gray-200); }
-    .reading-area p { font-size: 1.05rem; color: var(--gray-300); line-height: 1.85; margin-bottom: 1.25rem; }
-    .reading-area p strong { color: var(--white); font-weight: 600; }
-    .reading-area blockquote {
-        margin: 2rem 0; padding: 1.25rem 1.5rem;
-        border-left: 4px solid var(--orange-500); background: rgba(249,115,22,0.04);
-        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-        font-style: italic; color: var(--orange-200); font-size: 1.05rem; line-height: 1.8;
-    }
-    .reading-area blockquote cite {
-        display: block; margin-top: 0.75rem; font-size: 0.85rem; color: var(--orange-400); font-style: normal; font-weight: 600;
-    }
-    .reading-area ul, .reading-area ol { margin: 1rem 0 1.5rem 1.5rem; color: var(--gray-300); }
-    .reading-area li { font-size: 1rem; line-height: 1.75; margin-bottom: 0.5rem; }
-    .reading-area li strong { color: var(--white); }
+    blockquote { margin: 2rem 0; padding: 1.5rem; border-left: 4px solid var(--orange-500); background: rgba(249,115,22,0.04); font-style: italic; color: var(--orange-200); font-size: 1.1rem; }
+    .traits-table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: var(--black-card); border: 1px solid var(--black-border); border-radius: var(--radius); overflow: hidden; }
+    .traits-table th, .traits-table td { padding: 1rem; border: 1px solid var(--black-border); text-align: left; font-size: 0.9rem; }
+    .traits-table th { background: rgba(249,115,22,0.1); color: var(--orange-400); }
 
-    /* ========= PRO-TIP / RECORD HIGHLIGHT BOX ========= */
-    .protip-box {
-        margin: 2.5rem 0;
-        background: linear-gradient(135deg, rgba(249,115,22,0.12) 0%, rgba(249,115,22,0.04) 100%);
-        border: 1px solid rgba(249,115,22,0.3);
-        border-radius: var(--radius); position: relative; overflow: hidden;
-    }
-    .protip-box::before {
-        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-        background: linear-gradient(90deg, var(--orange-700), var(--orange-400), var(--orange-700));
-    }
-    .protip-badge {
-        display: inline-flex; align-items: center; gap: 0.4rem;
-        font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
-        text-transform: uppercase; color: var(--orange-500); margin-bottom: 1rem;
-        background: rgba(249,115,22,0.1); padding: 0.35rem 0.85rem; border-radius: 100px;
-    }
-    .protip-title {
-        font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 800;
-        color: var(--orange-300); margin-bottom: 0.75rem; line-height: 1.3;
-    }
-    .protip-text { font-size: 1rem; color: var(--orange-100); line-height: 1.8; }
-    .protip-text strong { color: var(--orange-300); }
-
-    /* ========= DANA'S INSIGHT BOX ========= */
-    .dana-insight {
-        margin: 2.5rem 0; padding: 2rem;
-        background: linear-gradient(135deg, rgba(20,184,166,0.1) 0%, rgba(20,184,166,0.03) 100%);
-        border: 1px solid rgba(20,184,166,0.25);
-        border-radius: var(--radius); position: relative; overflow: hidden;
-    }
-    .dana-insight::before {
-        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-        background: linear-gradient(90deg, var(--teal-500), var(--teal-400), var(--teal-500));
-    }
-    .dana-insight-badge {
-        display: inline-flex; align-items: center; gap: 0.4rem;
-        font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
-        text-transform: uppercase; color: var(--teal-500); margin-bottom: 1rem;
-        background: rgba(20,184,166,0.1); padding: 0.35rem 0.85rem; border-radius: 100px;
-    }
-    .dana-insight-title {
-        font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 800;
-        color: var(--teal-300); margin-bottom: 0.75rem; line-height: 1.3;
-    }
-    .dana-insight-text { font-size: 0.98rem; color: rgba(94,234,228,0.85); line-height: 1.8; }
-    .dana-insight-text strong { color: var(--teal-300); }
-
-    /* ========= SECTION DIVIDER ========= */
-    .section-divider { display: flex; align-items: center; gap: 1rem; margin: 3rem 0; }
-    .section-divider-line { flex: 1; height: 1px; background: var(--black-border); }
-    .section-divider-icon { font-size: 1.25rem; color: var(--orange-500); opacity: 0.6; }
-
-    /* ========= JOHN'S JOURNAL ========= */
-    .journal-section {
-        margin-top: 3rem; padding: 2.5rem;
-        background: var(--black-card); border: 1px solid var(--black-border);
-        border-radius: var(--radius); position: relative; overflow: hidden;
-    }
-    .journal-section::before {
-        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-        background: linear-gradient(90deg, var(--orange-700), var(--orange-400), var(--orange-700));
-    }
-    .journal-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
-    .journal-icon {
-        width: 48px; height: 48px;
-        background: linear-gradient(135deg, var(--orange-600), var(--orange-500));
-        border: 1px rgba(249,115,22,0.25) solid; border-radius: 12px;
-        display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-    }
-    .journal-heading { flex: 1; }
-    .journal-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 800; color: var(--orange-400); }
-    .journal-subtitle { font-size: 0.8rem; color: var(--gray-400); }
-    .journal-prompt { font-size: 0.95rem; color: var(--gray-300); margin-bottom: 1.25rem; line-height: 1.6; font-style: italic; border-left: 3px solid rgba(249,115,22,0.3); padding-left: 1rem; }
-    .journal-textarea {
-        width: 100%; min-height: 160px;
-        background: rgba(255,255,255,0.03); border: 1px var(--black-border);
-        border-radius: var(--radius-sm); padding: 1.25rem;
-        font-family: 'Inter', sans-serif; font-size: 0.95rem;
-        color: var(--white); line-height: 1.7; resize: vertical;
-        transition: border-color var(--transition), box-shadow var(--transition);
-    }
-    .journal-textarea::placeholder { color: rgba(156,163,175,0.4); }
-    .journal-textarea:focus { outline: none; border-color: var(--orange-500); box-shadow: 0 0 0 3px rgba(249,115,22,0.1); }
-    .journal-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; flex-wrap: wrap; gap: 0.75rem; }
-    .journal-save-status { font-size: 0.78rem; color: var(--gray-400); display: flex; align-items: center; gap: 0.4rem; }
-    .journal-save-status.saved { color: #22c55e; }
-    .journal-char-count { font-size: 0.72rem; color: rgba(156,163,175,0.4); }
-
-    /* ========= COMPLETE LESSON BUTTON ========= */
-    .complete-section { margin-top: 2.5rem; text-align: center; }
-    .complete-btn {
-        display: inline-flex; align-items: center; gap: 0.75rem;
-        padding: 1.15rem 3rem; border-radius: var(--radius-sm);
-        font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700;
-        letter-spacing: 0.04em; cursor: pointer; border: none;
-        background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
-        color: var(--white); box-shadow: 0 4px 24px rgba(249,115,22,0.35);
-        transition: all var(--transition);
-    }
-    .complete-btn:hover {
-        background: linear-gradient(135deg, var(--orange-400), var(--orange-500)); box-shadow: 0 8px 36px rgba(249,115,22,0.5); transform: translateY(-2px);
-    }
-    .complete-btn:active { transform: translateY(0); }
-    .complete-btn.completed {
-        background: linear-gradient(135deg, #22c55e, #16a34a); box-shadow: 0 4px 24px rgba(34,197,94,0.3); cursor: default;
-    }
-    .complete-btn.completed:hover { transform: none; box-shadow: 0 4px 24px rgba(34,197,94,0.3); }
-    .complete-hint { margin-top: 0.75rem; font-size: 0.8rem; color: var(--gray-400); }
+    /* ========= PAGINATION CONTROLS ========= */
+    .pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--black-border); }
+    .pag-btn { padding: 0.8rem 1.5rem; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; border: 1px solid var(--black-border); background: var(--black-light); color: var(--white); transition: all var(--transition); display: flex; align-items: center; gap: 0.5rem; }
+    .pag-btn:hover:not(:disabled) { border-color: var(--orange-500); color: var(--orange-400); }
+    .pag-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .page-indicator { font-size: 0.85rem; font-weight: 600; color: var(--gray-400); letter-spacing: 0.1em; }
 
     /* ========= STICKY AUDIO PLAYER ========= */
-    .sticky-player {
-        position: fixed; bottom: 0; left: var(--sidebar-width); right: 0;
-        height: var(--player-height);
-        background: rgba(14,14,14,0.96); backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border-top: 1px solid var(--black-border);
-        z-index: 40; display: flex; align-items: center; padding: 0 2rem; gap: 1.5rem;
-        transition: left var(--transition);
-    }
-    .player-art {
-        width: 52px; height: 52px; border-radius: 10px;
-        background: linear-gradient(135deg, var(--orange-600), var(--orange-500));
-        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .player-art-icon { font-size: 1.35rem; color: var(--white); }
-    .player-info { flex-shrink: 0; min-width: 120px; max-width: 200px; }
-    .player-info-title { font-size: 0.85rem; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .player-info-sub { font-size: 0.72rem; color: var(--gray-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .player-controls { display: flex; align-items: center; gap: 1rem; }
-    .player-btn {
-        width: 42px; height: 42px; border-radius: 50%; border: none;
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: all var(--transition); font-size: 1.1rem;
-    }
-    .player-btn-skip { background: rgba(255,255,255,0.06); color: var(--gray-400); }
-    .player-btn-skip:hover { background: rgba(255,255,255,0.12); color: var(--white); }
-    .player-btn-play {
-        background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
-        color: var(--white); width: 46px; height: 46px;
-        box-shadow: 0 4px 16px rgba(249,115,22,0.35);
-    }
-    .player-btn-play:hover {
-        background: linear-gradient(135deg, var(--orange-400), var(--orange-500)); box-shadow: 0 6px 24px rgba(249,115,22,0.5); transform: scale(1.05);
-    }
-    .player-btn-play.playing { animation: pulse-ring 2s ease-out infinite; }
-    @keyframes pulse-ring {
-        0%, 100%{ box-shadow: 0 4px 16px rgba(249,115,22,0.35), 0 0 0 0 rgba(249,115,22,0.25); }
-        70% { box-shadow: 0 4px 16px rgba(249,115,22,0.35), 0 0 0 16px rgba(249,115,22,0); }
-    }
-    .player-progress-section { flex: 1; display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
-    .player-time { font-size: 0.72rem; font-weight: 500; color: var(--gray-400); font-numeric: tabular-nums; min-width: 40px; text-align: center; }
-    .player-track {
-        flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 6px; cursor: pointer; position: relative; overflow: hidden;
-    }
-    .player-track:hover { height: 8px; }
-    .player-track-fill {
-        height: 100%; background: linear-gradient(90deg, var(--orange-600), var(--orange-400));
-        border-radius: 6px; width: 0%; transition: width 0.1s linear;
-    }
-    .player-waveform { display: flex; align-items: center; gap: 2px; height: 20px; margin-left: 0.5rem; }
-    .player-waveform span {
-        display: block; width: 3px; border-radius: 3px; background: var(--orange-500);
-        transition: height 0.15s ease;
-    }
-    .player-waveform span:nth-child(1) { height: 6px; }
-    .player-waveform span:nth-child(2) { height: 14px; }
-    .player-waveform span:nth-child(3) { height: 9px; }
-    .player-waveform span:nth-child(4) { height: 16px; }
-    .player-waveform span:nth-child(5) { height: 11px; }
-    .player-waveform.animating span:nth-child(1) { animation: w1 0.8s ease-out infinite; }
-    .player-waveform.animating span:nth-child(2) { animation: w2 0.7s ease-in-out 0.1s infinite; }
-    .player-waveform.animating span:nth-child(3) { animation: w3 0.9s ease-in-out 0.05s infinite; }
-    .player-waveform.animating span:nth-child(4) { animation: w4 0.6s ease-out 0.15s infinite; }
-    .player-waveform.animating span:nth-child(5) { animation: w5 0.85s ease-in-out 0.08s infinite; }
-    @keyframes w1 { 0%,100%{height:6px} 50%{height:16px} }
-    @keyframes w2 { 0%,100%{height:14px} 50%{height:5px} }
-    @keyframes w3 { 0%,100%{height:9px} 50%{height:18px} }
-    @keyframes w4 { 0%,100%{height:16px} 50%{height:6px} }
-    @keyframes w5 { 0%,100%{height:11px} 50%{height:4px} }
-    .player-volume { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-    .player-volume-icon { cursor: pointer; font-size: 1.1rem; color: var(--gray-400); transition: color var(--transition); }
-    .player-volume-icon:hover { color: var(--white); }
-    .player-volume-slider {
-        width: 80px; height: 4px; -webkit-appearance: none; appearance: none;
-        background: rgba(255,255,255,0.1); border-radius: 4px; outline: none;
-    }
-    .player-volume-slider::-webkit-slider-thumb {
-        -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--orange-500); cursor: pointer;
-    }
-    .player-volume-slider::-moz-range-thumb {
-        width: 12px; height: 12px; border-radius: 50%; background: var(--orange-500); cursor: pointer; border: none;
-    }
+    .sticky-player { position: fixed; bottom: 0; left: var(--sidebar-width); right: 0; height: var(--player-height); background: rgba(14,14,14,0.96); backdrop-filter: blur(24px); border-top: 1px solid var(--black-border); z-index: 40; display: flex; align-items: center; padding: 0 2rem; gap: 1.5rem; transition: left var(--transition); }
+    .player-info { flex-shrink: 0; min-width: 150px; }
+    .player-info-title { font-size: 0.85rem; font-weight: 700; color: var(--white); }
+    .player-controls { display: flex; align-items: center; gap: 0.75rem; }
+    .player-btn { width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); color: var(--white); font-size: 1rem; transition: var(--transition); }
+    .player-btn:hover { background: rgba(255,255,255,0.12); }
+    .player-btn-play { background: var(--orange-500); width: 44px; height: 44px; }
+    .player-progress-section { flex: 1; display: flex; align-items: center; gap: 1rem; }
+    .player-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 6px; cursor: pointer; position: relative; }
+    .player-track-fill { height: 100%; background: linear-gradient(90deg, var(--orange-600), var(--orange-400)); border-radius: 6px; width: 0%; }
+    .player-time { font-size: 0.75rem; color: var(--gray-400); font-family: monospace; }
 
-    /* ========= REVEAL ANIMATIONS ========= */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ========= RESPONSIVE ========= */
     @media (max-width: 1024px) {
         .sidebar { transform: translateX(-100%); }
         .sidebar.open { transform: translateX(0); }
-        .sidebar-toggle { display: flex; }
-        .sidebar-overlay { display: block; }
-        .sidebar-overlay.open { display: block; }
         .main-content { margin-left: 0; }
         .sticky-player { left: 0; }
-        .lesson-header { padding: 4rem 1.2rem 1.5rem; }
         .reading-area { padding: 1.5rem; }
-        .protip-box, .dana-insight { padding: 1.5rem; }
-        .journal-section { padding: 1.5rem; }
-        .sticky-player { padding: 0 1rem; height: 72px; }
-        .player-art { width: 44px; height: 44px; }
-        .player-info { max-width: 100px; min-width: 80px; }
-        .player-info-title { font-size: 0.78rem; }
-        .player-btn { width: 40px; height: 40px; font-size: 0.9rem; }
-        .player-btn-skip { width: 34px; height: 34px; font-size: 0.9rem; }
-        .player-waveform { display: none; }
-        .lesson-meta { gap: 0.75rem; }
-        .lesson-meta-item { font-size: 0.75rem; }
-        .complete-btn { width: 100%; justify-content: center; }
-        .lesson-meta-icon { font-size: 1rem; }
-        .lesson-meta { gap: 0.75rem; }
-        .lesson-meta-item { font-size: 0.75rem; }
-        .complete-btn { width: 100%; justify-content: center; }
-        .journal-save-status { font-size: 0.7rem; }
-        .journal-textarea { min-height: 120px; }
-    }
-    @media (max-width: 400px) {
-        .lesson-header { padding: 4.5rem 1.2rem 1.5rem; }
-        .lesson-title { font-size: clamp(1.8rem, 4vw, 2.5rem); }
-        .lesson-subtitle { font-size: 1rem; }
-        .lesson-meta { gap: 0.75rem; }
-        .lesson-meta-item { font-size: 0.75rem; }
-        .complete-btn { width: 100%; justify-content: center; }
-        .journal-save-status { font-size: 0.7rem; }
-        .journal-textarea { min-height: 120px; }
     }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar Toggle (mobile) -->
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-        <div class="sidebar-toggle-bars"><span></span><span></span><span></span></div>
-    </button>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
     <div class="app-layout">
-
-        <!-- ============ SIDEBAR ============ -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">AMASSED</div>
                 <a href="index.html" class="sidebar-back">❮ Back to Portal</a>
             </div>
-
             <div class="sidebar-progress">
-                <div class="progress-label">
-                    <span class="progress-label-text">Course Progress</span>
-                    <span class="progress-label-pct" id="progressPct">0%</span>
-                </div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
+                <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
             </div>
-            <div class="sidebar-greeting">Welcome back, <strong>Dana</strong> 🍃</div>
-
-            <nav class="sidebar-modules" id="sidebarModules">
-                <div class="sidebar-module-item active" data-module="0" onclick="navigateModule(0)">
-                    <div class="mod-check"><span class="mod-check-num">0</span></div>
-                    <div class="mod-info">
-                        <div class="mod-info-label">Module 0</div>
-                        <div class="mod-info-title">Introductory Essentials</div>
-                    </div>
-                    <span class="mod-status-badge">Current</span>
-                </div>
-                <div class="sidebar-module-item" data-module="1" onclick="navigateModule(1)">
-                    <div class="mod-check"><span class="mod-check-num">1</span></div>
-                    <div class="mod-info">
-                        <div class="mod-info-label">Chapter 1</div>
-                        <div class="mod-info-title">For Christ</div>
-                    </div>
-                    <span class="mod-status-badge">Current</span>
-                </div>
-                <div class="sidebar-module-item" data-module="2" onclick="navigateModule(2)">
-                    <div class="mod-check"><span class="mod-check-num">2</span></div>
-                    <div class="mod-info">
-                        <div class="mod-info-label">Chapter 2</div>
-                        <div class="mod-info-title">Christ Leads, Always</div>
-                    </div>
-                    <span class="mod-status-badge">Current</span>
-                </div>
-                <div class="sidebar-module-item" data-module="3" onclick="navigateModule(3)">
-                    <div class="mod-check"><span class="mod-check-num">3</span></div>
-                    <div class="mod-info">
-                        <div class="mod-info-label">Chapter 3</div>
-                        <div class="mod-info-title">Back — Bring Them</div>
-                    </div>
-                    <span class="mod-status-badge">Current</span>
-                </div>
-                <div class="sidebar-module-item" data-module="4" onclick="navigateModule(4)">
-                    <div class="mod-check"><span class="mod-check-num">4</span></div>
-                    <div class="mod-info">
-                        <div class="mod-info-label">Chapter 4</div>
-                        <div class="mod-info-title">Practice, Always</div>
-                    </div>
-                    <span class="mod-status-badge">Current</span>
-                </div>
-                <div class="sidebar-module-item" data-module="5" onclick="navigateModule(5)">
-                    <div class="mod-check"><span class="mod-check-num">5</span></div>
-                    <div class="mod-info">
-                        <div class="mod-info-label">Chapter 5</div>
-                        <div class="mod-info-title">What About Us?</div>
-                    </div>
-                    <span class="mod-status-badge">Current</span>
-                </div>
-            </nav>
-            <div class="sidebar-footer">
-                <p class="sidebar-footer-text">© 2026 AMASSED • Remembrance. Recount. Recertify.</p>
-            </div>
+            <div class="sidebar-greeting">Welcome back, <strong id="userName">Dana</strong> 🍃</div>
+            <nav class="sidebar-modules" id="sidebarModules"></nav>
         </aside>
 
-        <!-- ============ MAIN CONTENT ============ -->
-        <main class="main-content" id="mainContent">
-            <div class="lesson-header" id="lesson-header">
-                <div class="lesson-eyebrow" id="lesson-eyebrow-wrap">
-                    <span class="lesson-eyebrow-dot"></span>
-                    <span id="lesson-eyebrow">Module 0 • Learning Mode</span>
-                </div>
-                <h1 class="lesson-title" id="lessonTitle">Introductory Essentials</h1>
-                <p class="lesson-subtitle" id="lessonSubtitle"></p>
-                <div class="lesson-meta">
-                    <div class="lesson-meta-item">
-                        <span class="lesson-meta-icon">📚</span>
-                        <span id="lessonPages">11 Pages</span>
-                    </div>
-                    <div class="lesson-meta-icon">⏳</div><span id="lesson-Time">~15 min read</span>
-                    <div class="lesson-meta-item">
-                        <span class="lesson-meta-icon">🎧</span>
-                        <span>Audio Companion</span>
-                    </div>
-                </div>
+        <main class="main-content">
+            <div class="lesson-header">
+                <h1 class="lesson-title" id="lessonTitle">Loading...</h1>
             </div>
             <div class="reading-area" id="readingArea"></div>
-
         </main>
 
-        <!-- ==== STICKY AUDIO PLAYER ==== -->
         <div class="sticky-player" id="stickyPlayer">
-            <div class="player-art">
-                <span class="player-art-icon">🎧</span>
-            </div>
             <div class="player-info">
-                <div class="player-info-title" id="playerTitle">Module 0: Intro</div>
-                <div class="player-info-sub" id="playerSub">AMASSED Audio Companion</div>
+                <div class="player-info-title" id="playerTitle">Module Audio</div>
+                <div class="player-time"><span id="playerCurrent">0:00</span> / <span id="playerDuration">0:00</span></div>
             </div>
             <div class="player-controls">
-                <button class="player-btn player-btn-skip" onclick="skipAudio(-15)" title="Rewind 15s">⏪</button>
-                <button class="player-btn player-btn-play" id="playerPlayBtn" onclick="togglePlayerAudio()" title="Play/Pause">⏯</button>
-                <button class="player-btn player-btn-skip" onclick="skipAudio(15)" title="Forward 15s">⏩</button>
+                <button class="player-btn" onclick="navigateModule(currentMod - 1)" title="Previous Module">⏮</button>
+                <button class="player-btn" onclick="skipAudio(-15)">⏪</button>
+                <button class="player-btn player-btn-play" id="playBtn" onclick="toggleAudio()">▶</button>
+                <button class="player-btn" onclick="skipAudio(15)">⏩</button>
+                <button class="player-btn" onclick="navigateModule(currentMod + 1)" title="Next Module">⏭</button>
             </div>
             <div class="player-progress-section">
-                <span class="player-time" id="playerCurrent">0:00</span>
-                <div class="player-track" id="playerTrack" onclick="seekPlayerAudio(event)">
-                    <div class="player-track-fill" id="playerFill"></div>
-                </div>
-                <span class="player-time" id="playerDuration">0:00</span>
-            </div>
-            <div class="player-waveform" id="playerWaveform"><span></span><span></span><span></span><span></span><span></span></div>
-            <div class="player-volume">
-                <span class="player-volume-icon" id="playerVolumeIcon" onclick="toggleMute()">🔊</span>
-                <input type="range" class="player-volume-slider" id="volumeSlider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+                <div class="player-track" onclick="seekAudio(event)"><div class="player-track-fill" id="playerFill"></div></div>
             </div>
         </div>
+    </div>
 
     <script>
-    /* ======================================================================
-        MODULE DATA & CONTENT
-        ====================================================================== */
-    const modules = [
-        { id: 0, label: 'Module 0', title: 'Introductory Essentials', subtitle: 'The Joy of the Lord Is Your Strength', pages: '11 Pages', time: '~15 min read', audio: 'https://battlefield.buzzsmart.org/audio/intro.mp3' },
-        { id: 1, label: 'Chapter 1', title: 'For Christ', subtitle: 'Remembering the battle is the Lord’s', pages: '8 Pages', time: '~12 min read', audio: 'https://battlefield.buzzsmart.org/audio/ch1.mp3' },
-        { id: 2, label: 'Chapter 2', title: 'Christ Leads, Always', subtitle: 'Recounting His leadership with accuracy, joy, and transparency', pages: '4 Pages', time: '~8 min read', audio: 'https://battlefield.buzzsmart.org/audio/ch2.mp3' },
-        { id: 3, label: 'Chapter 3', title: 'Back — Bring Them', subtitle: 'Recertifying hearts and minds through language, sacrifice, and love', pages: '6 Pages', time: '~10 min read', audio: 'https://battlefield.buzzsmart.org/audio/ch3.mp3' },
-        { id: 4, label: 'Chapter 4', title: 'Practice, Always', subtitle: 'The journey out of the cave into the radiant sun of the entrance', pages: '15 Pages', time: '~20 min read', audio: 'https://battlefield.buzzsmart.org/audio/ch4.mp3' },
-        { id: 5, label: 'Chapter 5', title: 'What About Us?', subtitle: 'The 14 Leadership Traits of a Christ-Centered Leader', pages: '14 Traits', time: '~18 min read', audio: 'https://battlefield.buzzsmart.org/audio/ch5.mp3' }
+    const MODULES = [
+        {
+            id: 0, title: "Introductory Essentials", 
+            audio: "https://battlefield.buzzsmart.org/audio/intro.mp3",
+            pages: [
+                `<h2>The Mission in Motion</h2><p>Welcome to AMASSED. Watch the introductory mission video below to ground your perspective on the battlefield ahead.</p><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/l--hVwx4CDM" allowfullscreen></iframe></div>`,
+                `<h2>The Joy of the Lord Is Your Strength</h2><p>Nehemiah 8:10 declares, “Do not grieve, for the joy of the Lord is your strength.” This isn't a fleeting happiness tied to circumstances.</p><blockquote>“The joy of the Lord is not the absence of struggle. It is the presence of God in the middle of it.”</blockquote>`,
+                `<h2>The RRR Framework</h2><p>The entire curriculum is built on: <strong>Remember, Recount, Recertify</strong>.</p><ul><li><strong>Remember</strong> – Anchor in God’s promises.</li><li><strong>Recount</strong> – Share the testimonies.</li><li><strong>Recertify</strong> – Renew your commitment.</li></ul>`,
+                `<h2>Chilled Meat vs. Fresh BBQ</h2><p>Imagine stale, cold meat in a fridge. Now imagine it on a sizzling grill. This is the new birth in Christ. Don't lead like chilled meat; lead with the fire of the Spirit!</p>`
+            ]
+        },
+        {
+            id: 1, title: "Chapter 1: For Christ", 
+            audio: "https://battlefield.buzzsmart.org/audio/ch1.mp3",
+            pages: [
+                `<h2>Leading FROM Victory</h2><p>In the Kingdom, we don’t fight FOR victory. We lead FROM the reality that the victory is already won on the cross.</p>`,
+                `<h2>Strategic Amnesia</h2><p>In the heat of battle, we are prone to amnesia. We forget the Red Sea crossings. We must deliberately Remember His Word to ground our leadership.</p>`
+            ]
+        },
+        {
+            id: 2, title: "Chapter 2: Christ Leads, Always", 
+            audio: "https://battlefield.buzzsmart.org/audio/ch2.mp3",
+            pages: [
+                `<h2>The Integrity of the Story</h2><p>We are called to recount His leadership with <strong>Accuracy, Joy, and Transparency</strong>.</p>`,
+                `<h2>God Does Not Waste a Hurt</h2><p>Every hardship is material for a future testimony. Your pain is the portal through which Christ's power enters.</p>`
+            ]
+        },
+        {
+            id: 3, title: "Chapter 3: Back — Bring Them", 
+            audio: "https://battlefield.buzzsmart.org/audio/ch3.mp3",
+            pages: [
+                `<h2>The Ministry of Recertification</h2><p>Making known the presence of Christ so clearly that hearts are brought back to Him through Language, Sacrifice, and Love.</p>`,
+                `<h2>The Story of Red the Elder</h2><p>A stark reminder of the urgency of recertification. The mission of bringing them back is NOW.</p>`
+            ]
+        },
+        {
+            id: 4, title: "Chapter 4: Practice, Always", 
+            audio: "https://battlefield.buzzsmart.org/audio/ch4.mp3",
+            pages: [
+                `<h2>The Cave Analogy</h2><p>Moving from the deepest, darkest spot in a cave toward the radiant sunlight of the entrance. It's a series of deliberate steps.</p>`,
+                `<h2>Five Pillars of Practice</h2><p>1. Be Still | 2. Forgiveness | 3. Service | 4. Courage | 5. Fellowship.</p><blockquote>“Spiritual maturity is not knowing more. It is practicing more of what you already know.”</blockquote>`
+            ]
+        },
+        {
+            id: 5, title: "Chapter 5: What About Us?", 
+            audio: "https://battlefield.buzzsmart.org/audio/ch5.mp3",
+            pages: [
+                `<h2>The 14 Leadership Traits</h2><p>Every Battlefield Disciple must develop these core character traits:</p>
+                <table class="traits-table">
+                    <thead><tr><th>Trait</th><th>Definition</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Bearing</strong></td><td>Conduct that creates a favorable impression.</td></tr>
+                        <tr><td><strong>Courage</strong></td><td>Recognizing fear but proceeding with calmness.</td></tr>
+                        <tr><td><strong>Decisiveness</strong></td><td>Making decisions promptly and forcefully.</td></tr>
+                        <tr><td><strong>Dependability</strong></td><td>The certainty of proper performance of duty.</td></tr>
+                        <tr><td><strong>Endurance</strong></td><td>Stamina to withstand pain and stress.</td></tr>
+                        <tr><td><strong>Enthusiasm</strong></td><td>Sincere interest and exuberance.</td></tr>
+                        <tr><td><strong>Initiative</strong></td><td>A self-starter in the absence of orders.</td></tr>
+                        <tr><td><strong>Integrity</strong></td><td>The Prime Factor: Uprightness of character.</td></tr>
+                        <tr><td><strong>Judgment</strong></td><td>Weighing facts to make sound decisions.</td></tr>
+                        <tr><td><strong>Justice</strong></td><td>Giving rewards/punishments according to merits.</td></tr>
+                        <tr><td><strong>Knowledge</strong></td><td>Understanding of the Word and the mission.</td></tr>
+                        <tr><td><strong>Loyalty</strong></td><td>Faithfulness to the team and mission.</td></tr>
+                        <tr><td><strong>Tact</strong></td><td>Dealing with others without creating offense.</td></tr>
+                        <tr><td><strong>Unselfishness</strong></td><td>Avoiding comfort at the expense of others.</td></tr>
+                    </tbody>
+                </table>`,
+                `<h2>The Chopstick Moment</h2><p>True leadership is found in the smallest acts of care and the most hidden moments of integrity. God is in the details.</p>`
+            ]
+        }
     ];
 
-    /* ======================================================================
-        JOHNS JOURNAL PROMPTS
-        ====================================================================== */
-    const journalPrompts = [
-        'Re-count a moment where you saw God moving today.',
-        'Write about a battle you are currently facing. How does knowing “the battle is the Lord’s” change your perspective?',
-        'Recount a specific peak in your walk with Christ. How does that memory strengthen you in today’s valley?',
-        'Who in your life needs to be brought back to Jesus? What is one step you can take this week to recertify that relationship?',
-        'Describe your “cave moment” – a time of spiritual darkness and the first step you took toward the light.',
-        'Which of the 14 Leadership Traits do you most need to develop? Why, and how will you begin?'
-    ];
-
-    /* ======================================================================
-        MODULE CONTENT (HTML for each chapter)
-        ====================================================================== */
-    const moduleContent = [];
-
-    /* ----- MODULE 0 ----- */
-    moduleContent[0] = `
-        <h2 class="reveal">The Joy of the Lord Is Your Strength</h2>
-        <p class="reveal">Welcome to AMASSED • a transformative journey through Battlefield Discipleship. Before we march into the depths spiritual leadership, we must first understand the foundation upon which everything rests: <strong>the Joy of the Lord</strong>.</p>
-        <p class="reveal">Nehemiah 8:10 declares, “Do not grieve, for the joy of the Lord is your strength.” This didn’t a fleeting happiness tied to circumstances. It is a deep, unshakable gladness rooted in the character and promises of God – a joy that sustains you when the battlefield is fierce and the night is long.</p>
-        <blockquote class="reveal">“The joy of the Lord is not the absence of struggle. It is the presence of God in the middle of it.” - AMASSED, Module 0</blockquote>
-        <p class="reveal">As a leader, your joy is contagious. When your team sees you anchored – not in denial of hardship, but in a confidence that transcends it – they find courage to press on. Joy is not optional for the battlefield disciple. <strong>It is your armor’s first layer.</strong></p>
-
-        <h2 class="reveal">The RRS Framework: Remember, Recount, Recertify</h2>
-        <p class="reveal">The entire AMASSED curriculum is built on a single powerful methodology that echoes through every module, every story, and every teaching point:</p>
-        <p class="reveal"><strong>“Tell them, then tell them what you told them, then tell them once more memorably.”</strong></p>
-        <p class="reveal">This is the RRS Framework – the engine that drives lasting transformation:</p>
-        <ul>
-            <li><strong>Remember</strong> – Anchor yourself in God’s promises and His faithfulness. Recall the victories He has already won on your behalf.</li>
-            <li><strong>Recount</strong> – Share the testimonies. Speak the stories of His leadership in your life so others may believe and be strengthened.</li>
-            <li><strong>Recertify</strong> – Renew your commitment. Renew your heart, mind, and actions to the mission. Stand firm and lead with conviction.</li>
-        </ul>
-        <p class="reveal">This isn't academic repetition. It’s <strong>spiritual formation</strong> through deliberate practice.</p>
-
-        <h2 class="reveal">Three Lenses of Practice</h2>
-        <p class="reveal">Module 0 introduces three distinct perspectives through which the AMASSED principles can be understood and applied:</p>
-        <ul>
-            <li><strong>Medical Practice</strong> – Just as a doctor practices medicine through repetition, diagnosis, and evidence-based treatment, the disciple practices faith with discipline, discernment, and intentionality.</li>
-            <li><strong>Philosophical Practice</strong> – The examined life. A leader who reflects on truth, questions assumptions, and pursues wisdom builds a framework for righteous decision-making.</li>
-            <li><strong>Theological Practice</strong> – Grounded in Scripture, empowered by the Spirit, and directed by the Word. This is the ultimate lens – where all practice points back to the Author of life.</li>
-        </ul>
-
-        <h2 class="reveal">The Story of George Shuttleworth</h2>
-        <p class="reveal">In this module, you’ll encounter the unforgettable story of <strong>George Shuttleworth</strong> – a man who understood something most people overlook: <strong>the power of laughter.</strong></p>
-        <p class="reveal">Laughter isn't weakness. It's a declaration that the enemy has not stolen your joy. George Shuttleworth’s life teaches us that even in the darkest valleys, the ability to laugh – to find genuine, Spirit-filled humor – is a weapon.</p>
-        <blockquote>“A cheerful heart is good medicine, but a crushed spirit dries up the bones.” - Proverbs 17:22</blockquote>
-
-        <div class="protip-box reveal">
-            <div class="protip-badge">✨ Recount Highlight 💡 Pro-Tip</div>
-            <div class="protip-title">The TGQ Analogy (The Tasty Sandwich)</div>
-            <p class="protip-text">Imagine pulling out yesterday’s cold, leftover meat from the fridge – stale, lifeless, and unappetizing. Now imagine taking that same meat, firing up the grill, and transforming it into a sizzling, flavorful BBQ meal. <strong>This is the miracle of the new birth in Christ.</strong> What was spiritually cold becomes alive through His fire. Recount this transformation – don’t just talk about the chilled meat; talk about the BBQ!</p>
-        </div>
-    `;
-
-    /* ----- MODULE 1 ----- */
-    moduleContent[1] = `
-        <h2 class="reveal">Leading FROM Victory, Not FOR It</h2>
-        <p class="reveal">Chapter 1, “For Christ,” challenges the worldly notion of leadership. In the Kingdom, we don’t fight to win God’s favor or to secure a victory that hangs in the balance. We lead from the reality that <strong>the victory is already won.</strong></p>
-        <p class="reveal">When you Remember the Word, you remember that when you are at your weakest, Christ is at His strongest. The battle is the Lord’s (1 Samuel 17:47). Your responsibility is not to manufacture strength, but to anchor yourself in His.</p>
-        <blockquote class="reveal">“Leadership is not about carrying the weight of the mission on your shoulders. It is about remembering Who holds the mission in His hands.” - AMASSED, Chapter 1</blockquote>
-
-        <div class="dana-insight reveal">
-            <div class="dana-insight-badge">💡 Dana's Leadership Insight</div>
-            <div class="dana-insight-title">The Strength of Weakness</div>
-            <p class="dana-insight-text">The world tells us to hide our vulnerabilities. But in Battlefield Discipleship, our weakness is the very portal through which Christ's power enters the room. When you say, "I can't, but He can," you aren't failing as a leader – <strong>you are finally leading</strong> – "For Christ."</p>
-        </div>
-
-        <h2 class="reveal">The Discipline of Memory</h2>
-        <p class="reveal">Why is “Remember” the first pillar? Because in the heat of the battle, we are prone to amnesia. We forget the Red Sea crossings. We forget the manna in the wilderness. We forget the empty tomb. By deliberately remembering His Word, we ground our leadership in eternal truth rather than temporary pressure.</p>
-        <div class="protip-box reveal">
-            <div class="protip-badge">✨ Recount Highlight</div>
-            <div class="protip-title">Speak the Scars</div>
-            <p class="protip-text">Don't be afraid to lead with your scars. An open wound is a mess, but a scar is a <strong>story of victory</strong>. When you recount how God healed you, you give others permission to believe He can heal them too.</p>
-        </div>
-    `;
-
-    /* ----- MODULE 2 ----- */
-    moduleContent[2] = `
-        <h2 class="reveal">The Integrity of the Story</h2>
-        <p class="reveal">Chapter 2 focuses on the second pillar: <strong>Recount.</strong> It is not enough to remember; we must speak. But how we speak matters. We are called to recount His leadership with three specific qualities:</p>
-        <ul>
-            <li><strong>Accuracy</strong> – Tell the truth. Don’t exaggerate the peak or minimize the valley. The power is in the reality of what God did.</li>
-            <li><strong>Joy</strong> – Let the telling reflect the beauty of the Giver.</li>
-            <li><strong>Transparency</strong> – Share the scars. Scars are proof of healing.</li>
-        </ul>
-
-        <h2 class="reveal">God Preserves A Hurt</h2>
-        <p class="reveal">This module explores the profound truth that every hardship in your life is material for a future testimony. We look at the story of <strong>Dr. Utter</strong> and the complex spine surgery – a narrative of absolute dependence and miraculous leadership. It reminds us that our most painful seasons are often the ones others need to hear about most.</p>
-        <blockquote>“Every peak has a purpose, and every valley has a story. God doesn’t waste a single step of your journey.” - AMASSED, Chapter 2</blockquote>
-
-        <div class="protip-box reveal">
-            <div class="protip-badge">✨ Recount Highlight</div>
-            <div class="protip-title">Speak the Scars</div>
-            <p class="protip-text">Don't be afraid to lead with your scars. An open wound is a mess, but a scar is a <strong>story of victory</strong>. When you recount how God healed you, you give others permission to believe He can heal them too.</p>
-        </div>
-    `;
-
-    /* ----- MODULE 3 ----- */
-    moduleContent[3] = `
-        <h2 class="reveal">The Ministry of Recertification</h2>
-        <p class="reveal">Chapter 3, “Back — Bring Them,” moves into the third pillar: <strong>Recertify.</strong> This is the act of making known the presence of Christ so clearly that hearts are brought back to Him. We explore this through three powerful lenses:</p>
-        <ul>
-            <li><strong>Language</strong> – How the words we choose create an environment for return.</li>
-            <li>"Filled With the Spirit" – Our responsibility to those freshly baptized or new in their faith.</li>
-            <li><strong>Sacrifice and Love</strong> – The <em>Agape</em> love that pursues the lost at any cost.</li>
-        </ul>
-
-        <h2 class="reveal">The Story of Red the Elder</h2>
-        <p class="reveal">One of the most poignant moments in the course is the story of <strong>Red the Elder</strong>. It serves as a stark reminder of the urgency of recertification. We cannot wait to tell the story. We cannot wait to reconcile. The mission of bringing them back is <strong>now.</strong></p>
-    `;
-
-    /* ----- MODULE 4 ----- */
-    moduleContent[4] = `
-        <h2 class="reveal">The Journey Out of the Cave</h2>
-        <p class="reveal">Chapter 4, “Practice, Always,” is the bridge between theory and the daily rhythm of life. It introduces <strong>The Cave Analogy</strong> – moving from the deepest, darkest spot in a cave toward the radiant sunlight of the entrance.</p>
-        <p class="reveal">The walk toward the light is not a single leap; it is a series of deliberate, practiced steps. This module covers 15 pages of vital application across five areas:</p>
-        <ul>
-            <li><strong>Be Still</strong> – Finding the discipline of silence in a noisy world.</li>
-            <li><strong>Forgiveness</strong> – The gateway to spiritual freedom.</li>
-            <li><strong>Service</strong> – Leadership expressed through the towel and basin.</li>
-            <li><strong>Courage</strong> – Proceeding with firmness despite fear.</li>
-            <li><strong>Fellowship</strong> – The necessity of the body.</li>
-        </ul>
-        <blockquote>“Spiritual maturity is not knowing more. It is practicing more of what you already know.” - AMASSED, Chapter 4</blockquote>
-    `;
-
-    /* ----- MODULE 5 ----- */
-    moduleContent[5] = `
-        <h2 class="reveal">The 14 Leadership Traits</h2>
-        <p class="reveal">In our final chapter, we look inward. What is the character of the leader who practices RRS? We examine 14 essential traits that every Battlefield Disciple must develop and embody:</p>
-
-        <div class="traits-table-wrap reveal">
-            <table class="traits-table">
-                <thead>
-                    <tr><th>Trait</th><th>Definition</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Bearing</strong></td><td>Conduct and appearance that creates a favorable impression.</td></tr>
-                    <tr><td><strong>Courage</strong></td><td>The mental quality that recognizes fear but proceeds with calmness.</td></tr>
-                    <tr><td><strong>Decisiveness</strong></td><td>The ability to make decisions promptly and forcefully.</td></tr>
-                    <tr><td><strong>Dependability</strong></td><td>The certainty of proper performance of duty.</td></tr>
-                    <tr><td><strong>Endurance</strong></td><td>Mental and physical stamina to withstand pain, fatigue, and stress.</td></tr>
-                    <tr><td><strong>Enthusiasm</strong></td><td>Display of sincere interest and exuberance in performance of duty.</td></tr>
-                    <tr><td><strong>Initiative</strong></td><td>Taking action in the absence of orders; a self-starter.</td></tr>
-                    <tr><td><strong>Integrity</strong></td><td>Uprightness of character and moral soundness.</td></tr>
-                    <tr><td><strong>Judgment</strong></td><td>The ability to weigh facts and courses of action to make sound decisions.</td></tr>
-                    <tr><td><strong>Justice</strong></td><td>Giving reward and punishment according to the merits of the case.</td></tr>
-                    <tr><td><strong>Knowledge</strong></td><td>Understanding of science, art, and the Word.</td></tr>
-                    <tr><td><strong>Loyalty</strong></td><td>Faithfulness to the mission, the team, and your peers.</td></tr>
-                    <tr><td><strong>Tact</strong></td><td>The ability to deal with others without creating offense.</td></tr>
-                    <tr><td><strong>Unselfishness</strong></td><td>Avoidance of comfort at the expense of others.</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <h2 class="reveal">Integrity: The Prime Factor</h2>
-        <p class="reveal">Of the 14 traits, AMASSED singles out <strong>Integrity</strong> as the “prime factor” Without integrity, every other trait crumbles. Integrity encompasses the “who, what, when, where, and why” of leadership – it dictates that a leader’s life must match their message.</p>
-
-        <h2 class="reveal">The Chopstick Moment</h2>
-        <p class="reveal">We conclude with “the Chopstick” – a reminder that God is in the details. True leadership is often found in the smallest acts of care and the most hidden moments of integrity. <strong>How you lead in the small things is how you will lead in the great ones.</strong></p>
-    `;
-
-    /* ======================================================================
-        APP LOGIC & NAVIGATION
-        ====================================================================== */
-    let currentModuleIndex = 0;
+    let currentMod = 0;
+    let currentPage = 0;
     let audio = null;
     let isPlaying = false;
-    let completedModules = new Set();
-    let saveTimer = null;
 
     function init() {
-        // SECURITY CHECK
         const auth = localStorage.getItem('amassed_auth');
-        if (auth !== 'amassed2026') {
-            location.href = 'index.html';
-            return;
-        }
-
+        if (auth !== 'amassed2026') { location.href = 'index.html'; return; }
+        
         const params = new URLSearchParams(window.location.search);
-        let moduleId = parseInt(params.get('module')) || 0;
-        navigateModule(moduleId, false); // Don't update history on initial load
+        currentMod = parseInt(params.get('module')) || 0;
+        currentPage = 0;
 
-        // Intersection Observer for reveal animations
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        // Monitor content changes to observe new elements
-        const contentObserver = new MutationObserver(() => {
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        });
-        contentObserver.observe(document.getElementById('readingArea'), { childList: true });
-
-        // Load progress from localStorage
-        const saved = localStorage.getItem('amassed_progress');
-        if (saved) {
-            completedModules = new Set(JSON.parse(saved));
-            updateUI();
-        }
-
-        // Initial Volume
-        setVolume(80);
+        renderSidebar();
+        navigateModule(currentMod);
     }
 
-    function navigateModule(id, updateHistory = true) {
-        if (id < 0 || id >= modules.length) return;
-        currentModuleIndex = id;
-        const mod = modules[id];
+    function renderSidebar() {
+        const nav = document.getElementById('sidebarModules');
+        nav.innerHTML = MODULES.map(m => `
+            <div class="sidebar-module-item ${m.id === currentMod ? 'active' : ''}" onclick="navigateModule(${m.id})">
+                <div class="mod-info"><div class="mod-info-title">${m.title}</div></div>
+            </div>
+        `).join('');
+    }
 
-        // Update URL if requested
-        if (updateHistory) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?module=' + id;
-            window.history.pushState({ path: newUrl }, '', newUrl);
-        }
+    function navigateModule(id) {
+        if (id < 0 || id >= MODULES.length) return;
+        currentMod = id;
+        currentPage = 0;
+        const mod = MODULES[id];
 
-        // Update Sidebar UI
-        document.querySelectorAll('.sidebar-module-item').forEach(el => {
-            el.classList.remove('active');
-            if (parseInt(el.dataset.module) === id) {
-                el.classList.add('active');
-            }
-        });
-
-        // Update Content
-        document.getElementById('lesson-eyebrow').innerText = `${mod.label} • Learning Mode`;
         document.getElementById('lessonTitle').innerText = mod.title;
-        document.getElementById('lessonSubtitle').innerText = mod.subtitle;
-        document.getElementById('lessonPages').innerText = mod.pages;
-        document.getElementById('lesson-Time').innerText = mod.time;
+        document.getElementById('playerTitle').innerText = mod.title;
+        
+        // Update Sidebar
+        document.querySelectorAll('.sidebar-module-item').forEach((el, i) => {
+            el.classList.toggle('active', i === id);
+        });
 
-        const content = moduleContent[id] || `<p class="reveal">Content coming soon.</p>`;
+        // Audio Setup
+        if (audio) { audio.pause(); isPlaying = false; document.getElementById('playBtn').innerText = '▶'; }
+        audio = new Audio(mod.audio);
+        audio.addEventListener('loadedmetadata', () => document.getElementById('playerDuration').innerText = formatTime(audio.duration));
+        audio.addEventListener('timeupdate', updateAudioProgress);
 
-        // Add Journal Section & Complete Button to content
-        const journalHtml = `
-            <div class="section-divider reveal"><div class="section-divider-line"></div><div class="section-divider-icon">✨</div></div>
-            <div class="journal-section reveal" id="journal-section">
-                <div class="journal-header">
-                    <div class="journal-icon">✍️</div>
-                    <div class="journal-heading">
-                        <div class="journal-title">Dana's Journal</div>
-                        <div class="journal-subtitle">Your private reflection space</div>
-                    </div>
-                </div>
-                <div class="journal-prompt">${journalPrompts[id] || ''}</div>
-                <textarea class="journal-textarea" id="journalInput" placeholder="Recount your thoughts here..." oninput="handleJournalInput(this)"></textarea>
-                <div class="journal-footer">
-                    <div class="journal-save-status" id="saveStatus">✅ Auto-saved to local memory</div>
-                    <div class="journal-char-count" id="charCount">0 characters</div>
-                </div>
+        renderPage();
+        window.history.pushState({}, '', `?module=${id}`);
+    }
+
+    function renderPage() {
+        const mod = MODULES[currentMod];
+        const content = mod.pages[currentPage];
+        
+        const paginationHtml = `
+            <div class="pagination">
+                <button class="pag-btn" onclick="changePage(-1)" ${currentPage === 0 ? 'disabled' : ''}>❮ Previous Page</button>
+                <span class="page-indicator">PAGE ${currentPage + 1} OF ${mod.pages.length}</span>
+                <button class="pag-btn" onclick="changePage(1)" ${currentPage === mod.pages.length - 1 ? 'disabled' : ''}>Next Page ❯</button>
             </div>
         `;
 
-        const completeBtnHtml = `
-            <div class="complete-section reveal">
-                <button class="complete-btn ${completedModules.has(id) ? 'completed' : ''}" id="completeBtn" onclick="markComplete(${id})">
-                    ${completedModules.has(id) ? 'Lesson Completed ✅' : 'Mark Lesson as Complete'}
-                </button>
-                <p class="complete-hint">Certify your progress to advance to the next chapter.</p>
-            </div>
-        `;
-
-        document.getElementById('readingArea').innerHTML = content + journalHtml + completeBtnHtml;
-
-        // Observe newly added elements for animations
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Load journal content
-        const savedNote = localStorage.getItem(`amassed_note_${id}`);
-        if (savedNote) {
-            const textArea = document.getElementById('journalInput');
-            textArea.value = savedNote;
-            document.getElementById('charCount').innerText = `${savedNote.length} characters`;
-            // Update save status to reflect loaded data
-            const status = document.getElementById('saveStatus');
-            status.innerText = '✅ Saved to local memory';
-            status.classList.add('saved');
-        }
-
-        // Set up Audio
-        setupAudio(mod.audio, mod.label, mod.title);
-
-        // Scroll to top
+        document.getElementById('readingArea').innerHTML = `<div class="page-content">${content}</div>` + paginationHtml;
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        if (window.innerWidth <= 1024) {
-            toggleSidebar(false);
-        }
     }
 
-    /* AUDIO PLAYER LOGIC */
-    function setupAudio(url, label, title) {
-        if (audio) {
-            audio.pause();
-            isPlaying = false;
-            document.getElementById('playerPlayBtn').innerHTML = '⏯';
-            document.getElementById('playerPlayBtn').classList.remove('playing');
-            document.getElementById('playerWaveform').classList.remove('animating');
-        }
-
-        audio = new Audio(url);
-        document.getElementById('playerTitle').innerText = title;
-        document.getElementById('playerSub').innerText = `${label} Audio Companion`;
-
-
-        audio.addEventListener('loadedmetadata', () => {
-            document.getElementById('playerDuration').innerText = formatTime(audio.duration);
-        });
-
-        audio.addEventListener('timeupdate', () => {
-            const pct = (audio.currentTime / audio.duration) * 100;
-            document.getElementById('playerFill').style.width = pct + '%';
-            document.getElementById('playerCurrent').innerText = formatTime(audio.currentTime);
-        });
-
-        audio.addEventListener('ended', () => {
-            isPlaying = false;
-            document.getElementById('playerPlayBtn').innerHTML = '⏯';
-            document.getElementById('playerPlayBtn').classList.remove('playing');
-            document.getElementById('playerWaveform').classList.remove('animating');
-        });
+    function changePage(dir) {
+        currentPage += dir;
+        renderPage();
     }
 
-    function togglePlayerAudio() {
-        if (!audio) return;
-        if (isPlaying) {
-            audio.pause();
-            document.getElementById('playerPlayBtn').innerHTML = '⏯';
-            document.getElementById('playerPlayBtn').classList.remove('playing');
-            document.getElementById('playerWaveform').classList.remove('animating');
-        } else {
-            audio.play();
-            document.getElementById('playerPlayBtn').innerHTML = '⏯';
-            document.getElementById('playerPlayBtn').classList.add('playing');
-            document.getElementById('playerWaveform').classList.add('animating');
-        }
+    /* AUDIO LOGIC */
+    function toggleAudio() {
+        if (isPlaying) { audio.pause(); document.getElementById('playBtn').innerText = '▶'; }
+        else { audio.play(); document.getElementById('playBtn').innerText = '⏸'; }
         isPlaying = !isPlaying;
     }
-
-    function skipAudio(amount) {
-        if (!audio) return;
-        audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + amount));
+    function skipAudio(amt) { audio.currentTime += amt; }
+    function seekAudio(e) { const pct = (e.clientX - e.target.getBoundingClientRect().left) / e.target.offsetWidth; audio.currentTime = pct * audio.duration; }
+    function updateAudioProgress() {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('playerFill').style.width = pct + '%';
+        document.getElementById('playerCurrent').innerText = formatTime(audio.currentTime);
     }
-
-    function seekPlayerAudio(e) {
-        if (!audio) return;
-        const track = document.getElementById('playerTrack');
-        const rect = track.getBoundingClientRect();
-        const pct = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = pct * audio.duration;
-    }
-
-    function setVolume(val) {
-        if (audio) audio.volume = val / 100;
-        const icon = document.getElementById('playerVolumeIcon');
-        if (val == 0) icon.innerHTML = '0️'; // Muted icon
-        else if (val < 50) icon.innerHTML = '🔉';
-        else icon.innerHTML = '🔊';
-    }
-
-    function toggleMute() {
-        const slider = document.getElementById('volumeSlider');
-        if (slider.value > 0) {
-            slider.dataset.prev = slider.value; // Store current volume
-            slider.value = 0;
-        } else {
-            slider.value = slider.dataset.prev || 80; // Restore or set default
-        }
-        setVolume(slider.value);
-    }
-
     function formatTime(secs) {
-        const m = Math.floor(secs / 60);
-        const s = Math.floor(secs % 60);
+        const m = Math.floor(secs / 60); const s = Math.floor(secs % 60);
         return `${m}:${s < 10 ? '0' : ''}${s}`;
     }
-
-    /* PROGRESS & INTERACTION */
-    function handleJournalInput(el) {
-        const val = el.value;
-        document.getElementById('charCount').innerText = `${val.length} characters`;
-
-        // Auto-save with debounce
-        const status = document.getElementById('saveStatus');
-        status.innerText = '⏳ Saving...';
-        status.classList.remove('saved');
-
-        clearTimeout(window.saveTimer);
-        window.saveTimer = setTimeout(() => {
-            localStorage.setItem(`amassed_note_${currentModuleIndex}`, val);
-            status.innerText = '✅ Auto-saved to local memory';
-            status.classList.add('saved');
-        }, 1000);
-    }
-
-    function markComplete(id) {
-        if (completedModules.has(id)) return; // Already completed
-
-        completedModules.add(id);
-        localStorage.setItem('amassed_progress', JSON.stringify(Array.from(completedModules)));
-        updateUI();
-
-        const btn = document.getElementById('completeBtn');
-        btn.innerHTML = 'Lesson Completed ✅';
-        btn.classList.add('completed');
-
-        // Automatically navigate to the next lesson if it exists
-        if (id < modules.length - 1) {
-            setTimeout(() => {
-                if (confirm('Congratulations on completing this lesson! Would you like to proceed to the next chapter?')) {
-                    navigateModule(id + 1);
-                }
-            }, 500);
-        }
-    }
-
-    function updateUI() {
-        const progress = (completedModules.size / modules.length) * 100;
-        document.getElementById('progressPct').innerText = Math.round(progress) + '%';
-        document.getElementById('progressFill').style.width = progress + '%';
-
-        // Update sidebar module completion status
-        document.querySelectorAll('.sidebar-module-item').forEach(el => {
-            const moduleId = parseInt(el.dataset.module);
-            if (completedModules.has(moduleId)) {
-                el.classList.add('completed');
-            } else {
-                el.classList.remove('completed');
-            }
-        });
-    }
-
-    /* UI UTILITIES */
-    function toggleSidebar(show) {
-        document.getElementById('sidebar').classList.toggle('open', show);
-        document.getElementById('sidebarOverlay').classList.toggle('open', show);
-        document.body.style.overflow = show ? 'hidden' : '';
-    }
-
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
-        const isOpen = document.getElementById('sidebar').classList.contains('open');
-        toggleSidebar(!isOpen);
-    });
-    document.getElementById('sidebarOverlay').addEventListener('click', () => {
-        toggleSidebar(false);
-    });
-
-    // Handle Back/Forward browser buttons
-    window.addEventListener('popstate', (event) => {
-        const params = new URLSearchParams(window.location.search);
-        let moduleId = parseInt(params.get('module')) || 0;
-        navigateModule(moduleId, false); // Don't update history again
-    });
 
     init();
     </script>
