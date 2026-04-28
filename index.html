@@ -12,10 +12,8 @@
     /* ======= RESET & BASE ======= */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --orange-50: #fff7ed;
       --orange-400: #fb923c;
       --orange-500: #f97316;
-      --orange-600: #ea580c;
       --black: #0a0a0a;
       --black-light: #141414;
       --black-card: #1a1a1a;
@@ -25,72 +23,59 @@
       --radius: 16px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--black);
-      color: var(--white);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; overflow-x: hidden; }
 
     /* ======= UTILITIES ======= */
     .section { padding: 80px 2rem; }
     .section-inner { max-width: 1200px; margin: 0 auto; }
     .section-header { text-align: center; margin-bottom: 3rem; }
-    .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; }
     .section-eyebrow { color: var(--orange-500); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; font-weight: 700; }
 
     /* ======= NAVIGATION ======= */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;
-      background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px);
-    }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--black-border); }
     .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--orange-500); letter-spacing: 0.1em; }
     .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--gray-400); transition: var(--transition); }
+    .nav-links a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--gray-400); transition: var(--transition); text-decoration: none; }
     .nav-links a:hover { color: var(--orange-400); }
     .nav-cta { background: var(--orange-500); color: var(--black) !important; padding: 0.6rem 1.2rem; border-radius: 8px; }
 
     /* ======= HERO ======= */
     .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; z-index: 0; }
-    .hero-bg-image { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.3); }
+    .hero-bg-image { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.25); }
     .hero-bg-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, transparent, var(--black)); }
-    
     .hero-layout { position: relative; z-index: 2; display: flex; align-items: center; gap: 4rem; max-width: 1200px; padding: 2rem; }
-    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 5rem); line-height: 1; margin-bottom: 1rem; }
-    .hero-subtitle { color: var(--orange-500); font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem; }
-    .hero-description { max-width: 500px; color: var(--gray-400); margin-bottom: 2rem; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 10vw, 6rem); line-height: 1; margin-bottom: 1.5rem; }
+    .hero-subtitle { color: var(--orange-500); font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; }
+    .hero-description { max-width: 550px; color: var(--gray-400); margin-bottom: 2.5rem; font-size: 1.1rem; }
+    .hero-cover-float img { width: 280px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-    .btn { display: inline-flex; align-items: center; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; transition: var(--transition); cursor: pointer; }
+    .btn { display: inline-flex; align-items: center; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; transition: var(--transition); cursor: pointer; text-decoration: none; }
     .btn-primary { background: var(--orange-500); color: var(--black); margin-right: 1rem; }
     .btn-outline { border: 1px solid var(--gray-400); color: var(--white); }
-    .btn:hover { transform: translateY(-3px); opacity: 0.9; }
+    .btn:hover { transform: translateY(-3px); }
 
-    .hero-cover-float img { width: 280px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); animation: float 4s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    /* ======= MODULES ======= */
+    .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+    .module-card { background: var(--black-card); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--black-border); transition: var(--transition); }
+    .module-card:hover { border-color: var(--orange-500); }
+    .module-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0.5rem 0; }
 
     /* ======= EDITIONS ======= */
     #editions { background: var(--black-light); }
     .editions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
     .edition-card { background: var(--black-card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--black-border); transition: var(--transition); }
     .edition-card:hover { border-color: var(--orange-500); transform: translateY(-10px); }
-    .edition-cover-wrap { aspect-ratio: 3/4; background: #222; }
+    .edition-cover-wrap { aspect-ratio: 3/4; background: #111; }
     .edition-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .edition-info { padding: 1.5rem; text-align: center; }
-    .edition-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; }
 
     /* ======= PRICING ======= */
-    .rrr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+    .rrr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
     .rrr-card { background: var(--black-card); padding: 3rem 2rem; border-radius: var(--radius); text-align: center; border: 1px solid var(--black-border); }
-    .rrr-title { font-weight: 700; margin: 1rem 0; font-size: 1.2rem; }
     .rrr-text { font-size: 2rem; font-weight: 800; color: var(--orange-500); }
-
-    /* ======= VIDEO ======= */
-    .videm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem; }
-    .videm-grid iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--black-border); }
 
     /* ======= FOOTER ======= */
     .footer { padding: 4rem 2rem; background: #050505; text-align: center; border-top: 1px solid var(--black-border); }
@@ -99,8 +84,7 @@
 
     @media (max-width: 992px) {
       .hero-layout { flex-direction: column; text-align: center; }
-      .hero-description { margin: 0 auto 2rem; }
-      .editions-grid, .rrr-grid, .videm-grid { grid-template-columns: 1fr; }
+      .editions-grid, .rrr-grid, .modules-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
   </style>
@@ -111,8 +95,9 @@
     <div class="nav-links">
       <a href="#hero">Home</a>
       <a href="#editions">Editions</a>
+      <a href="#curriculum">Curriculum</a>
       <a href="#pricing">Enroll</a>
-      <a href="#" class="nav-cta">Start Learning</a>
+      <a href="lesson.html" class="nav-cta">Start Learning</a>
     </div>
   </nav>
 
@@ -127,12 +112,28 @@
         <h1 class="hero-title">AMASSED</h1>
         <p class="hero-description">A digital leadership experience for Battlefield Discipleship. Ground your faith, sharpen your story, and lead with Christ-centered conviction.</p>
         <div class="hero-actions">
-          <a href="#" class="btn btn-primary">Start the Course →</a>
-          <a href="#editions" class="btn btn-outline">Explore Path</a>
+          <a href="lesson.html" class="btn btn-primary">Start Learning →</a>
+          <a href="#curriculum" class="btn btn-outline">See Curriculum</a>
         </div>
       </div>
       <div class="hero-cover-float">
-        <img src="img/cover-populace.png" alt="Amassed Cover" onerror="this.src='https://via.placeholder.com/280x380?text=Course+Cover'">
+        <img src="img/cover-populace.png" alt="Amassed Cover" onerror="this.src='https://via.placeholder.com/300x400?text=AMASSED'">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="curriculum">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">The 5-Part Journey</div>
+        <h2 class="section-title">The Curriculum</h2>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card"><h3>For Christ</h3><p>Establishing the foundation. If it is not for Him, it is for nothing.</p></div>
+        <div class="module-card"><h3>Christ Leads, Always</h3><p>Practical authority. Learning to follow His lead in every decision.</p></div>
+        <div class="module-card"><h3>Back — Bring Them</h3><p>The "Recount" phase: bringing others into the mission through your story.</p></div>
+        <div class="module-card"><h3>Practice, Always</h3><p>Consistent battlefield readiness through daily spiritual practice.</p></div>
+        <div class="module-card"><h3>What About Us?</h3><p>Collective identity: finding your specific place in the larger mission.</p></div>
       </div>
     </div>
   </section>
@@ -143,56 +144,30 @@
         <div class="section-eyebrow">Choose Your Path</div>
         <h2 class="section-title">Course Editions</h2>
       </div>
-
       <div class="editions-grid">
         <div class="edition-card">
-          <div class="edition-cover-wrap"><img src="img/cover-populace.png" alt="Populace" onerror="this.src='https://via.placeholder.com/300x400'"></div>
-          <div class="edition-info">
-            <div class="section-eyebrow" style="font-size: 0.6rem;">Standard</div>
-            <div class="edition-name">Populace</div>
-          </div>
+          <div class="edition-cover-wrap"><img src="img/cover-populace.png" alt="Populace"></div>
+          <div class="edition-info"><div class="section-eyebrow">Populace</div></div>
         </div>
         <div class="edition-card">
-          <div class="edition-cover-wrap"><img src="img/cover-youth.png" alt="Youth" onerror="this.src='https://via.placeholder.com/300x400'"></div>
-          <div class="edition-info">
-            <div class="section-eyebrow" style="font-size: 0.6rem;">Space Matrix</div>
-            <div class="edition-name">Youth Ministry</div>
-          </div>
+          <div class="edition-cover-wrap"><img src="img/cover-youth.png" alt="Youth"></div>
+          <div class="edition-info"><div class="section-eyebrow">Youth Ministry</div></div>
         </div>
         <div class="edition-card">
-          <div class="edition-cover-wrap"><img src="img/cover-mid.png" alt="Legacy" onerror="this.src='https://via.placeholder.com/300x400'"></div>
-          <div class="edition-info">
-            <div class="section-eyebrow" style="font-size: 0.6rem;">Clockwork & Keys</div>
-            <div class="edition-name">Legacy</div>
-          </div>
+          <div class="edition-cover-wrap"><img src="img/cover-mid.png" alt="Legacy"></div>
+          <div class="edition-info"><div class="section-eyebrow">Legacy</div></div>
         </div>
-      </div>
-
-      <div class="videm-grid">
-          <iframe src="https://www.youtube.com/embed/l--hVwx4CDM" title="Amassed Preview 1" frameborder="0" allowfullscreen></iframe>
-          <iframe src="https://www.youtube.com/embed/ljQUdf1MpLo" title="Amassed Preview 2" frameborder="0" allowfullscreen></iframe>
       </div>
     </div>
   </section>
 
   <section class="section" id="pricing">
     <div class="section-inner">
-      <div class="section-header">
-        <h2 class="section-title">Join the Mission</h2>
-      </div>
+      <div class="section-header"><h2 class="section-title">Join the Mission</h2></div>
       <div class="rrr-grid">
-        <div class="rrr-card">
-          <div class="rrr-title">Individual</div>
-          <div class="rrr-text">$5.02</div>
-        </div>
-        <div class="rrr-card">
-          <div class="rrr-title">Consulting Bundle</div>
-          <div class="rrr-text">$12.02</div>
-        </div>
-        <div class="rrr-card">
-          <div class="rrr-title">Group Rate</div>
-          <div class="rrr-text">$24.99</div>
-        </div>
+        <div class="rrr-card"><div class="section-eyebrow">Individual</div><div class="rrr-text">$5.02</div></div>
+        <div class="rrr-card"><div class="section-eyebrow">Consulting Bundle</div><div class="rrr-text">$12.02</div></div>
+        <div class="rrr-card"><div class="section-eyebrow">Group Rate</div><div class="rrr-text">$24.99</div></div>
       </div>
     </div>
   </section>
