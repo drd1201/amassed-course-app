@@ -1,139 +1,210 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>AMASSED — Learner Portal</title>
-    <link rel='preconnect' href='https://fonts.googleapis.com'>
-    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-    <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap' rel='stylesheet'>
-    <style>
-        :root {
-            --gold: #D4A853; --gold-bright: #F0D78C; --orange: #F97316;
-            --black: #050505; --black-soft: #121212;
-            --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1);
-            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--black); color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(212, 168, 83, 0.08) 0%, transparent 60%); z-index: -1; pointer-events: none; }
-        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); backdrop-filter: blur(10px); }
-        .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8rem; letter-spacing: 4px; background: linear-gradient(135deg, var(--gold-bright), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(212, 168, 83, 0.3); }
-        .nav-links { display: flex; gap: 2.5rem; }
-        .nav-links a { text-transform: uppercase; font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.6); transition: var(--transition); cursor: pointer; }
-        .nav-links a:hover { color: var(--gold-bright); }
-        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; padding: 0 2rem; }
-        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.3) saturate(1.2); z-index: -1; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 5%, transparent 40%, rgba(0,0,0,0.6) 100%); z-index: -1; }
-        .hero-content { max-width: 900px; animation: fadeIn 1.5s ease; }
-        .hero-badge { display: inline-block; padding: 0.4rem 1.2rem; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.3); border-radius: 50px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold-bright); margin-bottom: 2rem; }
-        h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; line-height: 0.9; margin-bottom: 1.5rem; letter-spacing: -2px; background: linear-gradient(to bottom, #fff 30%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-sub { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 8px; color: var(--gold); margin-bottom: 3rem; opacity: 0.8; }
-        .btn { padding: 1.2rem 3rem; border-radius: 4px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; cursor: pointer; transition: var(--transition); position: relative; overflow: hidden; background: var(--gold); color: #000; border: none; box-shadow: 0 10px 40px rgba(212, 168, 83, 0.2); }
-        .btn:hover { transform: translateY(-5px); background: var(--gold-bright); box-shadow: 0 20px 60px rgba(212, 168, 83, 0.4); }
-        .vid-section { padding: 8rem 2rem; background: #080808; }
-        .vid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
-        .vid-card { aspect-ratio: 16/9; background: var(--black-soft); border: 1px solid var(--glass-border); overflow: hidden; border-radius: 12px; }
-        .vid-card iframe { width: 100%; height: 100%; border: none; }
-        #curriculum { padding: 8rem 2rem; max-width: 1400px; margin: 0 auto; }
-        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
-        .module-card { background: var(--black-soft); border: 1px solid var(--glass-border); padding: 3rem; transition: var(--transition); cursor: pointer; border-radius: 8px; }
-        .module-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .module-num { font-size: 0.8rem; font-weight: 800; color: var(--gold); margin-bottom: 1rem; display: block; }
-        .module-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem; }
-        .module-card p { color: rgba(255,255,255,0.6); }
-        footer { padding: 6rem 2rem; background: #030303; border-top: 1px solid var(--glass-border); text-align: center; }
-        .authors p { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold-bright); margin-bottom: 3rem; }
-        .partners { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; opacity: 0.6; }
-        .partners span { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .vid-grid { grid-template-columns: 1fr; } .logo { font-size: 1.4rem; } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMASSED — Learner Portal</title>
+  <meta name="description" content="AMASSED: Remember. Recount. Recertify. A leadership course by Sheri Kammerzell, David Setzer, and Dana 'Dr.D' Richardson.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ======= RESET & BASE ======= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange-50: #fff7ed;
+      --orange-400: #fb923c;
+      --orange-500: #f97316;
+      --orange-600: #ea580c;
+      --black: #0a0a0a;
+      --black-light: #141414;
+      --black-card: #1a1a1a;
+      --black-border: #2a2a2a;
+      --gray-400: #9ca3af;
+      --white: #ffffff;
+      --radius: 16px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ======= UTILITIES ======= */
+    .section { padding: 80px 2rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+    .section-eyebrow { color: var(--orange-500); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; font-weight: 700; }
+
+    /* ======= NAVIGATION ======= */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--orange-500); letter-spacing: 0.1em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--gray-400); transition: var(--transition); }
+    .nav-links a:hover { color: var(--orange-400); }
+    .nav-cta { background: var(--orange-500); color: var(--black) !important; padding: 0.6rem 1.2rem; border-radius: 8px; }
+
+    /* ======= HERO ======= */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-bg-image { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.3); }
+    .hero-bg-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, transparent, var(--black)); }
+    
+    .hero-layout { position: relative; z-index: 2; display: flex; align-items: center; gap: 4rem; max-width: 1200px; padding: 2rem; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 5rem); line-height: 1; margin-bottom: 1rem; }
+    .hero-subtitle { color: var(--orange-500); font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem; }
+    .hero-description { max-width: 500px; color: var(--gray-400); margin-bottom: 2rem; }
+
+    .btn { display: inline-flex; align-items: center; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; transition: var(--transition); cursor: pointer; }
+    .btn-primary { background: var(--orange-500); color: var(--black); margin-right: 1rem; }
+    .btn-outline { border: 1px solid var(--gray-400); color: var(--white); }
+    .btn:hover { transform: translateY(-3px); opacity: 0.9; }
+
+    .hero-cover-float img { width: 280px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+    /* ======= EDITIONS ======= */
+    #editions { background: var(--black-light); }
+    .editions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .edition-card { background: var(--black-card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--black-border); transition: var(--transition); }
+    .edition-card:hover { border-color: var(--orange-500); transform: translateY(-10px); }
+    .edition-cover-wrap { aspect-ratio: 3/4; background: #222; }
+    .edition-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .edition-info { padding: 1.5rem; text-align: center; }
+    .edition-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; }
+
+    /* ======= PRICING ======= */
+    .rrr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+    .rrr-card { background: var(--black-card); padding: 3rem 2rem; border-radius: var(--radius); text-align: center; border: 1px solid var(--black-border); }
+    .rrr-title { font-weight: 700; margin: 1rem 0; font-size: 1.2rem; }
+    .rrr-text { font-size: 2rem; font-weight: 800; color: var(--orange-500); }
+
+    /* ======= VIDEO ======= */
+    .videm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem; }
+    .videm-grid iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--black-border); }
+
+    /* ======= FOOTER ======= */
+    .footer { padding: 4rem 2rem; background: #050505; text-align: center; border-top: 1px solid var(--black-border); }
+    .footer-hierarchy { margin-bottom: 1rem; font-size: 0.9rem; color: var(--gray-400); }
+    .footer-hierarchy strong { color: var(--white); }
+
+    @media (max-width: 992px) {
+      .hero-layout { flex-direction: column; text-align: center; }
+      .hero-description { margin: 0 auto 2rem; }
+      .editions-grid, .rrr-grid, .videm-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <div class='bg-glow'></div>
-    <nav>
-        <div class='logo'>AMASSED</div>
-        <div class='nav-links'>
-            <a onclick='enterCourse()'>Curriculum</a>
-            <a href='#visuals'>Mission</a>
+  <nav class="nav">
+    <div class="nav-logo">AMASSED</div>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#editions">Editions</a>
+      <a href="#pricing">Enroll</a>
+      <a href="#" class="nav-cta">Start Learning</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img class="hero-bg-image" src="https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg" alt="Background">
+      <div class="hero-bg-gradient"></div>
+    </div>
+    <div class="hero-layout">
+      <div class="hero-content">
+        <p class="hero-subtitle">Remember + Recount + Recertify</p>
+        <h1 class="hero-title">AMASSED</h1>
+        <p class="hero-description">A digital leadership experience for Battlefield Discipleship. Ground your faith, sharpen your story, and lead with Christ-centered conviction.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary">Start the Course →</a>
+          <a href="#editions" class="btn btn-outline">Explore Path</a>
         </div>
-    </nav>
-    <section class='hero'>
-        <img class='hero-img' src='https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9m/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg'>
-        <div class='hero-overlay'></div>
-        <div class='hero-content'>
-            <div class='hero-badge'>A Battlefield Discipleship Course</div>
-            <h1>AMASSED</h1>
-            <div class='hero-sub'>Remember • Recount • Recertify</div>
-            <p style='font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 3rem;'>The definitive leadership experience designed to forge unshakable conviction.</p>
-            <button class='btn' onclick='enterCourse()'>Begin Journey</button>
+      </div>
+      <div class="hero-cover-float">
+        <img src="img/cover-populace.png" alt="Amassed Cover" onerror="this.src='https://via.placeholder.com/280x380?text=Course+Cover'">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="editions">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Choose Your Path</div>
+        <h2 class="section-title">Course Editions</h2>
+      </div>
+
+      <div class="editions-grid">
+        <div class="edition-card">
+          <div class="edition-cover-wrap"><img src="img/cover-populace.png" alt="Populace" onerror="this.src='https://via.placeholder.com/300x400'"></div>
+          <div class="edition-info">
+            <div class="section-eyebrow" style="font-size: 0.6rem;">Standard</div>
+            <div class="edition-name">Populace</div>
+          </div>
         </div>
-    </section>
-    <section id='visuals' class='vid-section'>
-        <div class='vid-grid'>
-            <div class='vid-card'><iframe src='https://www.youtube.com/embed/l--hVwx4CDM' allowfullscreen></iframe></div>
-            <div class='vid-card'><iframe src='https://www.youtube.com/embed/ljQUdf1MpLo' allowfullscreen></iframe></div>
+        <div class="edition-card">
+          <div class="edition-cover-wrap"><img src="img/cover-youth.png" alt="Youth" onerror="this.src='https://via.placeholder.com/300x400'"></div>
+          <div class="edition-info">
+            <div class="section-eyebrow" style="font-size: 0.6rem;">Space Matrix</div>
+            <div class="edition-name">Youth Ministry</div>
+          </div>
         </div>
-    </section>
-    <section id='curriculum'>
-        <div class='module-grid'>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=0")'>
-                <span class='module-num'>MODULE 00</span>
-                <h3>Introductory Essentials</h3>
-                <p>The foundation of Joy and the RRR Framework.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=1")'>
-                <span class='module-num'>MODULE 01</span>
-                <h3>For Christ</h3>
-                <p>Remembering the Battle is the Lord's.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=2")'>
-                <span class='module-num'>MODULE 02</span>
-                <h3>Christ Leads, Always</h3>
-                <p>Recounting His leadership with accuracy.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=3")'>
-                <span class='module-num'>MODULE 03</span>
-                <h3>Bring Them Back</h3>
-                <p>The ministry of Recertification.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=4")'>
-                <span class='module-num'>MODULE 04</span>
-                <h3>Practice, Always</h3>
-                <p>RRR in real life.</p>
-            </div>
-            <div class='module-card' onclick='enterCourse("lesson.html?module=5")'>
-                <span class='module-num'>MODULE 05</span>
-                <h3>What About Us?</h3>
-                <p>14 Leadership Traits.</p>
-            </div>
+        <div class="edition-card">
+          <div class="edition-cover-wrap"><img src="img/cover-mid.png" alt="Legacy" onerror="this.src='https://via.placeholder.com/300x400'"></div>
+          <div class="edition-info">
+            <div class="section-eyebrow" style="font-size: 0.6rem;">Clockwork & Keys</div>
+            <div class="edition-name">Legacy</div>
+          </div>
         </div>
-    </section>
-    <footer>
-        <div class='authors'>
-            <p>Sheri Kammerzell, David Setzer, & Dana "Dr.D" Richardson</p>
+      </div>
+
+      <div class="videm-grid">
+          <iframe src="https://www.youtube.com/embed/l--hVwx4CDM" title="Amassed Preview 1" frameborder="0" allowfullscreen></iframe>
+          <iframe src="https://www.youtube.com/embed/ljQUdf1MpLo" title="Amassed Preview 2" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Join the Mission</h2>
+      </div>
+      <div class="rrr-grid">
+        <div class="rrr-card">
+          <div class="rrr-title">Individual</div>
+          <div class="rrr-text">$5.02</div>
         </div>
-        <div class='partners'>
-            <div><span>Mission Partner</span><p>Terri Goodhouse</p></div>
-            <div><span>Mission Partner</span><p>Mel Alberts</p></div>
-            <div><span>Mission Partner</span><p>Ricky Thornton Jr.</p></div>
-            <div><span>Mission Partner</span><p>Carol Wright</p></div>
+        <div class="rrr-card">
+          <div class="rrr-title">Consulting Bundle</div>
+          <div class="rrr-text">$12.02</div>
         </div>
-    </footer>
-    <script>
-        function enterCourse(url) {
-            const pass = localStorage.getItem('amassed_auth');
-            if (pass === 'amassed2026') {
-                if (url) location.href = url; else location.href = '#curriculum';
-                return;
-            }
-            const input = prompt('Enter Editorial Access Code:');
-            if (input === 'amassed2026') {
-                localStorage.setItem('amassed_auth', 'amassed2026');
-                if (url) location.href = url; else location.href = '#curriculum';
-            } else if (input !== null) { alert('Access Denied.'); }
-        }
-    </script>
+        <div class="rrr-card">
+          <div class="rrr-title">Group Rate</div>
+          <div class="rrr-text">$24.99</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-hierarchy">
+        Co-Authors: <strong>Sheri Kammerzell</strong>, <strong>David Setzer</strong>, & <strong>Dana 'Dr.D' Richardson</strong>
+    </div>
+    <div class="footer-hierarchy">
+        Mission Partners: <strong>Terry Goodhouse</strong>, <strong>Mel Alberts</strong>, & <strong>Ricky Thornton Jr.</strong>
+    </div>
+    <div class="footer-credits">© 2026 AMASSED. All Rights Reserved.</div>
+  </footer>
 </body>
 </html>
