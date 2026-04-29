@@ -57,7 +57,8 @@
 
     /* ======= CURRICULUM ======= */
     .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
-    .module-card { background: var(--black-card); padding: 2.5rem 2rem; border-radius: var(--radius); border: 1px solid var(--black-border); transition: var(--transition); }
+    .module-card { background: var(--black-card); padding: 2.5rem 2rem; border-radius: var(--radius); border: 1px solid var(--black-border); transition: var(--transition); text-decoration: none; color: inherit; display: block; }
+    .module-card:hover { border-color: var(--orange-500); transform: translateY(-5px); }
     .module-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0.5rem 0; color: var(--orange-500); }
     .module-card p { color: var(--gray-400); font-size: 0.95rem; }
 
@@ -79,7 +80,7 @@
     <div class="nav-links">
       <a href="#editions">Editions</a>
       <a href="#curriculum">Curriculum</a>
-      <a href="lesson.html" class="nav-cta">Start Learning</a>
+      <a href="lesson.html?module=0" class="nav-cta">Start Learning</a>
     </div>
   </nav>
 
@@ -91,12 +92,12 @@
         <h1 class="hero-title">AMASSED</h1>
         <p class="hero-description">A digital leadership experience for Battlefield Discipleship. Ground your faith, sharpen your story, and lead with Christ-centered conviction.</p>
         <div class="hero-actions" style="display: flex; gap: 1rem;">
-          <a href="lesson.html" class="nav-cta" style="padding: 1rem 2rem;">Start Learning →</a>
+          <a href="lesson.html?module=0" class="nav-cta" style="padding: 1rem 2rem;">Start Learning →</a>
           <a href="#curriculum" style="color: white; text-decoration: none; padding: 1rem 2rem; border: 1px solid #444; border-radius: 8px; font-weight: 700;">See Modules</a>
         </div>
       </div>
       <div class="hero-cover-float">
-        <img src="img/cover-populace.png" alt="AMASSED" onerror="this.src='https://via.placeholder.com/300x400?text=AMASSED'">
+        <img src="./img/cover-populace.png" alt="AMASSED" onerror="this.src='https://via.placeholder.com/300x400?text=AMASSED'">
       </div>
     </div>
   </section>
@@ -107,15 +108,15 @@
       <h2 class="section-title">Course Editions</h2>
     </div>
     <div class="editions-grid">
-      <a href="#curriculum" class="edition-card">
+      <a href="lesson.html?module=0" class="edition-card">
         <div class="edition-cover-wrap"><img src="./img/cover-populace.png" alt="Populace"></div>
         <div class="edition-info"><span class="section-eyebrow" style="font-size:0.6rem">Standard</span><h3>Populace</h3></div>
       </a>
-      <a href="#curriculum" class="edition-card">
+      <a href="lesson.html?module=0" class="edition-card">
         <div class="edition-cover-wrap"><img src="./img/cover-youth.png" alt="Youth"></div>
         <div class="edition-info"><span class="section-eyebrow" style="font-size:0.6rem">Space Matrix</span><h3>Youth Ministry</h3></div>
       </a>
-      <a href="#curriculum" class="edition-card">
+      <a href="lesson.html?module=0" class="edition-card">
         <div class="edition-cover-wrap"><img src="./img/cover-mid.png" alt="Legacy"></div>
         <div class="edition-info"><span class="section-eyebrow" style="font-size:0.6rem">Clockwork & Keys</span><h3>Legacy</h3></div>
       </a>
@@ -128,11 +129,12 @@
       <h2 class="section-title">The Curriculum</h2>
     </div>
     <div class="modules-grid">
-      <div class="module-card"><h3>For Christ</h3><p>Establishing the foundation. If it is not for Him, it is for nothing.</p></div>
-      <div class="module-card"><h3>Christ Leads, Always</h3><p>Practical authority. Learning to follow His lead in every decision.</p></div>
-      <div class="module-card"><h3>Back — Bring Them</h3><p>The "Recount" phase: bringing others into the mission through your story.</p></div>
-      <div class="module-card"><h3>Practice, Always</h3><p>Consistent battlefield readiness through daily spiritual practice.</p></div>
-      <div class="module-card"><h3>What About Us?</h3><p>Collective identity: finding your specific place in the mission.</p></div>
+      <a href="lesson.html?module=0" class="module-card"><h3>Introductory Essentials</h3><p>Establishing the foundation. If it is not for Him, it is for nothing.</p></a>
+      <a href="lesson.html?module=1" class="module-card"><h3>Chapter 1: For Christ</h3><p>Practical authority. Learning to follow His lead in every decision.</p></a>
+      <a href="lesson.html?module=2" class="module-card"><h3>Chapter 2: Christ Leads, Always</h3><p>The "Recount" phase: bringing others into the mission through your story.</p></a>
+      <a href="lesson.html?module=3" class="module-card"><h3>Chapter 3: Back — Bring Them</h3><p>Consistent battlefield readiness through daily spiritual practice.</p></a>
+      <a href="lesson.html?module=4" class="module-card"><h3>Chapter 4: Practice, Always</h3><p>Turning the theory into consistent practice on the battlefield.</p></a>
+      <a href="lesson.html?module=5" class="module-card"><h3>Chapter 5: What About Us?</h3><p>Collective identity: finding your specific place in the mission.</p></a>
     </div>
   </section>
 
