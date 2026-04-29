@@ -7,67 +7,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --orange: #f97316; --gold: #D4A853; --black: #0a0a0a; --radius: 16px; }
-        body { background: var(--black); color: white; font-family: 'Inter', sans-serif; margin: 0; scroll-behavior: smooth; }
+        body { background: var(--black); color: white; font-family: 'Inter', sans-serif; margin: 0; scroll-behavior: smooth; overflow-x: hidden; }
         
         /* Navigation */
-        .nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.8); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #222; box-sizing: border-box; }
-        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); font-weight: 900; text-decoration: none; }
-        .nav-cta { background: var(--orange); color: black; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 800; text-decoration: none; }
+        .nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.85); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid #222; box-sizing: border-box; }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); font-weight: 900; text-decoration: none; letter-spacing: 2px; }
+        .nav-cta { background: var(--orange); color: black; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 900; text-decoration: none; transition: 0.3s; }
+        .nav-cta:hover { transform: scale(1.05); background: var(--gold); }
 
-        /* Hero Section */
-        .hero { height: 80vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; }
-        .hero-bg { position: absolute; inset: 0; background: url('https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg') center/cover; filter: brightness(0.3); z-index: 0; }
-        .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 2rem; }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: 5rem; margin: 0; line-height: 1; }
+        /* Hero with Video Background Capability */
+        .hero { height: 90vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; }
+        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); filter: brightness(0.3); z-index: 0; object-fit: cover; }
+        .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle, transparent 20%, var(--black) 100%); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 2rem; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); margin: 0; line-height: 1; color: var(--gold); text-transform: uppercase; }
         
-        /* The Grid (The Glitz) */
-        .section { padding: 80px 2rem; max-width: 1200px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .card { background: #111; border: 1px solid #222; border-radius: var(--radius); overflow: hidden; transition: 0.3s; text-decoration: none; color: white; }
-        .card:hover { border-color: var(--orange); transform: translateY(-10px); }
-        .card-img { aspect-ratio: 3/4; background: #222; overflow: hidden; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; }
-        .card-info { padding: 1.5rem; text-align: center; }
+        /* Grid Layout */
+        .section { padding: 100px 2rem; max-width: 1400px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; color: var(--gold); }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
+        .card { background: #111; border: 1px solid #222; border-radius: var(--radius); overflow: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; color: white; position: relative; }
+        .card:hover { border-color: var(--gold); transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        
+        .card-img { aspect-ratio: 3/4; background: #1a1a1a; overflow: hidden; position: relative; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .card:hover .card-img img { transform: scale(1.1); filter: brightness(0.7); }
+        
+        .card-info { padding: 2rem; text-align: center; background: linear-gradient(to top, #000, transparent); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; }
+        .card-info h3 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
+        .card-info p { color: var(--gold); font-size: 0.8rem; text-transform: uppercase; margin-top: 5px; font-weight: 800; }
     </style>
 </head>
 <body>
     <nav class="nav">
         <a href="#" class="nav-logo">AMASSED</a>
-        <a href="lesson.html?module=0" class="nav-cta">START LEARNING</a>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <a href="#curriculum" style="color: #888; text-decoration: none; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;">Curriculum</a>
+            <a href="lesson.html?module=0" class="nav-cta">START LEARNING</a>
+        </div>
     </nav>
 
     <section class="hero">
-        <div class="hero-bg"></div>
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/videos/intro_bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
+            <p style="color: var(--orange); font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 1rem;">Battlefield Discipleship</p>
             <h1 class="hero-title">AMASSED</h1>
-            <p style="color: var(--gray-400); font-size: 1.2rem;">Remember • Recount • Recertify</p>
+            <p style="color: #ccc; font-size: 1.2rem; margin-top: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">A strategic leadership journey through the RRR process: Remember, Recount, and Recertify.</p>
         </div>
     </section>
 
     <section class="section" id="editions">
-        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">Course Editions</h2>
+        <div class="section-header">
+            <h2 class="section-title">Course Editions</h2>
+            <p style="color: #666;">Select your training path to begin the mission.</p>
+        </div>
         <div class="grid">
             <a href="lesson.html?module=0" class="card">
-                <div class="card-img"><img src="img/cover-populace.png" alt="Populace" onerror="this.src='https://via.placeholder.com/300x400?text=AMASSED'"></div>
-                <div class="card-info"><h3>Populace</h3></div>
+                <div class="card-img"><img src="img/cover-populace.png" alt="Populace"></div>
+                <div class="card-info"><p>Standard</p><h3>Populace</h3></div>
             </a>
             <a href="lesson.html?module=0" class="card">
-                <div class="card-img"><img src="img/cover-youth.png" alt="Youth" onerror="this.src='https://via.placeholder.com/300x400?text=YOUTH'"></div>
-                <div class="card-info"><h3>Youth Ministry</h3></div>
+                <div class="card-img"><img src="img/cover-youth.png" alt="Youth"></div>
+                <div class="card-info"><p>Space Matrix</p><h3>Youth Ministry</h3></div>
             </a>
             <a href="lesson.html?module=0" class="card">
-                <div class="card-img"><img src="img/cover-mid.png" alt="Legacy" onerror="this.src='https://via.placeholder.com/300x400?text=LEGACY'"></div>
-                <div class="card-info"><h3>Legacy</h3></div>
+                <div class="card-img"><img src="img/cover-mid.png" alt="Legacy"></div>
+                <div class="card-info"><p>Clockwork & Keys</p><h3>Legacy</h3></div>
             </a>
         </div>
     </section>
 
-    <section class="section">
-        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">The Curriculum</h2>
+    <section class="section" id="curriculum" style="background: #050505;">
+        <div class="section-header">
+            <h2 class="section-title">The Curriculum</h2>
+            <p style="color: #666;">The 5-Part Strategic Framework.</p>
+        </div>
         <div class="grid">
-            <a href="lesson.html?module=0" class="card" style="padding: 2rem;"><h3>Intro Essentials</h3></a>
-            <a href="lesson.html?module=1" class="card" style="padding: 2rem;"><h3>Chapter 1: For Christ</h3></a>
-            <a href="lesson.html?module=2" class="card" style="padding: 2rem;"><h3>Chapter 2: Christ Leads</h3></a>
+            <a href="lesson.html?module=0" class="card" style="padding: 3rem; background: #0a0a0a;">
+                <p style="color: var(--orange); margin-bottom: 10px;">Module 0</p>
+                <h3 style="color: var(--gold); font-family: 'Playfair Display'; font-size: 2rem;">Introductory Essentials</h3>
+                <p style="text-transform: none; color: #888; font-weight: 400; margin-top: 15px;">Establish the Doctorate Cycle: Observe, Diagnose, Treat, Verify.</p>
+            </a>
+            <a href="lesson.html?module=1" class="card" style="padding: 3rem; background: #0a0a0a;">
+                <p style="color: var(--orange); margin-bottom: 10px;">Module 1</p>
+                <h3 style="color: var(--gold); font-family: 'Playfair Display'; font-size: 2rem;">For Christ</h3>
+                <p style="text-transform: none; color: #888; font-weight: 400; margin-top: 15px;">The Single Foundation. If it is not for Him, it is for nothing.</p>
+            </a>
+            <a href="lesson.html?module=2" class="card" style="padding: 3rem; background: #0a0a0a;">
+                <p style="color: var(--orange); margin-bottom: 10px;">Module 2</p>
+                <h3 style="color: var(--gold); font-family: 'Playfair Display'; font-size: 2rem;">Christ Leads</h3>
+                <p style="text-transform: none; color: #888; font-weight: 400; margin-top: 15px;">Practical authority and the power of the Recount phase.</p>
+            </a>
         </div>
     </section>
 </body>
