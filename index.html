@@ -2,41 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AMASSED • Learning Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMASSED — Learner Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #0a0a0a; color: white; font-family: 'Inter', sans-serif; display: flex; height: 100vh; margin: 0; }
-        #sidebar { width: 300px; border-right: 1px solid #222; background: #111; padding: 20px; }
-        #content { flex: 1; padding: 40px; overflow-y: auto; }
-        .audio-player { position: fixed; bottom: 0; left: 300px; right: 0; background: #1a1a1a; padding: 20px; border-top: 1px solid #D4A853; }
+        :root { --orange: #f97316; --gold: #D4A853; --black: #0a0a0a; --radius: 16px; }
+        body { background: var(--black); color: white; font-family: 'Inter', sans-serif; margin: 0; scroll-behavior: smooth; }
+        
+        /* Navigation */
+        .nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.8); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid #222; box-sizing: border-box; }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); font-weight: 900; text-decoration: none; }
+        .nav-cta { background: var(--orange); color: black; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 800; text-decoration: none; }
+
+        /* Hero Section */
+        .hero { height: 80vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; }
+        .hero-bg { position: absolute; inset: 0; background: url('https://static.prod-images.emergentagent.com/jobs/b4e5c5f2-3270-40a4-b1ff-a5905f7fc9ba/images/1dbbf6d99f92a0d91cb5ede5f92a82e925943d88825c39974a7357db985fa7f9.jpeg') center/cover; filter: brightness(0.3); z-index: 0; }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 2rem; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 5rem; margin: 0; line-height: 1; }
+        
+        /* The Grid (The Glitz) */
+        .section { padding: 80px 2rem; max-width: 1200px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: #111; border: 1px solid #222; border-radius: var(--radius); overflow: hidden; transition: 0.3s; text-decoration: none; color: white; }
+        .card:hover { border-color: var(--orange); transform: translateY(-10px); }
+        .card-img { aspect-ratio: 3/4; background: #222; overflow: hidden; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-info { padding: 1.5rem; text-align: center; }
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <h2 style="color:#D4A853">AMASSED</h2>
-        <div id="moduleList"></div>
-    </div>
-    <div id="content">
-        <h1 id="title">Select a Module</h1>
-        <div id="textBody"></div>
-    </div>
-    <div class="audio-player">
-        <audio id="audioSource" controls style="width: 100%"></audio>
-    </div>
+    <nav class="nav">
+        <a href="#" class="nav-logo">AMASSED</a>
+        <a href="lesson.html?module=0" class="nav-cta">START LEARNING</a>
+    </nav>
 
-    <script src="curriculum_data.js"></script>
-    <script>
-        function loadModule(id) {
-            const data = MODULE_DATA[id];
-            document.getElementById('title').innerText = data.title;
-            document.getElementById('textBody').innerHTML = data.content;
-            document.getElementById('audioSource').src = data.audio;
-        }
-        
-        // Build the sidebar menu automatically
-        const list = document.getElementById('moduleList');
-        MODULE_DATA.forEach((mod, index) => {
-            list.innerHTML += `<div onclick="loadModule(${index})" style="cursor:pointer; padding:10px; border-bottom:1px solid #222">${mod.title}</div>`;
-        });
-    </script>
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">AMASSED</h1>
+            <p style="color: var(--gray-400); font-size: 1.2rem;">Remember • Recount • Recertify</p>
+        </div>
+    </section>
+
+    <section class="section" id="editions">
+        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">Course Editions</h2>
+        <div class="grid">
+            <a href="lesson.html?module=0" class="card">
+                <div class="card-img"><img src="img/cover-populace.png" alt="Populace" onerror="this.src='https://via.placeholder.com/300x400?text=AMASSED'"></div>
+                <div class="card-info"><h3>Populace</h3></div>
+            </a>
+            <a href="lesson.html?module=0" class="card">
+                <div class="card-img"><img src="img/cover-youth.png" alt="Youth" onerror="this.src='https://via.placeholder.com/300x400?text=YOUTH'"></div>
+                <div class="card-info"><h3>Youth Ministry</h3></div>
+            </a>
+            <a href="lesson.html?module=0" class="card">
+                <div class="card-img"><img src="img/cover-mid.png" alt="Legacy" onerror="this.src='https://via.placeholder.com/300x400?text=LEGACY'"></div>
+                <div class="card-info"><h3>Legacy</h3></div>
+            </a>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">The Curriculum</h2>
+        <div class="grid">
+            <a href="lesson.html?module=0" class="card" style="padding: 2rem;"><h3>Intro Essentials</h3></a>
+            <a href="lesson.html?module=1" class="card" style="padding: 2rem;"><h3>Chapter 1: For Christ</h3></a>
+            <a href="lesson.html?module=2" class="card" style="padding: 2rem;"><h3>Chapter 2: Christ Leads</h3></a>
+        </div>
+    </section>
 </body>
 </html>
