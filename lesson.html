@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>AMASSED • Classroom Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #D4A853; --orange: #f97316; --black: #050505; }
         body { background: var(--black); color: white; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 320px; background: #0a0a0a; border-right: 1px solid #222; display: flex; flex-direction: column; }
-        #content { flex: 1; display: flex; flex-direction: column; background: #000; }
-        .header-tools { padding: 1rem 2rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
-        .search-input { background: #111; border: 1px solid #333; color: white; padding: 10px 20px; border-radius: 30px; width: 300px; }
-        .ebook-container { flex: 1; overflow-y: auto; padding: 4rem; scroll-behavior: smooth; }
-        .reading-width { max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.2rem; color: #ccc; }
+        #sidebar { width: 300px; background: #0a0a0a; border-right: 1px solid #222; display: flex; flex-direction: column; }
+        #content { flex: 1; display: flex; flex-direction: column; background: #000; position: relative; }
+        .header-tools { padding: 1rem 2rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #050505; z-index: 10; }
+        .search-input { background: #111; border: 1px solid #333; color: white; padding: 10px 20px; border-radius: 30px; width: 40%; }
+        /* Scrollable eBook Box */
+        .ebook-container { flex: 1; overflow-y: auto; padding: 4rem 2rem; scroll-behavior: smooth; }
+        .reading-width { max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.25rem; color: #ddd; }
         .audio-dock { padding: 1.5rem 3rem; background: rgba(10,10,10,0.98); border-top: 1px solid var(--gold); display: flex; align-items: center; justify-content: space-between; }
-        .jump-select { background: #111; color: var(--gold); border: 1px solid var(--gold); padding: 8px; border-radius: 5px; font-weight: bold; }
+        .jump-select { background: #111; color: var(--gold); border: 1px solid var(--gold); padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .nav-item { padding: 1rem 2rem; border-bottom: 1px solid #111; cursor: pointer; color: #777; transition: 0.3s; }
+        .nav-item.active { background: #111; color: var(--gold); border-left: 4px solid var(--gold); }
     </style>
 </head>
 <body>
@@ -24,42 +28,50 @@
     <main id="content">
         <header class="header-tools">
             <input type="text" id="search" class="search-input" placeholder="Search eBook material..." onkeyup="searchContent()">
-            <select id="jumpMenu" class="jump-select" onchange="loadModule(this.value)"></select>
+            <select id="jumpMenu" class="jump-select" onchange="loadModule(parseInt(this.value))"></select>
         </header>
         <div class="ebook-container" id="scroller">
             <div class="reading-width">
-                <h1 id="mTitle" style="color:var(--gold); font-family:'Playfair Display'; font-size: 3rem;"></h1>
+                <h1 id="mTitle" style="color:var(--gold); font-family:'Playfair Display'; font-size: 3.5rem; margin-bottom: 2rem;"></h1>
                 <div id="mBody"></div>
             </div>
         </div>
         <div class="audio-dock">
-            <div><span id="aTitle" style="color:var(--gold); font-weight:bold;"></span><br><small>Audio Companion Active</small></div>
-            <button id="playBtn" onclick="toggleAudio()" style="background:var(--gold); padding: 15px 30px; border:none; border-radius:8px; font-weight:900; cursor:pointer;">PLAY AUDIO</button>
+            <div id="playerChapterInfo"><span id="aTitle" style="color:var(--gold); font-weight:bold;"></span><br><small style="color:#555;">Audio Companion Active</small></div>
+            <button id="playBtn" onclick="toggleAudio()" style="background:var(--gold); padding: 12px 30px; border:none; border-radius:8px; font-weight:900; cursor:pointer; color: black;">PLAY AUDIO</button>
         </div>
     </main>
     <script src="curriculum_data.js"></script>
     <script>
         let audio = null;
-        let currentMod = 0;
+        let currentModId = 0;
         function loadModule(id) {
-            currentMod = id;
+            currentModId = id;
             const data = MODULE_DATA[id];
             document.getElementById('mTitle').innerText = data.title;
             document.getElementById('aTitle').innerText = data.title;
             document.getElementById('mBody').innerHTML = data.content;
             document.getElementById('scroller').scrollTop = 0;
+            document.getElementById('jumpMenu').value = id;
             if(audio) { audio.pause(); audio = null; }
             audio = new Audio(data.audio);
             document.getElementById('playBtn').innerText = 'PLAY AUDIO';
+            document.querySelectorAll('.nav-item').forEach((el, idx) => el.classList.toggle('active', idx === id));
         }
         function toggleAudio() {
             if (audio.paused) { audio.play(); document.getElementById('playBtn').innerText = 'PAUSE'; }
             else { audio.pause(); document.getElementById('playBtn').innerText = 'PLAY'; }
         }
+        function searchContent() {
+            let val = document.getElementById('search').value.toLowerCase();
+            if(val.length < 3) { document.getElementById('mBody').innerHTML = MODULE_DATA[currentModId].content; return; }
+            let regex = new RegExp(val, 'gi');
+            document.getElementById('mBody').innerHTML = MODULE_DATA[currentModId].content.replace(regex, m => `<mark style="background:var(--orange); color:black;">${m}</mark>`);
+        }
         const list = document.getElementById('moduleList');
         const jump = document.getElementById('jumpMenu');
         MODULE_DATA.forEach((mod, index) => {
-            list.innerHTML += `<div onclick="loadModule(${index})" style="padding:1rem 2rem; border-bottom:1px solid #111; cursor:pointer;">${mod.title}</div>`;
+            list.innerHTML += `<div class="nav-item" onclick="loadModule(${index})">${mod.title}</div>`;
             jump.innerHTML += `<option value="${index}">${mod.title}</option>`;
         });
         loadModule(0);
