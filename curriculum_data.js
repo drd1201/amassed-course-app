@@ -1,1 +1,28 @@
-const MODULE_PAGES = {"0": ["<div class='vid-wrap'><iframe src='https://www.youtube.com/embed/l--hVwx4CDM' allowfullscreen></iframe></div><h2 class='reveal'>Introduction</h2><p class='reveal'>Why laugh? Heard a short video on the joy of the Lord is our strength? Made me remember, that is recount, which in working with learners (disciples), is the time to recertify, which is an old but very true Newspaper writer saying: 'Tell them, then tell them what you told them, then tell them once more memorably.' Huh? How do you make a three time repeat interesting? Remember your first...? In my pretty boring, unexciting, calm life; I've been fired lots of times. Sometimes it was on me, sometimes, it was on them- now, watch this one- it's gonna 'get'cha', sometimes it was on God. Ooh that'll make some folk 'get-on-up'. But watch this: John 9:1-3 As he went along, he saw a man blind from birth. 2 His disciples asked him, 'Rabbi, who sinned, this man or his parents, that he was born blind?' 3 'Neither this man nor his parents sinned,' said Jesus, 'but this happened so that the works of God might be displayed in him.' God is doing, in your life, you may or, may not be aware of that- when you look back, and count the times that's recounting, remember, recount and recertify is a process with learners(disciples), that as you catch on, you catch on.</p>", "... 17 more pages on GitHub ..."], "1": ["<h2 class='reveal'>Chapter One - We Battle For Christ</h2><p class='reveal'>There is something going on today in our culture that is so destructive. And so contemptible and so dangerous, and yet so hidden that the maliciousness of it is subtle, so subtle? Matthew 10: 28. Matthew wrote in his gospel that Jesus said don't fear them which killed the body. But rather fear the one who can destroy both. You know, don't fear those which kill the body, but are not able to kill the soul, but rather fear Him, which is able to destroy both soul and body in hell. Now That's not our normal perspective. Oh, thanks to our culture today, you have a very pervasive, let's say preaching of the God of love, which is true, that's how God defines Himself, but YehWeh, JosHua, Elohim; that God; said in the Old Testament to the Prophets, that his ways aren't our ways. His thoughts aren't our thoughts. He's as far distant, from the way that we humans are as is an unimaginably distant way; unavailable thought we can't conceive of God, the Father.</p>"], "2": ["<h2 class='reveal'>Chapter Two - Christ Leads, Always</h2><p class='reveal'>Recounting His leadership with accuracy, joy, and transparency. Every peak has a purpose, and every valley has a story. God doesn’t waste a single step of your journey. Scars are proof of healing. Don't be afraid to lead with your scars. An open wound is a mess, but a scar is a story of victory. When you recount how God healed you, you give others permission to believe He can heal them too.</p>"], "3": ["<h2 class='reveal'>Chapter Three - Back — Bring Them</h2><p class='reveal'>The ministry of Recertification. Making known the presence of Christ so clearly that hearts are brought back to Him through Language, Sacrifice, and Love. The story of Red the Elder serves as a stark reminder of the urgency of recertification. We cannot wait to tell the story. We cannot wait to reconcile. The mission of bringing them back is NOW.</p>"], "4": ["<h2 class='reveal'>Chapter Four - Practice, Always</h2><p class='reveal'>The Journey Out of the Cave. Moving from the deepest, darkest spot in a cave toward the radiant sunlight of the entrance. It is a series of deliberate, practiced steps. Spiritual maturity is not knowing more. It is practicing more of what you already know.</p>"], "5": ["<h2 class='reveal'>Chapter Five - What About Us?</h2><p class='reveal'>The 14 Leadership Traits. Evaluation of the character of a Christ-centered leader. Integrity is the Prime Factor. We conclude with the Chopstick moment – a reminder that God is in the details. True leadership is found in the smallest acts of care and the most hidden moments of integrity.</p>"]};
+// curriculum_data.js - The "Fuel" for your Lesson Portal
+const MODULE_PAGES = [
+    // Module 0: Introductory Essentials
+    [
+        `<div class='reveal visible'>
+            <div class='vid-wrap'>
+                <iframe src='https://www.youtube.com/embed/l--hVwx4CDM' allowfullscreen></iframe>
+            </div>
+            <h2 class='reveal visible'>Welcome to AMASSED</h2>
+            <p class='reveal visible'>This is the starting point of your leadership journey. Ground your faith and prepare for the mission ahead as we explore the core tenets of Battlefield Discipleship.</p>
+        </div>`
+    ],
+    // Module 1: Chapter 1: For Christ
+    [
+        `<div class='reveal visible'>
+            <h2 class='reveal visible'>Chapter 1: For Christ</h2>
+            <p class='reveal visible'>Everything we build stands on this single foundation. If your mission and your leadership are not for Him, they are for nothing.</p>
+        </div>`
+    ],
+    // Module 2: Chapter 2: Christ Leads, Always
+    [
+        `<div class='reveal visible'>
+            <h2 class='reveal visible'>Chapter 2: Christ Leads, Always</h2>
+            <p class='reveal visible'>Practical authority. Learning to follow His lead in every tactical and personal decision.</p>
+        </div>`
+    ]
+    // Add more chapters as needed following this same pattern
+];
