@@ -13,7 +13,7 @@
         .reading-width { max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.25rem; color: #ccc; }
         .audio-player { padding: 1.5rem 3rem; background: #111; border-top: 1px solid var(--gold); display: flex; align-items: center; justify-content: space-between; }
         .jump-select { background: #111; color: var(--gold); border: 1px solid var(--gold); padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .nav-item { padding: 1rem 2rem; border-bottom: 1px solid #111; cursor: pointer; color: #777; }
+        .nav-item { padding: 1rem 2rem; border-bottom: 1px solid #111; cursor: pointer; color: #777; transition: 0.3s; }
         .nav-item.active { background: #111; color: var(--gold); border-left: 4px solid var(--gold); }
     </style>
 </head>
@@ -60,34 +60,11 @@
         }
         function searchContent() {
             let val = document.getElementById('search').value.toLowerCase();
+            if(val.length < 3) { document.getElementById('bodyText').innerHTML = MODULE_DATA[currentIdx].content; return; }
             document.getElementById('bodyText').innerHTML = MODULE_DATA[currentIdx].content.replace(new RegExp(val, 'gi'), m => `<mark style="background:var(--orange); color:black;">${m}</mark>`);
         }
         MODULE_DATA.forEach((mod, index) => {
             document.getElementById('moduleList').innerHTML += `<div class="nav-item" onclick="loadModule(${index})">${mod.title}</div>`;
-            document.getElementById('jumpMenu').innerHTML += `<option value="${index}">${mod.title}</option>`;
-        });
-        loadModule(0);
-    </script>
-</body>
-</html>        <div class="audio-player">
-            <div id="audioTitle" style="color:var(--gold); font-weight:bold;">Chapter Audio</div>
-            <button onclick="toggleAudio()" style="background:var(--gold); padding: 15px 30px; border:none; border-radius:8px; font-weight:900; cursor:pointer;">PLAY AUDIO</button>
-        </div>
-    </main>
-    <script src="curriculum_data.js"></script>
-    <script>
-        let audio = null;
-        function loadModule(id) {
-            const data = MODULE_DATA[id];
-            document.getElementById('title').innerText = data.title;
-            document.getElementById('bodyText').innerHTML = data.content;
-            document.getElementById('scroller').scrollTop = 0;
-            if(audio) audio.pause();
-            audio = new Audio(data.audio);
-        }
-        // Build navigation from the NotebookLM data file
-        MODULE_DATA.forEach((mod, index) => {
-            document.getElementById('moduleList').innerHTML += `<div onclick="loadModule(${index})" style="padding:1rem 2rem; border-bottom:1px solid #111; cursor:pointer;">${mod.title}</div>`;
             document.getElementById('jumpMenu').innerHTML += `<option value="${index}">${mod.title}</option>`;
         });
         loadModule(0);
