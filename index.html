@@ -3,54 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMASSED — Learner Portal</title>
+    <title>AMASSED — Battlefield Discipleship</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --orange: #f97316; --gold: #D4A853; --black: #050505; }
         body { background: var(--black); color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        
+        /* Navigation */
         .nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(5,5,5,0.9); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid #222; box-sizing: border-box; }
         .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--orange); font-weight: 900; text-decoration: none; text-shadow: 0 0 15px rgba(249, 115, 22, 0.5); }
-        .hero { height: 60vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--gold); text-shadow: 0 0 40px rgba(212, 168, 83, 0.3); }
+
+        /* Hero */
+        .hero { height: 70vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #000; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--gold); text-shadow: 0 0 40px rgba(212, 168, 83, 0.3); z-index: 10; }
+
+        /* The Grid & Glow */
         .section { padding: 80px 2rem; max-width: 1400px; margin: 0 auto; text-align: center; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; }
-        /* Glowing Card with Backlight */
         .card { 
             background: #0f0f0f; border-radius: 20px; border: 1px solid #222; overflow: hidden; transition: 0.5s; text-decoration: none; color: white; position: relative;
-            box-shadow: 0 0 5px rgba(0,0,0,1);
         }
         .card:hover { 
             transform: translateY(-15px); border-color: var(--orange); 
-            box-shadow: 0 0 30px rgba(249, 115, 22, 0.4); /* The Backlight Glow */
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.4); /* Backlight effect */
         }
         .card-img { aspect-ratio: 3/4; overflow: hidden; background: #000; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; opacity: 0.8; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
         .card:hover .card-img img { opacity: 1; transform: scale(1.05); }
-        .card-info { padding: 2rem; background: #0f0f0f; }
+        .card-info { padding: 2rem; }
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <a href="#" class="nav-logo">AMASSED</a>
-        <a href="lesson.html?module=0" style="background:var(--orange); color:black; padding:0.8rem 1.6rem; border-radius:8px; font-weight:900; text-decoration:none;">ENTER PORTAL</a>
-    </nav>
+    <nav class="nav"><a href="#" class="nav-logo">AMASSED</a></nav>
     <section class="hero"><h1 class="hero-title">AMASSED</h1></section>
     <section class="section">
-        <h2 style="font-family: 'Playfair Display'; font-size: 3rem; color: var(--gold); margin-bottom: 50px;">Course Editions</h2>
         <div class="grid">
             <a href="lesson.html?module=0" class="card">
-                <div class="card-img"><img src="img/cover-populace.png?v=2" alt="Populace"></div>
+                <div class="card-img"><img src="img/cover-populace.png" alt="Populace Edition"></div>
                 <div class="card-info"><h3>Populace</h3></div>
             </a>
-            <a href="lesson.html?module=0" class="card">
-                <div class="card-img"><img src="img/cover-youth.png?v=2" alt="Youth"></div>
-                <div class="card-info"><h3>Youth Ministry</h3></div>
-            </a>
-            <a href="lesson.html?module=0" class="card">
-                <div class="card-img"><img src="img/cover-mid.png?v=2" alt="Legacy"></div>
-                <div class="card-info"><h3>Legacy</h3></div>
-            </a>
-        </div>
+            </div>
     </section>
 </body>
 </html>
