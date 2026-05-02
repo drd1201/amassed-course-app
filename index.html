@@ -1,15 +1,56 @@
-<style>
-    .hero { 
-        height: 100vh; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        position: relative; 
-        background-color: #f0f0f0; 
-        /* REMOVED 'img/' BECAUSE THE FILE IS IN THE ROOT */
-        background-image: url('Amassed1.png') !important;
-        background-size: cover; 
-        background-position: center; 
-        background-repeat: no-repeat; 
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMASSED • Battlefield Discipleship</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <style>
+        :root { --orange: #f97316; --dark: #050505; }
+        body, html { margin: 0; padding: 0; background: #fff; color: var(--dark); font-family: 'Inter', sans-serif; height: 100%; width: 100%; }
+
+        .nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; box-sizing: border-box; }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); font-weight: 900; text-decoration: none; letter-spacing: 2px; }
+        .nav-cta { background: var(--orange); color: white; padding: 0.8rem 1.6rem; border-radius: 8px; font-weight: 900; text-decoration: none; }
+
+        .hero { 
+            height: 100vh; 
+            width: 100%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            background-color: #f0f0f0;
+            /* USING AN EXTERNAL RELIABLE SOURCE TO BYPASS GITHUB ERRORS */
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+
+        .hero-overlay { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.2); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; text-align: center; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 7rem); margin: 0; text-transform: uppercase; color: var(--dark); }
+        .hero-tag { color: var(--orange); font-weight: 900; letter-spacing: 8px; text-transform: uppercase; margin-top: 1rem; font-size: 1.2rem; }
+
+        .section { padding: 80px 2rem; text-align: center; }
+        .btn-portal { background: var(--orange); color: white; padding: 1.5rem 3.5rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-block; font-size: 1.2rem; box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3); transition: 0.3s; }
+        .btn-portal:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(249, 115, 22, 0.5); }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="#" class="nav-logo">AMASSED</a>
+        <a href="lesson.html?page=0" class="nav-cta">MY JOURNEY</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">AMASSED</h1>
+            <p class="hero-tag">Remember • Recount • Recertify</p>
+            <a href="lesson.html?page=0" class="btn-portal" style="margin-top: 3rem;">START THE STRATEGIC WALK</a>
+        </div>
+    </section>
+</body>
+</html>
