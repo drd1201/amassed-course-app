@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amassed | Begin Your Journey</title>
     <style>
-        /* Tactical & Clean Aesthetic */
+        /* Modern, High-End Cinematic Style */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4; /* Light theme base */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #fff;
         }
 
-        /* Video Background Container */
+        /* Background Video / Image */
         .video-bg {
             position: fixed;
             right: 0;
@@ -26,67 +27,73 @@
             min-width: 100%;
             min-height: 100%;
             z-index: -1;
-            filter: brightness(0.7);
+            filter: brightness(0.6);
+            object-fit: cover;
         }
 
+        /* Hero Container */
         .hero-content {
             text-align: center;
             z-index: 1;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
         }
 
         h1 {
-            font-size: 3rem;
-            color: #333;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+            font-size: 3.5rem;
+            margin: 0;
+            letter-spacing: 8px;
+            font-weight: 200;
+            text-transform: uppercase;
         }
 
         p {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 30px;
+            font-size: 1.1rem;
+            margin: 20px 0 40px;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 1.5px;
         }
 
-        /* The Journey Button */
+        /* The Gateway Button */
         .journey-btn {
-            padding: 18px 40px;
-            font-size: 1.25rem;
-            font-weight: bold;
+            padding: 18px 45px;
+            font-size: 1rem;
+            font-weight: 600;
             text-transform: uppercase;
-            background-color: #222;
-            color: #fff;
+            letter-spacing: 2px;
+            background-color: #fff;
+            color: #000;
             border: none;
-            border-radius: 50px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .journey-btn:hover {
-            background-color: #444;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background-color: #ddd;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .journey-btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <video autoplay muted loop class="video-bg">
+    <video autoplay muted loop playsinline class="video-bg">
         <source src="img/background-video.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
     </video>
 
     <div class="hero-content">
         <h1>AMASSED</h1>
-        <p>The Journey into Leadership Begins Here.</p>
+        <p>A Shift in Leadership Paradigm</p>
         
         <button onclick="handleStartJourney()" class="journey-btn">
             Begin Journey
@@ -94,15 +101,11 @@
     </div>
 
     <script>
-        /**
-         * Logic: Redirect to Payhip Paywall/Donation
-         * Replace the URL below with your actual Payhip Product Link
-         */
         function handleStartJourney() {
-            // Replace 'YOUR_PRODUCT_ID' with your Payhip link ID
+            // Replace with your specific Payhip link
             const paywallUrl = "https://payhip.com/b/YOUR_PRODUCT_ID"; 
             
-            // Sends the user to the donation page
+            // Redirect logic
             window.location.href = paywallUrl;
         }
     </script>
