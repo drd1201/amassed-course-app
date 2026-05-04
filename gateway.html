@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vision • AMASSED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <style>
+        :root { --orange: #f97316; --dark: #050505; }
+        body { background: #fff; color: var(--dark); font-family: 'Inter', sans-serif; margin: 0; padding: 0; text-align: center; }
+        
+        .container { max-width: 800px; margin: 100px auto; padding: 2rem; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; }
+        p { line-height: 1.6; color: #555; font-size: 1.1rem; margin-bottom: 2rem; }
+
+        /* Video Container */
+        .video-wrapper { 
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; 
+            border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 3rem;
+            background: #000;
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        /* Payment Section */
+        .pay-box { background: #f9f9f9; padding: 3rem; border-radius: 12px; border: 1px solid #eee; }
+        .btn-pay { 
+            background: var(--orange); color: white; padding: 1.2rem 2.5rem; 
+            border-radius: 50px; font-weight: 900; text-decoration: none; 
+            display: inline-block; font-size: 1.1rem; transition: 0.3s;
+            border: none; cursor: pointer;
+        }
+        .btn-pay:hover { transform: scale(1.05); background: #ea580c; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Why We Created AMASSED</h1>
+        <p>Before you enter the Strategic Hub, please watch this short briefing on the mission ahead.</p>
+
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+        </div>
+
+        <div class="pay-box">
+            <h3>Support the Mission</h3>
+            <p>Access to the NotebookLM Strategic Intelligence is donation-based. We suggest $5.02 to help maintain the infrastructure, or any amount you feel led to give.</p>
+            
+            <a href="https://www.paypal.com/donate/?hosted_button_id=YOUR_ID" target="_blank" class="btn-pay" onclick="showAccessButton()">DONATE & GAIN ACCESS</a>
+
+            <div id="access-link" style="display:none; margin-top: 2rem;">
+                <p>Thank you for your support.</p>
+                <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" class="btn-pay" style="background:#000;">ENTER THE NOTEBOOK HUB</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAccessButton() {
+            // This shows the Notebook link after they click donate
+            setTimeout(() => {
+                document.getElementById('access-link').style.display = 'block';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
