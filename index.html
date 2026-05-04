@@ -3,112 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amassed | Begin Your Journey</title>
+    <title>AMASSED • Battlefield Discipleship</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
-        /* Modern, High-End Cinematic Style */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #000;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
+        :root { --orange: #f97316; --dark: #050505; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+        .hero { 
+            height: 100vh; 
+            width: 100%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            /* THE BACKGROUND FIX */
+            background: #fff url('bg.png') no-repeat center center;
+            background-size: cover; 
         }
 
-        /* Background Video / Image */
-        .video-bg {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-            filter: brightness(0.6);
-            object-fit: cover;
-        }
+        .nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-sizing: border-box; }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--dark); font-weight: 900; text-decoration: none; letter-spacing: 2px; }
+        .nav-cta { background: var(--orange); color: white; padding: 0.8rem 1.6rem; border-radius: 8px; font-weight: 900; text-decoration: none; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
 
-        /* Hero Container */
-        .hero-content {
-            text-align: center;
-            z-index: 1;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            letter-spacing: 8px;
-            font-weight: 200;
-            text-transform: uppercase;
-        }
-
-        p {
-            font-size: 1.1rem;
-            margin: 20px 0 40px;
-            color: rgba(255, 255, 255, 0.7);
-            letter-spacing: 1.5px;
-        }
-
-        /* The Gateway Button */
-        .journey-btn {
-            padding: 18px 45px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background-color: #fff;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .journey-btn:hover {
-            background-color: #ddd;
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .journey-btn:active {
-            transform: scale(0.98);
-        }
+        .hero-content { position: relative; z-index: 10; text-align: center; background: rgba(255,255,255,0.85); padding: 4rem; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px); }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 5rem); margin: 0; text-transform: uppercase; line-height: 1; }
+        .hero-tag { color: var(--orange); font-weight: 900; letter-spacing: 6px; text-transform: uppercase; margin-top: 1rem; font-size: 1rem; }
+        
+        .btn-start { background: var(--orange); color: white; padding: 1.2rem 2.5rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-block; margin-top: 2.5rem; font-size: 1.1rem; transition: 0.3s; box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4); }
+        .btn-start:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(249, 115, 22, 0.6); }
     </style>
 </head>
 <body>
+    <nav class="nav">
+        <a href="#" class="nav-logo">AMASSED</a>
+        <a href="lesson.html?page=0" class="nav-cta">MY JOURNEY</a>
+    </nav>
 
-    <video autoplay muted loop playsinline class="video-bg">
-        <source src="img/background-video.mp4" type="video/mp4">
-    </video>
-
-    <div class="hero-content">
-        <h1>AMASSED</h1>
-        <p>A Shift in Leadership Paradigm</p>
-        
-        <button onclick="handleStartJourney()" class="journey-btn">
-            Begin Journey
-        </button>
-    </div>
-
-    <script>
-        function handleStartJourney() {
-            // Replace with your specific Payhip link
-            const paywallUrl = "https://payhip.com/b/YOUR_PRODUCT_ID"; 
-            
-            // Redirect logic
-            window.location.href = paywallUrl;
-        }
-    </script>
-
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">AMASSED</h1>
+            <p class="hero-tag">Remember • Recount • Recertify</p>
+            <a href="gateway.html" class="btn-start">START THE STRATEGIC WALK</a>
+        </div>
+    </section>
 </body>
 </html>
