@@ -11,38 +11,37 @@
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
             font-family: 'Inter', sans-serif;
-            background: #f0f0f0 url('bg.png') no-repeat center center fixed;
+            background: #fff url('bg.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        /* Frosted Glass Panel */
-        .panel-overlay {
+        .main-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            padding: 40px 20px;
+            background: rgba(255,255,255,0.2); /* Soft blend with background image */
+            backdrop-filter: blur(5px);
+            padding: 20px;
         }
 
-        .briefing-card {
-            background: rgba(255, 255, 255, 0.95);
+        .briefing-panel {
+            background: rgba(255, 255, 255, 0.9);
             max-width: 900px;
             width: 100%;
-            border-radius: 24px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.15);
             padding: 3rem;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; color: var(--dark); text-transform: uppercase; }
-        .tagline { color: var(--orange); font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2rem; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; color: var(--dark); text-transform: uppercase; }
+        .briefing-tag { color: var(--orange); font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin-top: 0.5rem; margin-bottom: 2.5rem; }
 
-        .video-container {
+        .video-box {
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             border-radius: 12px;
             overflow: hidden;
@@ -50,70 +49,81 @@
             margin-bottom: 2.5rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        .instruction-text { color: #555; line-height: 1.6; font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .instruction-p { color: #555; line-height: 1.6; font-size: 1.1rem; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto; }
 
-        /* Actions */
-        .action-group { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+        /* The Access Control Area */
+        .gateway-actions { 
+            background: #fcfcfc; 
+            padding: 2rem; 
+            border-radius: 12px; 
+            border: 1px solid #eee; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 1.5rem;
+        }
 
-        .btn-pay {
-            background: var(--orange);
-            color: white;
-            padding: 1.5rem 3.5rem;
-            border-radius: 50px;
-            font-weight: 900;
-            text-decoration: none;
-            font-size: 1.2rem;
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
+        .btn-donate { 
+            background: var(--orange); 
+            color: white; 
+            padding: 1.2rem 2.5rem; 
+            border-radius: 50px; 
+            font-weight: 900; 
+            text-decoration: none; 
+            font-size: 1.1rem; 
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+            border: none;
+            cursor: pointer;
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .btn-pay:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(249, 115, 22, 0.6); }
+        .btn-donate:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(249, 115, 22, 0.6); }
 
-        .portal-access {
+        .btn-access {
+            display: none; /* Hidden until donation clicked */
             margin-top: 1rem;
-            color: #888;
-            font-size: 0.9rem;
-            text-decoration: underline;
+            color: var(--orange);
+            font-weight: 900;
+            text-decoration: none;
             cursor: pointer;
             transition: 0.3s;
         }
-        .portal-access:hover { color: var(--dark); }
+        .btn-access:hover { text-decoration: underline; }
 
     </style>
 </head>
 <body>
 
-    <div class="panel-overlay">
-        <div class="briefing-card">
+    <div class="main-container">
+        <div class="briefing-panel">
             <h1>AMASSED</h1>
-            <div class="tagline">Mission Briefing</div>
+            <div class="briefing-tag">Strategic Gateway</div>
 
-            <div class="video-container">
+            <div class="video-box">
                 <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0" allowfullscreen></iframe>
             </div>
 
-            <p class="instruction-text">
-                To proceed to the <strong>NotebookLM Strategic Intelligence Hub</strong>, please support the mission. 
-                Your contribution ensures the continued development and hosting of the AMASSED curriculum.
+            <p class="instruction-p">
+                Before accessing the core intelligence hub, please support the mission. This curriculum relies on donations—we suggest $5.02 to cover infrastructure costs, or any amount you feel is appropriate.
             </p>
 
-            <div class="action-group">
-                <a href="https://www.paypal.com/ncp/payment/8M9SA2UPWHF6C" target="_blank" class="btn-pay" onclick="enablePortal()">DONATE & ACTIVATE HUB</a>
+            <div class="gateway-actions">
+                <a href="https://www.paypal.com/ncp/payment/8M9SA2UPWHF6C" target="_blank" class="btn-donate" onclick="activateHubLink()">DONATE & ACTIVATE HUB</a>
                 
-                <div id="hidden-portal" style="display: none;">
-                    <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" class="portal-access">Already donated? Click here to enter the Hub.</a>
-                </div>
+                <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" class="btn-access" id="notebook-link">ACCESS THE NOTEBOOKLM HUB</a>
             </div>
         </div>
     </div>
 
     <script>
-        function enablePortal() {
-            // Reveals the direct entry link after they click to pay
+        function activateHubLink() {
+            // Reveals the direct NotebookLM entry button after they click to donate
             setTimeout(() => {
-                document.getElementById('hidden-portal').style.display = 'block';
-            }, 3000);
+                const link = document.getElementById('notebook-link');
+                link.style.display = 'block';
+                link.innerHTML = 'Payment initiated? Click here to access the Hub.';
+            }, 3000); // 3-second delay feels natural
         }
     </script>
 
