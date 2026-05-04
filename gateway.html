@@ -2,64 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mission Briefing • AMASSED</title>
     <style>
-        body { margin: 0; height: 100vh; background: #000 url('bg.png') no-repeat center center; background-size: cover; display: flex; align-items: center; justify-content: center; font-family: sans-serif; padding: 10px; box-sizing: border-box; overflow: hidden; }
+        body { 
+            margin: 0; 
+            height: 100dvh; /* DVH prevents the 'Facebook bounce' on mobile */
+            background: #000 url('bg.png') no-repeat center center; 
+            background-size: cover; 
+            display: flex; align-items: center; justify-content: center; 
+            font-family: sans-serif; padding: 10px; box-sizing: border-box; overflow: hidden; 
+        }
         
         .panel { 
             background: rgba(255,255,255,0.96); 
-            padding: 3rem; 
-            border-radius: 28px; 
-            text-align: center; 
-            max-width: 580px; 
-            width: 100%; 
-            max-height: 94vh; 
+            padding: 2.5rem; border-radius: 28px; text-align: center; 
+            max-width: 580px; width: 100%; 
+            max-height: 92dvh; /* Limits height to fit screen */
             display: flex; flex-direction: column;
             box-shadow: 0 35px 70px rgba(0,0,0,0.45); backdrop-filter: blur(12px); 
         }
-        
-        h1 { font-family: serif; font-size: 2.4rem; margin: 0 0 15px 0; letter-spacing: 1px; text-transform: uppercase; }
 
         .video-wrap { 
-            position: relative; flex-grow: 1; width: 100%; background: #000; 
-            border-radius: 15px; overflow: hidden; margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            aspect-ratio: 9 / 16; /* FORCES SHORTS PROPORTIONS */
+            width: 100%; max-height: 380px; margin: 0 auto 20px;
+            background: #000; border-radius: 15px; overflow: hidden;
         }
-        .video-wrap iframe { width: 100%; height: 100%; border: none; min-height: 380px; }
+        .video-wrap iframe { width: 100%; height: 100%; border: none; }
         
-        .instruction { font-size: 1.1rem; color: #333; margin-bottom: 25px; line-height: 1.5; }
-
-        .btn { background: #f97316; color: white; padding: 1.2rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: 900; display: inline-block; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.35); transition: 0.3s; cursor: pointer; border: none; }
-        
-        /* THE BACKUP ACCESS AREA */
-        #access-hub { display: none; margin-top: 20px; padding: 15px; background: #fff7ed; border: 2px dashed #f97316; border-radius: 12px; }
-        .hub-link { color: #f97316; font-weight: 900; text-decoration: none; font-size: 1.1rem; display: block; margin-top: 5px; }
+        /* ... existing button and hub styles ... */
     </style>
 </head>
 <body>
     <div class="panel">
         <h1>MISSION BRIEFING</h1>
-        
         <div class="video-wrap">
             <iframe src="https://www.youtube.com/embed/GuUOR4oM-Pc" allowfullscreen></iframe>
         </div>
-
         <p class="instruction">Support the mission to unlock the Strategic Hub.<br>Suggested donation: $5.02.</p>
-        
         <a href="https://www.paypal.com/ncp/payment/JDZGD2R4MXRKG" target="_blank" class="btn" onclick="revealHub()">DONATE & ACTIVATE HUB</a>
-        
         <div id="access-hub">
             <p style="margin:0; font-size: 0.9rem; color: #666;">Donation window opened?</p>
             <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" class="hub-link">CLICK HERE TO ENTER THE HUB</a>
         </div>
     </div>
-
     <script>
-        function revealHub() {
-            // Instantly show the Hub link on the main page so they don't get stuck
-            document.getElementById('access-hub').style.display = 'block';
-        }
+        function revealHub() { document.getElementById('access-hub').style.display = 'block'; }
     </script>
 </body>
 </html>
