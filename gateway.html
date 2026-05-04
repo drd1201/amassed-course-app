@@ -5,20 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Briefing • AMASSED</title>
     <style>
-        body { margin: 0; height: 100dvh; background: #000 url('bg.png?v=3') no-repeat center center; background-size: cover; display: flex; align-items: center; justify-content: center; font-family: sans-serif; padding: 10px; box-sizing: border-box; overflow: hidden; }
+        body { margin: 0; height: 100dvh; background: #000 url('bg.png?v=4') no-repeat center center; background-size: cover; display: flex; align-items: center; justify-content: center; font-family: sans-serif; padding: 10px; box-sizing: border-box; overflow: hidden; }
     </style>
 </head>
 <body>
     <div style="background: rgba(255,255,255,0.96); padding: 2.5rem; border-radius: 28px; text-align: center; max-width: 550px; width: 100%; box-shadow: 0 35px 70px rgba(0,0,0,0.5); backdrop-filter: blur(15px); display: flex; flex-direction: column;">
         <h1 style="font-size: 2.2rem; margin: 0 0 15px 0; text-transform: uppercase;">MISSION BRIEFING</h1>
-        <div style="aspect-ratio: 9/16; width: 100%; max-height: 350px; background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 20px;">
+        
+        <div style="aspect-ratio: 9/16; width: 100%; max-height: 320px; background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 15px;">
             <iframe src="https://www.youtube.com/embed/GuUOR4oM-Pc" style="width: 100%; height: 100%; border: none;"></iframe>
         </div>
-        <p style="font-size: 1rem; color: #333; margin-bottom: 20px; font-weight: bold;">Support the mission to unlock the Strategic Hub.<br>Suggested donation: $5.02.</p>
-        <a href="https://www.paypal.com/ncp/payment/JDZGD2R4MXRKG" target="_blank" style="background-color: #f97316 !important; color: #ffffff !important; padding: 1.2rem 2.2rem; border-radius: 50px; font-weight: 900; text-decoration: none !important; display: inline-block; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);" onclick="document.getElementById('access-hub').style.display = 'block';">DONATE & ACTIVATE HUB</a>
+
+        <p style="font-size: 1rem; color: #333; margin-bottom: 15px; line-height: 1.4;">
+            This work is community-supported. We suggest a donation of <strong>$5.02</strong> to help us scale, but your growth is our priority.
+        </p>
+        
+        <a href="https://www.paypal.com/ncp/payment/JDZGD2R4MXRKG" target="_blank" style="background-color: #f97316 !important; color: #ffffff !important; padding: 1.1rem 2.2rem; border-radius: 50px; font-weight: 900; text-decoration: none !important; display: inline-block; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4); margin-bottom: 10px;" onclick="revealHub()">
+            DONATE & ACTIVATE HUB
+        </a>
+
+        <div style="margin-top: 5px;">
+            <button onclick="revealHub()" style="background: none; border: none; color: #666; text-decoration: underline; cursor: pointer; font-size: 0.9rem; font-family: sans-serif;">
+                Proceed as Guest
+            </button>
+        </div>
+        
         <div id="access-hub" style="display: none; margin-top: 15px; padding: 15px; background: #fff7ed; border: 2px dashed #f97316; border-radius: 12px;">
-            <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" style="color: #f97316 !important; font-weight: 900; text-decoration: underline !important;">CLICK HERE TO ENTER THE HUB</a>
+            <p style="margin: 0 0 5px 0; font-size: 0.85rem; color: #f97316; font-weight: bold;">STRATEGIC HUB UNLOCKED</p>
+            <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" style="color: #000 !important; font-weight: 900; text-decoration: underline !important; font-size: 1.1rem;">CLICK HERE TO ENTER</a>
         </div>
     </div>
+
+    <script>
+        function revealHub() {
+            document.getElementById('access-hub').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
