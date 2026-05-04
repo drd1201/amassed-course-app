@@ -30,9 +30,11 @@
         
         .instruction { font-size: 1.1rem; color: #333; margin-bottom: 25px; line-height: 1.5; }
 
-        .btn { background: #f97316; color: white; padding: 1.2rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: 900; display: inline-block; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.35); transition: 0.3s; }
-        .btn:hover { transform: translateY(-2px); }
-        #access-hub { display: none; margin-top: 15px; color: #f97316; font-weight: bold; cursor: pointer; text-decoration: underline; font-size: 0.95rem; }
+        .btn { background: #f97316; color: white; padding: 1.2rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: 900; display: inline-block; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.35); transition: 0.3s; cursor: pointer; border: none; }
+        
+        /* THE BACKUP ACCESS AREA */
+        #access-hub { display: none; margin-top: 20px; padding: 15px; background: #fff7ed; border: 2px dashed #f97316; border-radius: 12px; }
+        .hub-link { color: #f97316; font-weight: 900; text-decoration: none; font-size: 1.1rem; display: block; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -45,18 +47,18 @@
 
         <p class="instruction">Support the mission to unlock the Strategic Hub.<br>Suggested donation: $5.02.</p>
         
-        <a href="https://www.paypal.com/ncp/payment/8ZCPRZUCXXU58" target="_blank" class="btn" onclick="revealLink()">DONATE & ACTIVATE HUB</a>
+        <a href="https://www.paypal.com/ncp/payment/JDZGD2R4MXRKG" target="_blank" class="btn" onclick="revealHub()">DONATE & ACTIVATE HUB</a>
         
-        <div id="access-hub" onclick="location.href='https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f'">
-            Payment initiated? Click here to enter.
+        <div id="access-hub">
+            <p style="margin:0; font-size: 0.9rem; color: #666;">Donation window opened?</p>
+            <a href="https://notebooklm.google.com/notebook/25e90209-791c-4f6e-9506-aedb0e3cfb2f" class="hub-link">CLICK HERE TO ENTER THE HUB</a>
         </div>
     </div>
 
     <script>
-        function revealLink() {
-            setTimeout(() => {
-                document.getElementById('access-hub').style.display = 'block';
-            }, 3000);
+        function revealHub() {
+            // Instantly show the Hub link on the main page so they don't get stuck
+            document.getElementById('access-hub').style.display = 'block';
         }
     </script>
 </body>
