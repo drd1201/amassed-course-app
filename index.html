@@ -3,107 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMASSED | Strategic Reader</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>AMASSED | Leadership Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { background: #0f0f0f; color: #e0e0e0; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 320px; background: #161616; border-right: 1px solid #2a2a2a; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; }
-        .logo-box { border-bottom: 2px solid #f97316; padding-bottom: 15px; margin-bottom: 25px; }
-        .logo { font-family: 'Playfair Display', serif; color: #f97316; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; display: block; }
+        :root { --primary: #f97316; --bg: #f8f9fa; --sidebar-bg: #ffffff; --text: #333; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        .menu-item { padding: 14px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: all 0.3s; border: 1px solid transparent; background: #1e1e1e; font-size: 0.95rem; color: #aaa; }
-        .menu-item:hover { background: #262626; border-color: #f97316; color: #fff; }
-        .active { background: #f97316; color: white !important; font-weight: bold; }
-
-        #content { flex: 1; display: flex; flex-direction: column; background: #0f0f0f; overflow: hidden; }
-        #header-controls { background: #161616; padding: 30px 50px; border-bottom: 1px solid #2a2a2a; z-index: 10; }
-        #session-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; margin: 0 0 20px 0; }
-        audio { width: 100%; height: 45px; border-radius: 8px; filter: invert(90%) hue-rotate(180deg) brightness(1.2); }
-
-        #text-scroll { flex: 1; padding: 40px 60px; overflow-y: auto; }
-        #text-display { font-size: 1.15rem; line-height: 1.9; color: #d1d1d1; max-width: 800px; margin: 0 auto; white-space: pre-wrap; }
+        /* Sidebar */
+        #sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid #dee2e6; overflow-y: auto; padding: 30px; display: flex; flex-direction: column; }
+        .logo { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 1.8rem; text-decoration: none; margin-bottom: 30px; display: block; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         
-        .status-btn { background: #f97316; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .menu-item { padding: 12px 15px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; background: #fff; border: 1px solid #eee; color: #666; font-size: 0.9rem; }
+        .menu-item:hover { border-color: var(--primary); color: var(--primary); }
+        .active { background: var(--primary); color: white !important; font-weight: 600; border-color: var(--primary); }
+
+        /* Main Content */
+        #content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; }
+        #header-controls { padding: 30px 50px; border-bottom: 1px solid #eee; background: #fff; }
+        #session-title { font-family: 'Playfair Display', serif; font-size: 2rem; margin: 0 0 15px 0; color: #111; }
+        audio { width: 100%; height: 40px; }
+
+        #text-scroll { flex: 1; padding: 40px 60px; overflow-y: auto; line-height: 1.8; font-size: 1.1rem; }
+        #text-display { max-width: 800px; margin: 0 auto; white-space: pre-wrap; color: #444; }
+        
+        .error-msg { color: #dc3545; padding: 20px; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <div class="logo-box">
-        <a href="/" class="logo">AMASSED</a>
-    </div>
-    <div id="menu">
-        <div style="padding: 10px; color: #888;">Connecting to GitHub...</div>
-        <button class="status-btn" onclick="loadContent()">Retry Connection</button>
-    </div>
+    <a href="https://courses.buzzsmart.org" class="logo">AMASSED</a>
+    <div id="menu">Loading sessions...</div>
 </div>
 
 <div id="content">
     <div id="header-controls">
-        <h1 id="session-title">Select a Session</h1>
+        <h1 id="session-title">Welcome to AMASSED</h1>
         <audio id="player" controls src=""></audio>
     </div>
     <div id="text-scroll">
-        <div id="text-display">If the menu on the left is empty, please click the "Retry Connection" button.</div>
+        <div id="text-display">Select a session from the sidebar to begin.</div>
     </div>
 </div>
 
 <script>
-    // --- SETTINGS ---
     const RAW_URL = 'https://raw.githubusercontent.com/drd1201/amassed-course-app/main/Home1.txt';
+    // Using a reliable public proxy to bypass security blocks
     const PROXY_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RAW_URL);
-    const AUDIO_ROOT = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/';
+    const AUDIO_BASE = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/';
 
     let sessions = {};
 
-    async function loadContent() {
-        const menuDiv = document.getElementById('menu');
-        menuDiv.innerHTML = '<div style="color: #f97316;">Fetching data...</div>';
-
+    async function init() {
         try {
-            const response = await fetch(PROXY_URL);
-            if (!response.ok) throw new Error('Failed to reach GitHub.');
-            const text = await response.text();
-
-            // Slicing by [XX] markers
+            const res = await fetch(PROXY_URL);
+            const text = await res.text();
+            
+            // Slice text by markers [00], [01], etc.
             const parts = text.split(/\[(\d+)\]/);
             for (let i = 1; i < parts.length; i += 2) {
                 const id = parts[i].padStart(2, '0');
                 sessions[id] = parts[i+1].trim();
             }
-
-            buildMenu();
-        } catch (err) {
-            menuDiv.innerHTML = '<div style="color:red;">Error: Security Block.</div><button class="status-btn" onclick="loadContent()">Try Again</button>';
+            renderMenu();
+        } catch (e) {
+            document.getElementById('menu').innerHTML = '<div class="error-msg">Connection Refused. Please refresh.</div>';
         }
     }
 
-    function buildMenu() {
+    function renderMenu() {
         const menu = document.getElementById('menu');
-        menu.innerHTML = ''; 
+        menu.innerHTML = '';
         Object.keys(sessions).sort().forEach(id => {
-            const btn = document.createElement('div');
-            btn.className = 'menu-item';
-            btn.innerText = `Session ${id}`;
-            btn.onclick = () => {
-                // UI Updates
+            const div = document.createElement('div');
+            div.className = 'menu-item';
+            div.innerText = `Session ${id}`;
+            div.onclick = () => {
                 document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-                btn.classList.add('active');
+                div.classList.add('active');
                 document.getElementById('session-title').innerText = `Session ${id}`;
                 document.getElementById('text-display').innerText = sessions[id];
                 document.getElementById('text-scroll').scrollTop = 0;
                 
-                // Audio Update
                 const player = document.getElementById('player');
-                player.src = `${AUDIO_ROOT}${id}.mp3`;
+                player.src = `${AUDIO_BASE}${id}.mp3`;
                 player.play();
             };
-            menu.appendChild(btn);
+            menu.appendChild(div);
         });
     }
 
-    window.onload = loadContent;
+    init();
 </script>
-
 </body>
 </html>
