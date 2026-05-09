@@ -3,109 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMASSED • Strategic Reader</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <title>AMASSED | Strategic Reader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root { --orange: #f97316; --dark: #050505; --glass: rgba(255, 255, 255, 0.9); }
-        body { margin: 0; display: flex; height: 100vh; font-family: 'Inter', sans-serif; background: #000; overflow: hidden; }
-
-        .sidebar { 
-            width: 30%; height: 100%; background: var(--glass); 
-            backdrop-filter: blur(15px); border-right: 1px solid rgba(255,255,255,0.3);
-            padding: 2rem; box-sizing: border-box; overflow-y: auto;
-        }
-
-        .reader-container { 
-            width: 70%; height: 100%; padding: 5vh 10%; 
-            box-sizing: border-box; overflow-y: auto; background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(10px);
-        }
-
-        .chapter-btn { 
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1.2rem; background: #fff; border-radius: 12px; margin-bottom: 12px;
-            cursor: pointer; transition: 0.3s; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        .chapter-btn:hover { border-color: var(--orange); transform: translateX(5px); }
-        
-        .play-icon { color: var(--orange); font-size: 1.5rem; }
-        .content-box { max-width: 800px; margin: 0 auto; color: #222; line-height: 1.9; font-size: 1.15rem; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--dark); margin-bottom: 1rem; }
-        
-        .audio-bar {
-            position: sticky; top: 0; background: #fff; padding: 1rem;
-            border-bottom: 2px solid var(--orange); margin-bottom: 2rem;
-            border-radius: 8px; display: flex; align-items: center; gap: 15px;
-            z-index: 100;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #fff; margin: 0; overflow: hidden; }
+        h1 { font-family: 'Playfair Display', serif; }
+        .sidebar { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-right: 1px solid rgba(255,255,255,0.1); }
+        .content-area { background: #ffffff; color: #1a1a1a; }
+        .chapter-btn { transition: all 0.2s; border: 1px solid rgba(255,255,255,0.1); }
+        .chapter-btn:hover { border-color: #f97316; background: rgba(249, 115, 22, 0.1); }
+        .audio-sticky { position: sticky; top: 0; background: #f3f4f6; border-bottom: 3px solid #f97316; z-index: 50; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 2rem;">Course Curriculum</h2>
-        
-        <div class="chapter-btn" onclick="loadData('The Introduction', '00')">
-            <div>
-                <small style="color: var(--orange); font-weight: 900;">START HERE</small>
-                <div style="font-weight: 700;">The Introduction</div>
-            </div>
-            <span class="play-icon">▶</span>
-        </div>
+    <div class="flex h-screen">
+        <aside class="sidebar w-1/3 h-full overflow-y-auto p-6">
+            <h2 class="text-orange-500 font-black tracking-widest text-xs mb-8 uppercase">Amassed Curriculum</h2>
+            
+            <div class="space-y-3">
+                <button onclick="loadSession('00', 'The Introduction')" class="chapter-btn w-full text-left p-4 rounded-xl flex justify-between items-center bg-white/5">
+                    <div>
+                        <div class="text-xs text-orange-500 font-bold">START</div>
+                        <div class="font-bold">The Introduction</div>
+                    </div>
+                    <span class="text-orange-500 text-xl">▶</span>
+                </button>
 
-        <div class="chapter-btn" onclick="loadData('Strategic Session 01', '01')">
-            <div>
-                <small style="color: var(--orange); font-weight: 900;">SESSION 01</small>
-                <div style="font-weight: 700;">Foundations</div>
-            </div>
-            <span class="play-icon">▶</span>
-        </div>
-        
-        <p style="font-size: 0.8rem; color: #666; margin-top: 2rem;">More sessions being populated...</p>
-    </div>
+                <button onclick="loadSession('01', 'Session 01: Foundations')" class="chapter-btn w-full text-left p-4 rounded-xl flex justify-between items-center bg-white/5">
+                    <div>
+                        <div class="text-xs text-orange-500 font-bold">SESSION 01</div>
+                        <div class="font-bold">The Strategic Walk</div>
+                    </div>
+                    <span class="text-orange-500 text-xl">▶</span>
+                </button>
 
-    <div class="reader-container">
-        <div id="player-zone" style="display:none;">
-            <div class="audio-bar">
-                <strong id="now-playing" style="color:var(--orange)">Intro</strong>
-                <audio id="main-audio" controls style="flex-grow:1; height: 35px;"></audio>
-            </div>
-        </div>
+                </div>
+        </aside>
 
-        <div id="content-view" class="content-box">
-            <h1 style="text-align: center; margin-top: 20vh;">Select a Session</h1>
-            <p style="text-align: center; color: #666;">Choose a chapter from the curriculum index to begin the Strategic Walk.</p>
-        </div>
+        <main class="content-area w-2/3 h-full flex flex-col">
+            <div id="player-container" class="hidden audio-sticky p-4 flex items-center gap-4">
+                <div class="text-xs font-black text-orange-600 uppercase w-24 leading-tight" id="playing-title">Intro</div>
+                <audio id="audio-player" controls class="flex-grow h-10 accent-orange-600">
+                    <source src="" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <div class="flex-grow overflow-y-auto p-12 md:p-20" id="text-frame">
+                <div id="welcome-msg" class="h-full flex flex-col justify-center items-center text-center opacity-50">
+                    <h1 class="text-5xl mb-4">AMASSED</h1>
+                    <p class="text-xl italic">Select a session from the menu to begin.</p>
+                </div>
+                <div id="active-text" class="max-w-2xl mx-auto hidden transition-opacity duration-500">
+                    </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        // 1. The Direct Link to your Cloudflare R2 Bucket
-        const audioBaseUrl = "https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/";
+        const r2Url = "https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/";
 
-        // 2. The Text Content mapped to your [00] through [63] markers
-        const amassedContent = {
-            "00": `The Amassed leadership portal is designed to remember, recount, and recertify. This introduction sets the stage for our strategic walk... (Paste your full Intro text here)`,
-            "01": `This is the text for Strategic Session 01, pulled from your Home1.txt file at the [01] marker.`
+        // PASTE YOUR TEXT FROM Home1.txt INSIDE THE BACKTICKS BELOW
+        const sessionData = {
+            "00": `[YOUR INTRODUCTION TEXT FROM HOME1.TXT]`,
+            "01": `[YOUR SESSION 1 TEXT FROM HOME1.TXT]`
         };
 
-        function loadData(title, id) {
-            // Update Title and Text
-            const textContent = amassedContent[id] || "Content is currently being uploaded for this session.";
-            document.getElementById('content-view').innerHTML = `<h1>${title}</h1><div class='chapter-body'>${textContent}</div>`;
+        function loadSession(id, title) {
+            const player = document.getElementById('audio-player');
+            const container = document.getElementById('player-container');
+            const welcome = document.getElementById('welcome-msg');
+            const textDiv = document.getElementById('active-text');
+            const titleDisplay = document.getElementById('playing-title');
+
+            // Set Audio
+            player.src = r2Url + id + ".mp3";
+            titleDisplay.innerText = title;
             
-            // Update Audio
-            const audio = document.getElementById('main-audio');
-            const zone = document.getElementById('player-zone');
-            document.getElementById('now-playing').innerText = title;
+            // Set Text
+            textDiv.innerHTML = `<h1 class="text-4xl font-black mb-8 border-b-4 border-orange-500 pb-4 inline-block">${title}</h1>
+                                 <div class="text-xl leading-loose space-y-6">${sessionData[id] || "Content is currently being uploaded."}</div>`;
+
+            // Reveal UI
+            welcome.classList.add('hidden');
+            container.classList.remove('hidden');
+            textDiv.classList.remove('hidden');
             
-            // Constructs the link: Base URL + 00.mp3, 01.mp3, etc.
-            audio.src = audioBaseUrl + id + ".mp3"; 
-            
-            zone.style.display = 'block';
-            audio.play();
-            
-            // Scroll reader back to top
-            document.querySelector('.reader-container').scrollTop = 0;
+            player.play();
+            document.getElementById('text-frame').scrollTop = 0;
         }
     </script>
 </body>
