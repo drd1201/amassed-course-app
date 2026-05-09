@@ -7,116 +7,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         body { background: #0f0f0f; color: #e0e0e0; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar Menu */
         #sidebar { width: 320px; background: #161616; border-right: 1px solid #2a2a2a; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; }
-        .logo { font-family: 'Playfair Display', serif; color: #f97316; font-size: 1.8rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #f97316; padding-bottom: 10px; }
+        .logo-box { border-bottom: 2px solid #f97316; padding-bottom: 15px; margin-bottom: 25px; }
+        .logo { font-family: 'Playfair Display', serif; color: #f97316; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; display: block; }
         
-        #menu { flex: 1; }
-        .menu-item { padding: 14px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border: 1px solid transparent; background: #1e1e1e; font-size: 0.95rem; color: #aaa; }
+        .menu-item { padding: 14px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: all 0.3s; border: 1px solid transparent; background: #1e1e1e; font-size: 0.95rem; color: #aaa; }
         .menu-item:hover { background: #262626; border-color: #f97316; color: #fff; }
-        .active { background: #f97316; color: white !important; font-weight: bold; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
+        .active { background: #f97316; color: white !important; font-weight: bold; }
 
-        /* Main Content Area */
-        #content { flex: 1; display: flex; flex-direction: column; padding: 0; background: #0f0f0f; overflow: hidden; }
-        
+        #content { flex: 1; display: flex; flex-direction: column; background: #0f0f0f; overflow: hidden; }
         #header-controls { background: #161616; padding: 30px 50px; border-bottom: 1px solid #2a2a2a; z-index: 10; }
         #session-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; margin: 0 0 20px 0; }
-        
-        /* Custom Audio Styling */
         audio { width: 100%; height: 45px; border-radius: 8px; filter: invert(90%) hue-rotate(180deg) brightness(1.2); }
 
-        #text-scroll { flex: 1; padding: 40px 60px; overflow-y: auto; scroll-behavior: smooth; }
-        #text-display { font-size: 1.15rem; line-height: 1.9; color: #d1d1d1; max-width: 800px; margin: 0 auto; white-space: pre-wrap; font-weight: 400; }
+        #text-scroll { flex: 1; padding: 40px 60px; overflow-y: auto; }
+        #text-display { font-size: 1.15rem; line-height: 1.9; color: #d1d1d1; max-width: 800px; margin: 0 auto; white-space: pre-wrap; }
         
-        /* Loading Spinner */
-        .loader { color: #f97316; font-weight: bold; text-align: center; margin-top: 50px; }
+        .status-btn { background: #f97316; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <div class="logo">AMASSED</div>
+    <div class="logo-box">
+        <a href="/" class="logo">AMASSED</a>
+    </div>
     <div id="menu">
-        <div class="loader">Initializing Mission Control...</div>
+        <div style="padding: 10px; color: #888;">Connecting to GitHub...</div>
+        <button class="status-btn" onclick="loadContent()">Retry Connection</button>
     </div>
 </div>
 
 <div id="content">
     <div id="header-controls">
-        <h1 id="session-title">Select a Strategic Walk</h1>
+        <h1 id="session-title">Select a Session</h1>
         <audio id="player" controls src=""></audio>
     </div>
     <div id="text-scroll">
-        <div id="text-display">The leadership curriculum is loading. Please select a session from the left to begin your immersive experience.</div>
+        <div id="text-display">If the menu on the left is empty, please click the "Retry Connection" button.</div>
     </div>
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    // Using a CORS proxy to ensure the "Handshake" with GitHub works perfectly
-    const RAW_GITHUB_URL = 'https://raw.githubusercontent.com/drd1201/amassed-course-app/main/Home1.txt';
-    const TEXT_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RAW_GITHUB_URL);
-    const AUDIO_BASE_URL = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/';
+    // --- SETTINGS ---
+    const RAW_URL = 'https://raw.githubusercontent.com/drd1201/amassed-course-app/main/Home1.txt';
+    const PROXY_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RAW_URL);
+    const AUDIO_ROOT = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/';
 
     let sessions = {};
 
     async function loadContent() {
+        const menuDiv = document.getElementById('menu');
+        menuDiv.innerHTML = '<div style="color: #f97316;">Fetching data...</div>';
+
         try {
-            const response = await fetch(TEXT_URL);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const rawText = await response.text();
-            
-            // This logic finds your [00], [01] markers and slices the text
-            const parts = rawText.split(/\[(\d+)\]/);
-            
-            // Loop through the split parts to pair IDs with Content
+            const response = await fetch(PROXY_URL);
+            if (!response.ok) throw new Error('Failed to reach GitHub.');
+            const text = await response.text();
+
+            // Slicing by [XX] markers
+            const parts = text.split(/\[(\d+)\]/);
             for (let i = 1; i < parts.length; i += 2) {
-                const id = parts[i].padStart(2, '0'); // Ensures '0' becomes '00'
+                const id = parts[i].padStart(2, '0');
                 sessions[id] = parts[i+1].trim();
             }
 
             buildMenu();
         } catch (err) {
-            console.error(err);
-            document.getElementById('menu').innerHTML = "<div style='color:red'>Connection Error. Check Raw URL.</div>";
+            menuDiv.innerHTML = '<div style="color:red;">Error: Security Block.</div><button class="status-btn" onclick="loadContent()">Try Again</button>';
         }
     }
 
     function buildMenu() {
         const menu = document.getElementById('menu');
-        menu.innerHTML = ''; // Clear the loader
-        
-        // Sort IDs numerically and build buttons
+        menu.innerHTML = ''; 
         Object.keys(sessions).sort().forEach(id => {
             const btn = document.createElement('div');
             btn.className = 'menu-item';
             btn.innerText = `Session ${id}`;
-            btn.onclick = () => playSession(id, btn);
+            btn.onclick = () => {
+                // UI Updates
+                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('session-title').innerText = `Session ${id}`;
+                document.getElementById('text-display').innerText = sessions[id];
+                document.getElementById('text-scroll').scrollTop = 0;
+                
+                // Audio Update
+                const player = document.getElementById('player');
+                player.src = `${AUDIO_ROOT}${id}.mp3`;
+                player.play();
+            };
             menu.appendChild(btn);
         });
     }
 
-    function playSession(id, element) {
-        // Update UI states
-        document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
-
-        // Update Title and Text
-        document.getElementById('session-title').innerText = `Strategic Walk: Session ${id}`;
-        document.getElementById('text-display').innerText = sessions[id];
-        
-        // Scroll text back to top
-        document.getElementById('text-scroll').scrollTop = 0;
-        
-        // Update and Play Audio
-        const player = document.getElementById('player');
-        player.src = `${AUDIO_BASE_URL}${id}.mp3`;
-        player.play().catch(e => console.log("Audio play blocked or missing file."));
-    }
-
-    // Start the engine
-    loadContent();
+    window.onload = loadContent;
 </script>
 
 </body>
