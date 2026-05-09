@@ -73,21 +73,33 @@
         </div>
     </div>
 
-    <script>
-        function loadData(title, audioFile, textContent) {
-            // Update Title and Text
-            document.getElementById('content-view').innerHTML = `<h1>${title}</h1><div class='chapter-body'>${textContent}</div>`;
-            
-            // Update and Show Audio
-            const audio = document.getElementById('main-audio');
-            const zone = document.getElementById('player-zone');
-            document.getElementById('now-playing').innerText = title;
-            
-            // Link to your Google Drive MP3 (Requires 'Direct Link' format)
-            audio.src = audioFile; 
-            zone.style.display = 'block';
-            audio.play();
-        }
-    </script>
+<script>
+    // 1. Your Golden Key from Cloudflare
+    const audioBaseUrl = "https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/";
+
+    // 2. Your Content Data (Add more sessions here from Home1.txt)
+    const amassedContent = {
+        "00": `The Introduction text from Home1.txt goes here...`,
+        "01": `Session 1 text goes here...`
+    };
+
+    function loadData(title, audioFile, id) {
+        // Get the text based on the ID (00, 01, etc.)
+        const textContent = amassedContent[id] || "Content loading...";
+        
+        // Update Title and Text in the reader
+        document.getElementById('content-view').innerHTML = `<h1>${title}</h1><div class='chapter-body'>${textContent}</div>`;
+        
+        // Setup the Audio Player
+        const audio = document.getElementById('main-audio');
+        const zone = document.getElementById('player-zone');
+        document.getElementById('now-playing').innerText = title;
+        
+        // Connect to Cloudflare R2
+        audio.src = audioBaseUrl + audioFile; 
+        zone.style.display = 'block';
+        audio.play();
+    }
+</script>
 </body>
 </html>
