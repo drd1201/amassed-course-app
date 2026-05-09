@@ -6,36 +6,57 @@
     <title>AMASSED | Strategic Reader</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { background: #121212; color: #e0e0e0; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 300px; background: #1a1a1a; border-right: 1px solid #333; overflow-y: auto; padding: 20px; }
-        #content { flex: 1; display: flex; flex-direction: column; padding: 40px; overflow-y: auto; position: relative; }
-        h1 { font-family: 'Playfair Display', serif; color: #f97316; margin-top: 0; }
-        .menu-item { padding: 12px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
-        .menu-item:hover { background: #2a2a2a; border-color: #f97316; }
-        .active { background: #f97316; color: white; font-weight: bold; }
-        #audio-container { position: sticky; top: 0; background: #121212; padding-bottom: 20px; z-index: 10; border-bottom: 1px solid #333; margin-bottom: 20px; }
-        audio { width: 100%; filter: invert(100%) hue-rotate(180deg) brightness(1.5); }
-        #text-display { font-size: 1.1rem; line-height: 1.8; white-space: pre-wrap; }
+        body { background: #0f0f0f; color: #e0e0e0; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar Menu */
+        #sidebar { width: 320px; background: #161616; border-right: 1px solid #2a2a2a; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; }
+        .logo { font-family: 'Playfair Display', serif; color: #f97316; font-size: 1.8rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #f97316; padding-bottom: 10px; }
+        
+        #menu { flex: 1; }
+        .menu-item { padding: 14px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border: 1px solid transparent; background: #1e1e1e; font-size: 0.95rem; color: #aaa; }
+        .menu-item:hover { background: #262626; border-color: #f97316; color: #fff; }
+        .active { background: #f97316; color: white !important; font-weight: bold; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
+
+        /* Main Content Area */
+        #content { flex: 1; display: flex; flex-direction: column; padding: 0; background: #0f0f0f; overflow: hidden; }
+        
+        #header-controls { background: #161616; padding: 30px 50px; border-bottom: 1px solid #2a2a2a; z-index: 10; }
+        #session-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; margin: 0 0 20px 0; }
+        
+        /* Custom Audio Styling */
+        audio { width: 100%; height: 45px; border-radius: 8px; filter: invert(90%) hue-rotate(180deg) brightness(1.2); }
+
+        #text-scroll { flex: 1; padding: 40px 60px; overflow-y: auto; scroll-behavior: smooth; }
+        #text-display { font-size: 1.15rem; line-height: 1.9; color: #d1d1d1; max-width: 800px; margin: 0 auto; white-space: pre-wrap; font-weight: 400; }
+        
+        /* Loading Spinner */
+        .loader { color: #f97316; font-weight: bold; text-align: center; margin-top: 50px; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <h2 style="color: #f97316;">AMASSED</h2>
-    <div id="menu"></div>
+    <div class="logo">AMASSED</div>
+    <div id="menu">
+        <div class="loader">Initializing Mission Control...</div>
+    </div>
 </div>
 
 <div id="content">
-    <div id="audio-container">
-        <h1 id="session-title">Select a Session</h1>
+    <div id="header-controls">
+        <h1 id="session-title">Select a Strategic Walk</h1>
         <audio id="player" controls src=""></audio>
     </div>
-    <div id="text-display">Select a session from the sidebar to begin your Strategic Walk.</div>
+    <div id="text-scroll">
+        <div id="text-display">The leadership curriculum is loading. Please select a session from the left to begin your immersive experience.</div>
+    </div>
 </div>
 
 <script>
-    // CONFIGURATION
-    const TEXT_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/Home1.txt'; 
+    // --- CONFIGURATION ---
+    // Using a CORS proxy to ensure the "Handshake" with GitHub works perfectly
+    const RAW_GITHUB_URL = 'https://raw.githubusercontent.com/drd1201/amassed-course-app/main/Home1.txt';
+    const TEXT_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RAW_GITHUB_URL);
     const AUDIO_BASE_URL = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/';
 
     let sessions = {};
@@ -43,24 +64,31 @@
     async function loadContent() {
         try {
             const response = await fetch(TEXT_URL);
+            if (!response.ok) throw new Error('Network response was not ok');
             const rawText = await response.text();
             
-            // Split text by [XX] markers
+            // This logic finds your [00], [01] markers and slices the text
             const parts = rawText.split(/\[(\d+)\]/);
+            
+            // Loop through the split parts to pair IDs with Content
             for (let i = 1; i < parts.length; i += 2) {
-                const id = parts[i].padStart(2, '0');
+                const id = parts[i].padStart(2, '0'); // Ensures '0' becomes '00'
                 sessions[id] = parts[i+1].trim();
             }
 
             buildMenu();
         } catch (err) {
-            document.getElementById('text-display').innerText = "Error loading content. Check GitHub URL and CORS settings.";
+            console.error(err);
+            document.getElementById('menu').innerHTML = "<div style='color:red'>Connection Error. Check Raw URL.</div>";
         }
     }
 
     function buildMenu() {
         const menu = document.getElementById('menu');
-        Object.keys(sessions).forEach(id => {
+        menu.innerHTML = ''; // Clear the loader
+        
+        // Sort IDs numerically and build buttons
+        Object.keys(sessions).sort().forEach(id => {
             const btn = document.createElement('div');
             btn.className = 'menu-item';
             btn.innerText = `Session ${id}`;
@@ -70,17 +98,24 @@
     }
 
     function playSession(id, element) {
+        // Update UI states
         document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
 
-        document.getElementById('session-title').innerText = `Session ${id}`;
+        // Update Title and Text
+        document.getElementById('session-title').innerText = `Strategic Walk: Session ${id}`;
         document.getElementById('text-display').innerText = sessions[id];
         
+        // Scroll text back to top
+        document.getElementById('text-scroll').scrollTop = 0;
+        
+        // Update and Play Audio
         const player = document.getElementById('player');
         player.src = `${AUDIO_BASE_URL}${id}.mp3`;
-        player.play();
+        player.play().catch(e => console.log("Audio play blocked or missing file."));
     }
 
+    // Start the engine
     loadContent();
 </script>
 
