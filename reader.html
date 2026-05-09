@@ -7,16 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
         :root { --orange: #f97316; --dark: #050505; --glass: rgba(255, 255, 255, 0.9); }
-        body { margin: 0; display: flex; height: 100vh; font-family: 'Inter', sans-serif; background: #000 url('bg.png') no-repeat center center; background-size: cover; overflow: hidden; }
+        body { margin: 0; display: flex; height: 100vh; font-family: 'Inter', sans-serif; background: #000; overflow: hidden; }
 
-        /* LEFT SIDE: CHAPTER INDEX (30%) */
         .sidebar { 
             width: 30%; height: 100%; background: var(--glass); 
             backdrop-filter: blur(15px); border-right: 1px solid rgba(255,255,255,0.3);
             padding: 2rem; box-sizing: border-box; overflow-y: auto;
         }
 
-        /* RIGHT SIDE: TEXT AREA (70%) */
         .reader-container { 
             width: 70%; height: 100%; padding: 5vh 10%; 
             box-sizing: border-box; overflow-y: auto; background: rgba(255,255,255,0.85);
@@ -29,18 +27,16 @@
             cursor: pointer; transition: 0.3s; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         .chapter-btn:hover { border-color: var(--orange); transform: translateX(5px); }
-        .chapter-btn.active { border-left: 5px solid var(--orange); background: #fff7ed; }
-
-        .play-icon { color: var(--orange); font-size: 1.5rem; }
         
+        .play-icon { color: var(--orange); font-size: 1.5rem; }
         .content-box { max-width: 800px; margin: 0 auto; color: #222; line-height: 1.9; font-size: 1.15rem; }
         h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--dark); margin-bottom: 1rem; }
         
-        /* THE STICKY AUDIO PLAYER */
         .audio-bar {
             position: sticky; top: 0; background: #fff; padding: 1rem;
             border-bottom: 2px solid var(--orange); margin-bottom: 2rem;
             border-radius: 8px; display: flex; align-items: center; gap: 15px;
+            z-index: 100;
         }
     </style>
 </head>
@@ -49,15 +45,24 @@
     <div class="sidebar">
         <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 2rem;">Course Curriculum</h2>
         
-        <div class="chapter-btn" onclick="loadData('The Introduction', 'intro.mp3', 'Your introduction text goes here...')">
+        <div class="chapter-btn" onclick="loadData('The Introduction', '00')">
             <div>
-                <small style="color: var(--orange); font-weight: 900;">SESSION 01</small>
+                <small style="color: var(--orange); font-weight: 900;">START HERE</small>
                 <div style="font-weight: 700;">The Introduction</div>
             </div>
             <span class="play-icon">▶</span>
         </div>
 
+        <div class="chapter-btn" onclick="loadData('Strategic Session 01', '01')">
+            <div>
+                <small style="color: var(--orange); font-weight: 900;">SESSION 01</small>
+                <div style="font-weight: 700;">Foundations</div>
+            </div>
+            <span class="play-icon">▶</span>
         </div>
+        
+        <p style="font-size: 0.8rem; color: #666; margin-top: 2rem;">More sessions being populated...</p>
+    </div>
 
     <div class="reader-container">
         <div id="player-zone" style="display:none;">
@@ -73,32 +78,35 @@
         </div>
     </div>
 
-<script>
-    // 1. Your Golden Key from Cloudflare R2
-    const audioBaseUrl = "https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/";
+    <script>
+        // 1. The Direct Link to your Cloudflare R2 Bucket
+        const audioBaseUrl = "https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/";
 
-    // 2. Your Content Data from Home1.txt
-    const amassedContent = {
-        "00": `The Amassed leadership portal is designed to remember, recount, and recertify. This introduction sets the stage for our strategic walk...`, // Paste more intro text here
-        "01": `Your Session 1 text goes here...`
-    };
+        // 2. The Text Content mapped to your [00] through [63] markers
+        const amassedContent = {
+            "00": `The Amassed leadership portal is designed to remember, recount, and recertify. This introduction sets the stage for our strategic walk... (Paste your full Intro text here)`,
+            "01": `This is the text for Strategic Session 01, pulled from your Home1.txt file at the [01] marker.`
+        };
 
-    function loadData(title, audioFile, id) {
-        // Find the text for this session
-        const textContent = amassedContent[id] || "Content coming soon...";
-        
-        // Update the screen with the text
-        document.getElementById('content-view').innerHTML = `<h1>${title}</h1><div class='chapter-body'>${textContent}</div>`;
-        
-        // Setup and play the audio from R2
-        const audio = document.getElementById('main-audio');
-        const zone = document.getElementById('player-zone');
-        document.getElementById('now-playing').innerText = title;
-        
-        audio.src = audioBaseUrl + audioFile; 
-        zone.style.display = 'block';
-        audio.play();
-    }
-</script>
+        function loadData(title, id) {
+            // Update Title and Text
+            const textContent = amassedContent[id] || "Content is currently being uploaded for this session.";
+            document.getElementById('content-view').innerHTML = `<h1>${title}</h1><div class='chapter-body'>${textContent}</div>`;
+            
+            // Update Audio
+            const audio = document.getElementById('main-audio');
+            const zone = document.getElementById('player-zone');
+            document.getElementById('now-playing').innerText = title;
+            
+            // Constructs the link: Base URL + 00.mp3, 01.mp3, etc.
+            audio.src = audioBaseUrl + id + ".mp3"; 
+            
+            zone.style.display = 'block';
+            audio.play();
+            
+            // Scroll reader back to top
+            document.querySelector('.reader-container').scrollTop = 0;
+        }
+    </script>
 </body>
 </html>
