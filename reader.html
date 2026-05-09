@@ -74,28 +74,27 @@
     </div>
 
 <script>
-    // 1. Your Golden Key from Cloudflare
+    // 1. Your Golden Key from Cloudflare R2
     const audioBaseUrl = "https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/";
 
-    // 2. Your Content Data (Add more sessions here from Home1.txt)
+    // 2. Your Content Data from Home1.txt
     const amassedContent = {
-        "00": `The Introduction text from Home1.txt goes here...`,
-        "01": `Session 1 text goes here...`
+        "00": `The Amassed leadership portal is designed to remember, recount, and recertify. This introduction sets the stage for our strategic walk...`, // Paste more intro text here
+        "01": `Your Session 1 text goes here...`
     };
 
     function loadData(title, audioFile, id) {
-        // Get the text based on the ID (00, 01, etc.)
-        const textContent = amassedContent[id] || "Content loading...";
+        // Find the text for this session
+        const textContent = amassedContent[id] || "Content coming soon...";
         
-        // Update Title and Text in the reader
+        // Update the screen with the text
         document.getElementById('content-view').innerHTML = `<h1>${title}</h1><div class='chapter-body'>${textContent}</div>`;
         
-        // Setup the Audio Player
+        // Setup and play the audio from R2
         const audio = document.getElementById('main-audio');
         const zone = document.getElementById('player-zone');
         document.getElementById('now-playing').innerText = title;
         
-        // Connect to Cloudflare R2
         audio.src = audioBaseUrl + audioFile; 
         zone.style.display = 'block';
         audio.play();
