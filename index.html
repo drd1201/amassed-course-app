@@ -2,28 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <meta property="og:title" content="AMASSED • Battlefield Discipleship">
-    <meta property="og:image" content="https://course.buzzsmart.org/bg.png?v=3">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#f97316">
-
-    <title>AMASSED</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMASSED | Strategic Reader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; height: 100dvh; width: 100%; font-family: 'Inter', sans-serif; background: #000; overflow: hidden; }
-        .hero { height: 100dvh; width: 100%; display: flex; align-items: center; justify-content: center; background: #000 url('bg.png?v=3') no-repeat center center; background-size: cover; }
+        body { background: #121212; color: #e0e0e0; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        #sidebar { width: 300px; background: #1a1a1a; border-right: 1px solid #333; overflow-y: auto; padding: 20px; }
+        #content { flex: 1; display: flex; flex-direction: column; padding: 40px; overflow-y: auto; position: relative; }
+        h1 { font-family: 'Playfair Display', serif; color: #f97316; margin-top: 0; }
+        .menu-item { padding: 12px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .menu-item:hover { background: #2a2a2a; border-color: #f97316; }
+        .active { background: #f97316; color: white; font-weight: bold; }
+        #audio-container { position: sticky; top: 0; background: #121212; padding-bottom: 20px; z-index: 10; border-bottom: 1px solid #333; margin-bottom: 20px; }
+        audio { width: 100%; filter: invert(100%) hue-rotate(180deg) brightness(1.5); }
+        #text-display { font-size: 1.1rem; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <div style="background: rgba(255,255,255,0.92); padding: 3.5rem; border-radius: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.5); border: 1px solid #fff; backdrop-filter: blur(20px); text-align: center; max-width: 85%; width: 500px;">
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; color: #050505; text-transform: uppercase;">AMASSED</h1>
-            <p style="color: #f97316 !important; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin: 10px 0;">Remember • Recount • Recertify</p>
-            <div style="margin: 1.8rem 0; font-size: 1.1rem; color: #444; line-height: 1.5; font-weight: 400;">Sheri Kamerzell, David Setzer,<br>Dana Richardson, Th.D.</div>
-            <a href="gateway.html?v=3" style="background-color: #f97316 !important; color: #ffffff !important; padding: 1.3rem 2.8rem; border-radius: 50px; font-weight: 900; text-decoration: none !important; display: inline-block; margin-top: 1rem; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);">START THE STRATEGIC WALK</a>
-        </div>
-    </section>
+
+<div id="sidebar">
+    <h2 style="color: #f97316;">AMASSED</h2>
+    <div id="menu"></div>
+</div>
+
+<div id="content">
+    <div id="audio-container">
+        <h1 id="session-title">Select a Session</h1>
+        <audio id="player" controls src=""></audio>
+    </div>
+    <div id="text-display">Select a session from the sidebar to begin your Strategic Walk.</div>
+</div>
+
+<script>
+    // CONFIGURATION
+    const TEXT_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/Home1.txt'; 
+    const AUDIO_BASE_URL = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/';
+
+    let sessions = {};
+
+    async function loadContent() {
+        try {
+            const response = await fetch(TEXT_URL);
+            const rawText = await response.text();
+            
+            // Split text by [XX] markers
+            const parts = rawText.split(/\[(\d+)\]/);
+            for (let i = 1; i < parts.length; i += 2) {
+                const id = parts[i].padStart(2, '0');
+                sessions[id] = parts[i+1].trim();
+            }
+
+            buildMenu();
+        } catch (err) {
+            document.getElementById('text-display').innerText = "Error loading content. Check GitHub URL and CORS settings.";
+        }
+    }
+
+    function buildMenu() {
+        const menu = document.getElementById('menu');
+        Object.keys(sessions).forEach(id => {
+            const btn = document.createElement('div');
+            btn.className = 'menu-item';
+            btn.innerText = `Session ${id}`;
+            btn.onclick = () => playSession(id, btn);
+            menu.appendChild(btn);
+        });
+    }
+
+    function playSession(id, element) {
+        document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+
+        document.getElementById('session-title').innerText = `Session ${id}`;
+        document.getElementById('text-display').innerText = sessions[id];
+        
+        const player = document.getElementById('player');
+        player.src = `${AUDIO_BASE_URL}${id}.mp3`;
+        player.play();
+    }
+
+    loadContent();
+</script>
+
 </body>
 </html>
