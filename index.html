@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AMASSED | Leadership Reader</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -19,12 +19,11 @@
     --text-muted:  #8a7a60;
     --sidebar-w:   280px;
     --player-h:    110px;
+    --player-h-mobile: 140px;
   }
-
   /* ── Reset ─────────────────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; overflow: hidden; }
-
   body {
     font-family: 'Cormorant Garamond', Georgia, serif;
     background: var(--bg);
@@ -46,7 +45,6 @@
     z-index: 100;
     position: relative;
   }
-
   #player-bar::after {
     content: '';
     position: absolute;
@@ -55,7 +53,6 @@
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
     opacity: .5;
   }
-
   .logo-mark {
     font-family: 'Josefin Sans', sans-serif;
     font-size: .75rem;
@@ -67,7 +64,6 @@
     flex-shrink: 0;
     line-height: 1.3;
   }
-
   .player-center {
     display: flex;
     flex-direction: column;
@@ -75,7 +71,6 @@
     flex: 1;
     min-width: 0;
   }
-
   #now-playing {
     font-family: 'Josefin Sans', sans-serif;
     font-size: .68rem;
@@ -86,17 +81,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   #now-playing span {
     color: var(--gold-light);
   }
-
   .player-controls {
     display: flex;
     align-items: center;
     gap: 12px;
   }
-
   .ctrl-btn {
     background: none;
     border: 1px solid var(--border);
@@ -108,14 +100,14 @@
     display: flex; align-items: center; justify-content: center;
     transition: all .2s;
     flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
-
-  .ctrl-btn:hover {
+  .ctrl-btn:hover, .ctrl-btn:active {
     border-color: var(--gold);
     color: var(--gold);
     background: rgba(201,168,76,.08);
   }
-
   #play-btn {
     width: 42px; height: 42px;
     background: linear-gradient(135deg, var(--gold), var(--gold-dark));
@@ -123,12 +115,11 @@
     color: #000;
     font-size: 1rem;
   }
-  #play-btn:hover {
+  #play-btn:hover, #play-btn:active {
     filter: brightness(1.15);
     background: linear-gradient(135deg, var(--gold-light), var(--gold));
     color: #000;
   }
-
   .progress-wrap {
     flex: 1;
     display: flex;
@@ -136,7 +127,6 @@
     gap: 10px;
     min-width: 0;
   }
-
   .time-label {
     font-family: 'Josefin Sans', sans-serif;
     font-size: .65rem;
@@ -145,7 +135,6 @@
     width: 38px;
     text-align: center;
   }
-
   #progress {
     flex: 1;
     -webkit-appearance: none;
@@ -155,30 +144,32 @@
     border-radius: 2px;
     cursor: pointer;
     outline: none;
-    position: relative;
   }
-
   #progress::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 13px; height: 13px;
+    width: 18px; height: 18px; /* bigger for touch */
     border-radius: 50%;
     background: var(--gold);
     cursor: pointer;
     box-shadow: 0 0 8px rgba(201,168,76,.5);
   }
-
+  #progress::-moz-range-thumb {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: none;
+    cursor: pointer;
+  }
   .volume-wrap {
     display: flex;
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
   }
-
   .vol-icon {
     color: var(--text-muted);
     font-size: .85rem;
   }
-
   #volume {
     -webkit-appearance: none;
     appearance: none;
@@ -188,13 +179,39 @@
     cursor: pointer;
     outline: none;
   }
-
   #volume::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 11px; height: 11px;
+    width: 14px; height: 14px;
     border-radius: 50%;
     background: var(--gold);
     cursor: pointer;
+  }
+  #volume::-moz-range-thumb {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: none;
+  }
+
+  /* ── Sidebar toggle button (mobile) ────────────────────── */
+  #sidebar-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    width: 38px; height: 38px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: all .2s;
+  }
+  #sidebar-toggle:active {
+    background: rgba(154,111,32,.1);
   }
 
   /* ── Main layout ───────────────────────────────────────── */
@@ -202,6 +219,21 @@
     display: flex;
     flex: 1;
     overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Sidebar overlay (mobile) ──────────────────────────── */
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    z-index: 200;
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  #sidebar-overlay.visible {
+    opacity: 1;
   }
 
   /* ── Sidebar ───────────────────────────────────────────── */
@@ -214,8 +246,8 @@
     flex-direction: column;
     overflow: hidden;
     position: relative;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
   }
-
   #sidebar::after {
     content: '';
     position: absolute;
@@ -224,13 +256,15 @@
     background: linear-gradient(180deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
     opacity: .35;
   }
-
   .sidebar-head {
     padding: 20px 20px 14px;
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
   }
-
+  .sidebar-head-text { flex: 1; }
   .sidebar-head h2 {
     font-family: 'Josefin Sans', sans-serif;
     font-size: .65rem;
@@ -239,26 +273,36 @@
     text-transform: uppercase;
     margin-bottom: 4px;
   }
-
   .sidebar-head p {
     font-size: .8rem;
     color: var(--text-muted);
     font-style: italic;
   }
-
+  /* Close button inside sidebar header (mobile) */
+  #sidebar-close {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 2px 4px;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
   #track-list {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 8px 0;
   }
-
   #track-list::-webkit-scrollbar { width: 4px; }
   #track-list::-webkit-scrollbar-track { background: transparent; }
   #track-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
   /* Chapter headers */
   .chapter-group {}
-
   .chapter-label {
     font-family: 'Josefin Sans', sans-serif;
     font-size: .6rem;
@@ -272,10 +316,9 @@
     cursor: pointer;
     user-select: none;
     transition: color .2s;
+    -webkit-tap-highlight-color: transparent;
   }
-
   .chapter-label:hover { color: var(--gold); }
-
   .chapter-label .ch-num {
     width: 18px; height: 18px;
     border: 1px solid currentColor;
@@ -284,17 +327,14 @@
     font-size: .55rem;
     flex-shrink: 0;
   }
-
   .chapter-label .ch-arrow {
     margin-left: auto;
     transition: transform .25s;
     font-size: .7rem;
   }
-
   .chapter-label.collapsed .ch-arrow {
     transform: rotate(-90deg);
   }
-
   .chapter-tracks {
     overflow: hidden;
     transition: max-height .3s ease;
@@ -305,20 +345,22 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 7px 20px 7px 32px;
+    padding: 10px 20px 10px 32px; /* taller tap target */
     cursor: pointer;
     transition: background .15s;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
-
   .track-item:hover {
     background: rgba(154,111,32,.07);
   }
-
+  .track-item:active {
+    background: rgba(154,111,32,.12);
+  }
   .track-item.active {
     background: rgba(154,111,32,.13);
   }
-
   .track-item.active::before {
     content: '';
     position: absolute;
@@ -326,7 +368,6 @@
     width: 3px;
     background: var(--gold);
   }
-
   .track-num {
     font-family: 'Josefin Sans', sans-serif;
     font-size: .6rem;
@@ -335,11 +376,9 @@
     text-align: right;
     flex-shrink: 0;
   }
-
   .track-item.active .track-num {
     color: var(--gold);
   }
-
   .track-title {
     font-size: .82rem;
     line-height: 1.3;
@@ -347,11 +386,9 @@
     flex: 1;
     min-width: 0;
   }
-
   .track-item.active .track-title {
     color: var(--gold-light);
   }
-
   .playing-indicator {
     display: none;
     gap: 2px;
@@ -359,11 +396,9 @@
     height: 14px;
     flex-shrink: 0;
   }
-
   .track-item.active.is-playing .playing-indicator {
     display: flex;
   }
-
   .playing-indicator span {
     width: 3px;
     background: var(--gold);
@@ -372,7 +407,6 @@
   }
   .playing-indicator span:nth-child(2) { animation-delay: .15s; }
   .playing-indicator span:nth-child(3) { animation-delay: .3s; }
-
   @keyframes bounce {
     0%, 100% { height: 4px; }
     50%       { height: 14px; }
@@ -382,11 +416,11 @@
   #reader {
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 40px 56px;
     background: var(--bg);
     position: relative;
   }
-
   #reader::-webkit-scrollbar { width: 6px; }
   #reader::-webkit-scrollbar-track { background: transparent; }
   #reader::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -402,7 +436,6 @@
     color: var(--text-muted);
     font-style: italic;
   }
-
   .spinner {
     width: 36px; height: 36px;
     border: 2px solid var(--border);
@@ -410,7 +443,6 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
-
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Content styling */
@@ -419,7 +451,6 @@
     margin: 0 auto;
     display: none;
   }
-
   #reader-content h1 {
     font-size: 2.4rem;
     font-weight: 300;
@@ -427,7 +458,6 @@
     margin-bottom: 6px;
     line-height: 1.2;
   }
-
   #reader-content h2 {
     font-size: 1.7rem;
     font-weight: 300;
@@ -436,7 +466,6 @@
     padding-bottom: .3em;
     border-bottom: 1px solid var(--border);
   }
-
   #reader-content h3 {
     font-size: 1.2rem;
     font-weight: 600;
@@ -444,7 +473,6 @@
     margin: 1.6em 0 .4em;
     letter-spacing: .04em;
   }
-
   #reader-content p {
     font-size: 1.1rem;
     line-height: 1.85;
@@ -452,18 +480,15 @@
     margin-bottom: 1.2em;
     font-weight: 300;
   }
-
   #reader-content ul, #reader-content ol {
     margin: 1em 0 1.2em 1.5em;
   }
-
   #reader-content li {
     font-size: 1.05rem;
     line-height: 1.8;
     margin-bottom: .4em;
     color: var(--text);
   }
-
   #reader-content blockquote {
     border-left: 3px solid var(--gold);
     margin: 1.5em 0;
@@ -474,18 +499,13 @@
   }
 
   /* Highlight for active section */
-  .section-highlight {
-    background: rgba(154,111,32,.09);
-    border-left: 3px solid var(--gold);
-    padding-left: 1em;
-    margin-left: -1em;
-    border-radius: 0 4px 4px 0;
+  .active-section {
+    background: rgba(154,111,32,.07);
+    border-left: 4px solid var(--gold);
+    padding-left: 20px;
+    margin-left: -20px;
+    border-radius: 0 6px 6px 0;
     transition: background .4s;
-  }
-
-  /* Section anchors */
-  [data-section] {
-    scroll-margin-top: 30px;
   }
 
   /* ── Decorative corner ─────────────────────────────────── */
@@ -499,72 +519,203 @@
     color: var(--text-muted);
     opacity: .4;
     text-transform: uppercase;
+    pointer-events: none;
   }
 
-  /* ── Responsive ────────────────────────────────────────── */
+  /* ══════════════════════════════════════════════════════════
+     MOBILE STYLES  (≤ 700px)
+  ══════════════════════════════════════════════════════════ */
   @media (max-width: 700px) {
-    :root { --sidebar-w: 220px; }
-    #reader { padding: 28px 24px; }
-    #player-bar { gap: 12px; padding: 0 14px; }
-    .logo-mark { display: none; }
+    /* Player bar becomes taller, two-row layout */
+    #player-bar {
+      height: auto;
+      min-height: auto;
+      padding: 10px 14px 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* Row 1: toggle + now-playing label + logo */
+    .player-row1 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    #now-playing {
+      flex: 1;
+      font-size: .62rem;
+      letter-spacing: .14em;
+    }
+
+    .logo-mark {
+      font-size: .62rem;
+      letter-spacing: .2em;
+      line-height: 1.2;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Row 2: controls + progress */
+    .player-row2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .player-center {
+      display: contents; /* dissolve flex container — children join player-bar flow */
+    }
+
+    .player-controls {
+      display: contents;
+    }
+
+    .ctrl-btn {
+      width: 40px; height: 40px;
+      font-size: 1rem;
+    }
+    #play-btn {
+      width: 46px; height: 46px;
+      font-size: 1.1rem;
+    }
+
+    .progress-wrap {
+      flex: 1;
+    }
+
+    /* Hide volume on very small screens */
+    .volume-wrap { display: none; }
+
+    /* Show sidebar toggle */
+    #sidebar-toggle { display: flex; }
+
+    /* Sidebar becomes a slide-in drawer */
+    #sidebar-overlay { display: block; }
+
+    #sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 210;
+      transform: translateX(-100%);
+      box-shadow: 4px 0 20px rgba(0,0,0,.18);
+      width: min(var(--sidebar-w), 88vw);
+      min-width: unset;
+    }
+    #sidebar.open {
+      transform: translateX(0);
+    }
+    #sidebar-close { display: block; }
+
+    /* Reader gets full width */
+    #reader {
+      padding: 24px 18px;
+      width: 100%;
+    }
+
+    #reader-content h1 { font-size: 1.8rem; }
+    #reader-content h2 { font-size: 1.4rem; }
+    #reader-content p  { font-size: 1rem; line-height: 1.75; }
+
+    .active-section {
+      padding-left: 14px;
+      margin-left: -14px;
+    }
+
+    .corner-deco { display: none; }
+  }
+
+  /* ── Section block styles ──────────────────────────────── */
+  .section-block {
+    padding: 28px 0 32px;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 24px;
+    transition: background .3s;
+  }
+  .section-marker {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: .6rem;
+    letter-spacing: .22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: .7;
+  }
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gold-dark);
+    margin: 0 0 .6em;
+    letter-spacing: .02em;
   }
 </style>
 </head>
 <body>
-
 <!-- ══ PLAYER BAR ══════════════════════════════════════════ -->
 <div id="player-bar">
-
-  <div class="logo-mark">AMASSED<br>Leadership</div>
-
-  <div class="player-center">
+  <!-- Mobile row 1 -->
+  <div class="player-row1">
+    <button id="sidebar-toggle" aria-label="Open track list">&#9776;</button>
     <div id="now-playing">Select a track — <span id="track-name">nothing playing</span></div>
+    <div class="logo-mark">AMASSED<br>Leadership</div>
+  </div>
 
-    <div class="player-controls">
-      <button class="ctrl-btn" id="prev-btn" title="Previous">&#9664;&#9664;</button>
-      <button class="ctrl-btn" id="play-btn" title="Play / Pause">&#9654;</button>
-      <button class="ctrl-btn" id="next-btn" title="Next">&#9654;&#9654;</button>
-
+  <!-- player-center wraps row-2 elements on desktop; on mobile we use player-row2 -->
+  <div class="player-center">
+    <!-- Mobile row 2 -->
+    <div class="player-row2">
+      <div class="player-controls">
+        <button class="ctrl-btn" id="prev-btn" title="Previous" aria-label="Previous track">&#9664;&#9664;</button>
+        <button class="ctrl-btn" id="play-btn" title="Play / Pause" aria-label="Play or pause">&#9654;</button>
+        <button class="ctrl-btn" id="next-btn" title="Next" aria-label="Next track">&#9654;&#9654;</button>
+      </div>
       <div class="progress-wrap">
         <span class="time-label" id="cur-time">0:00</span>
-        <input type="range" id="progress" min="0" max="100" value="0" step="0.1">
+        <input type="range" id="progress" min="0" max="100" value="0" step="0.1" aria-label="Seek">
         <span class="time-label" id="dur-time">0:00</span>
       </div>
-
       <div class="volume-wrap">
         <span class="vol-icon">&#128264;</span>
-        <input type="range" id="volume" min="0" max="1" step="0.02" value="0.85">
+        <input type="range" id="volume" min="0" max="1" step="0.02" value="0.85" aria-label="Volume">
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- ══ BODY ════════════════════════════════════════════════ -->
-<div id="main">
+<!-- Sidebar overlay (mobile tap-to-close) -->
+<div id="sidebar-overlay" aria-hidden="true"></div>
 
+<div id="main">
   <!-- Sidebar -->
-  <nav id="sidebar">
+  <nav id="sidebar" aria-label="Track list">
     <div class="sidebar-head">
-      <h2>Contents</h2>
-      <p>Five chapters · 64 tracks</p>
+      <div class="sidebar-head-text">
+        <h2>Contents</h2>
+        <p>Five chapters · 64 tracks</p>
+      </div>
+      <button id="sidebar-close" aria-label="Close track list">&#10005;</button>
     </div>
     <div id="track-list"><!-- populated by JS --></div>
   </nav>
 
   <!-- Reader -->
-  <section id="reader">
+  <section id="reader" aria-label="Reader">
     <div id="reader-status">
       <div class="spinner"></div>
       <span>Loading ebook content…</span>
     </div>
     <div id="reader-content"></div>
   </section>
-
 </div>
 
-<div class="corner-deco">AMASSED · Leadership Reader</div>
-
+<div class="corner-deco" aria-hidden="true">AMASSED · Leadership Reader</div>
 <audio id="audio-el" preload="none"></audio>
 
 <script>
@@ -573,13 +724,8 @@
 ══════════════════════════════════════════════════════════ */
 const R2_BASE   = 'https://pub-4620c72145cc48908b01ffb63756072a.r2.dev/audio';
 const EBOOK_URL = 'https://raw.githubusercontent.com/drd1201/amassed-course-app/main/Home1.html';
-const TOTAL_TRACKS = 64; // files 00.mp3 → 63.mp3
+const TOTAL_TRACKS = 64;
 
-/* ══════════════════════════════════════════════════════════
-   CHAPTER GROUPINGS IN SIDEBAR
-   These group track numbers under named chapter headings.
-   Update titles once you share exact chapter boundaries.
-══════════════════════════════════════════════════════════ */
 const CHAPTERS = [
   { title: 'Introduction',   from:  0, to: 12 },
   { title: 'Chapter 2',      from: 13, to: 25 },
@@ -592,45 +738,78 @@ const CHAPTERS = [
    UTILITIES
 ══════════════════════════════════════════════════════════ */
 function pad(n) { return String(n).padStart(2, '0'); }
-
 function fmt(sec) {
   if (!sec || isNaN(sec)) return '0:00';
   const m = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
 /* ══════════════════════════════════════════════════════════
-   TRACK TABLE  (populated after ebook parses)
-   tracks[i] = { index, file, title, sectionId }
+   TRACK TABLE
 ══════════════════════════════════════════════════════════ */
 const tracks = Array.from({ length: TOTAL_TRACKS }, (_, i) => ({
   index:     i,
   file:      `${R2_BASE}/${pad(i)}.mp3`,
   title:     `Section ${pad(i)}`,
-  sectionId: `sec-${pad(i)}`,   // matches IDs injected during ebook parse
+  sectionId: `sec-${pad(i)}`,
 }));
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE SIDEBAR TOGGLE
+══════════════════════════════════════════════════════════ */
+const sidebarEl      = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+const sidebarToggle  = document.getElementById('sidebar-toggle');
+const sidebarClose   = document.getElementById('sidebar-close');
+
+function openSidebar() {
+  sidebarEl.classList.add('open');
+  sidebarOverlay.classList.add('visible');
+  sidebarOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  sidebarEl.classList.remove('open');
+  sidebarOverlay.classList.remove('visible');
+  sidebarOverlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+sidebarToggle.addEventListener('click', () => {
+  sidebarEl.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarClose.addEventListener('click', closeSidebar);
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+/* Close sidebar on track selection on mobile */
+function maybeCloseSidebar() {
+  if (window.innerWidth <= 700) closeSidebar();
+}
 
 /* ══════════════════════════════════════════════════════════
    AUDIO ENGINE
 ══════════════════════════════════════════════════════════ */
-const audioEl    = document.getElementById('audio-el');
-const playBtn    = document.getElementById('play-btn');
-const prevBtn    = document.getElementById('prev-btn');
-const nextBtn    = document.getElementById('next-btn');
-const progressEl = document.getElementById('progress');
-const curTimeEl  = document.getElementById('cur-time');
-const durTimeEl  = document.getElementById('dur-time');
-const volumeEl   = document.getElementById('volume');
-const trackNameEl= document.getElementById('track-name');
+const audioEl     = document.getElementById('audio-el');
+const playBtn     = document.getElementById('play-btn');
+const prevBtn     = document.getElementById('prev-btn');
+const nextBtn     = document.getElementById('next-btn');
+const progressEl  = document.getElementById('progress');
+const curTimeEl   = document.getElementById('cur-time');
+const durTimeEl   = document.getElementById('dur-time');
+const volumeEl    = document.getElementById('volume');
+const trackNameEl = document.getElementById('track-name');
+const trackList   = document.getElementById('track-list');
 
 let currentIndex = -1;
-
-/* Set volume from slider on startup */
 audioEl.volume = parseFloat(volumeEl.value);
 
 function setPlayUI(playing) {
   playBtn.innerHTML = playing ? '&#9646;&#9646;' : '&#9654;';
+  playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
   if (currentIndex >= 0) setPlayingDot(currentIndex, playing);
 }
 
@@ -640,19 +819,18 @@ function loadTrack(idx, autoplay = true) {
   currentIndex = idx;
   const t = tracks[idx];
 
-  /* Stop current before switching src */
   audioEl.pause();
-  audioEl.src = '';           // release old resource
-  audioEl.src = t.file;      // assign new src
-  audioEl.load();             // force browser to re-evaluate
+  audioEl.src = '';
+  audioEl.src = t.file;
+  audioEl.load();
 
   trackNameEl.textContent = t.title;
   updateActiveUI(prev, idx);
   scrollSidebarToActive();
   showSection(t.sectionId);
+  maybeCloseSidebar();
 
   if (autoplay) {
-    /* play() returns a Promise — catch browser autoplay blocks */
     const p = audioEl.play();
     if (p !== undefined) {
       p.then(() => setPlayUI(true))
@@ -682,13 +860,11 @@ audioEl.addEventListener('timeupdate', () => {
   curTimeEl.textContent = fmt(audioEl.currentTime);
   durTimeEl.textContent = fmt(audioEl.duration);
 });
-
 audioEl.addEventListener('ended', () => {
   setPlayUI(false);
   if (currentIndex + 1 < TOTAL_TRACKS) loadTrack(currentIndex + 1);
 });
-
-audioEl.addEventListener('error', (e) => {
+audioEl.addEventListener('error', () => {
   console.error('Audio error:', audioEl.error);
   setPlayUI(false);
 });
@@ -696,7 +872,6 @@ audioEl.addEventListener('error', (e) => {
 progressEl.addEventListener('input', () => {
   if (audioEl.duration) audioEl.currentTime = (progressEl.value / 100) * audioEl.duration;
 });
-
 volumeEl.addEventListener('input', () => {
   audioEl.volume = parseFloat(volumeEl.value);
 });
@@ -707,8 +882,6 @@ nextBtn.addEventListener('click', () => loadTrack(currentIndex + 1));
 
 /* ══════════════════════════════════════════════════════════
    EBOOK LOADER & MARKER PARSER
-   Expects plain text with markers like [00] [01] [02]…
-   The text between [NN] and [NN+1] is one section.
 ══════════════════════════════════════════════════════════ */
 const readerStatus  = document.getElementById('reader-status');
 const readerContent = document.getElementById('reader-content');
@@ -718,16 +891,11 @@ async function loadEbook() {
     const res = await fetch(EBOOK_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status} — check the file is public on GitHub`);
     const raw = await res.text();
-
-    /* Strip any HTML tags if the file has them, work on plain text */
     const plain = raw.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ');
-
     parseAndRender(plain);
-
     readerStatus.style.display  = 'none';
     readerContent.style.display = 'block';
-    buildSidebar(); // rebuild with real titles
-
+    buildSidebar();
   } catch (err) {
     readerStatus.innerHTML = `
       <p style="color:var(--text-muted);font-style:italic;text-align:center;max-width:420px;line-height:1.7">
@@ -738,17 +906,12 @@ async function loadEbook() {
   }
 }
 
-/* Split on [NN] markers and render each chunk as a section div */
 function parseAndRender(text) {
-  /* Match markers like [00], [01], … [63] */
   const markerRe = /\[(\d{2})\]/g;
-  let html = '';
   let lastIdx = 0;
   let lastNum = null;
   let match;
-
   const segments = [];
-
   while ((match = markerRe.exec(text)) !== null) {
     if (lastNum !== null) {
       segments.push({ num: lastNum, body: text.slice(lastIdx, match.index).trim() });
@@ -756,59 +919,42 @@ function parseAndRender(text) {
     lastNum = parseInt(match[1], 10);
     lastIdx = match.index + match[0].length;
   }
-  /* Last segment */
   if (lastNum !== null) {
     segments.push({ num: lastNum, body: text.slice(lastIdx).trim() });
   }
-
-  /* If no markers found, just dump the whole text */
   if (segments.length === 0) {
     readerContent.innerHTML = `<p>${text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
     return;
   }
-
+  let html = '';
   segments.forEach(seg => {
     const numStr  = pad(seg.num);
     const secId   = `sec-${numStr}`;
     const nextNum = seg.num + 1;
     const label   = `[${numStr}]→[${pad(nextNum)}]`;
-
-    /* Grab first non-empty line as the section title for sidebar */
     const lines = seg.body.split('\n').map(l => l.trim()).filter(Boolean);
     const title = lines[0] || `Section ${numStr}`;
-
-    /* Update track title */
     if (tracks[seg.num]) tracks[seg.num].title = title;
-
-    /* Convert line breaks to paragraphs */
     const bodyHtml = lines
       .map((l, i) => i === 0
         ? `<h3 class="section-title">${escHtml(l)}</h3>`
         : `<p>${escHtml(l)}</p>`)
       .join('');
-
     html += `
       <div class="section-block" id="${secId}" data-track="${seg.num}">
         <div class="section-marker">${label}</div>
         ${bodyHtml}
       </div>`;
   });
-
   readerContent.innerHTML = html;
-}
-
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 /* ══════════════════════════════════════════════════════════
    READER SECTION DISPLAY
 ══════════════════════════════════════════════════════════ */
 function showSection(secId) {
-  /* Remove old highlight */
   readerContent.querySelectorAll('.section-block.active-section')
     .forEach(el => el.classList.remove('active-section'));
-
   const el = document.getElementById(secId);
   if (!el) return;
   el.classList.add('active-section');
@@ -818,11 +964,8 @@ function showSection(secId) {
 /* ══════════════════════════════════════════════════════════
    SIDEBAR BUILDER
 ══════════════════════════════════════════════════════════ */
-const trackList = document.getElementById('track-list');
-
 function buildSidebar() {
   trackList.innerHTML = '';
-
   CHAPTERS.forEach((ch, ci) => {
     const group = document.createElement('div');
     group.className = 'chapter-group';
@@ -847,13 +990,16 @@ function buildSidebar() {
       const item = document.createElement('div');
       item.className = 'track-item';
       item.dataset.idx = i;
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
       item.innerHTML = `
         <span class="track-num">${pad(i)}</span>
         <span class="track-title">${escHtml(t.title)}</span>
-        <div class="playing-indicator">
+        <div class="playing-indicator" aria-hidden="true">
           <span></span><span></span><span></span>
         </div>`;
       item.addEventListener('click', () => loadTrack(i));
+      item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') loadTrack(i); });
       tracksWrap.appendChild(item);
     }
 
@@ -861,7 +1007,6 @@ function buildSidebar() {
     group.appendChild(tracksWrap);
     trackList.appendChild(group);
 
-    /* Open after append so scrollHeight is real */
     requestAnimationFrame(() => {
       tracksWrap.style.maxHeight = tracksWrap.scrollHeight + 'px';
     });
@@ -876,60 +1021,37 @@ function updateActiveUI(prev, next) {
   const el = trackList.querySelector(`[data-idx="${next}"]`);
   if (el) el.classList.add('active');
 }
-
 function setPlayingDot(idx, on) {
   const el = trackList.querySelector(`[data-idx="${idx}"]`);
   if (!el) return;
   on ? el.classList.add('is-playing') : el.classList.remove('is-playing');
 }
-
 function scrollSidebarToActive() {
   const el = trackList.querySelector('.active');
   if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 /* ══════════════════════════════════════════════════════════
-   SECTION BLOCK STYLES  (injected so they sit with the JS)
+   PROGRESS SLIDER — update fill color via CSS custom property
 ══════════════════════════════════════════════════════════ */
-const sectionStyles = document.createElement('style');
-sectionStyles.textContent = `
-  .section-block {
-    padding: 28px 0 32px;
-    border-bottom: 1px solid var(--border);
-    scroll-margin-top: 24px;
-    transition: background .3s;
-  }
-  .section-block.active-section {
-    background: rgba(154,111,32,.07);
-    border-left: 4px solid var(--gold);
-    padding-left: 20px;
-    margin-left: -20px;
-    border-radius: 0 6px 6px 0;
-  }
-  .section-marker {
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: .6rem;
-    letter-spacing: .22em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    opacity: .7;
-  }
-  .section-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--gold-dark);
-    margin: 0 0 .6em;
-    letter-spacing: .02em;
-  }
-`;
-document.head.appendChild(sectionStyles);
+function updateProgressFill() {
+  const pct = progressEl.value + '%';
+  progressEl.style.background = `linear-gradient(to right, var(--gold) 0%, var(--gold) ${pct}, var(--bg3) ${pct}, var(--bg3) 100%)`;
+}
+function updateVolumeFill() {
+  const pct = (parseFloat(volumeEl.value) * 100) + '%';
+  volumeEl.style.background = `linear-gradient(to right, var(--gold) 0%, var(--gold) ${pct}, var(--bg3) ${pct}, var(--bg3) 100%)`;
+}
+progressEl.addEventListener('input', updateProgressFill);
+volumeEl.addEventListener('input', updateVolumeFill);
+audioEl.addEventListener('timeupdate', updateProgressFill);
+updateVolumeFill();
 
 /* ══════════════════════════════════════════════════════════
    BOOT
 ══════════════════════════════════════════════════════════ */
-buildSidebar();   // placeholder titles first
-loadEbook();      // fetch & re-render with real titles
+buildSidebar();
+loadEbook();
 </script>
 </body>
 </html>
