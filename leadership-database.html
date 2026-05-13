@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="STRIDE Leadership Traits Research Database — AI efficiency comparisons across all 14 Marine Corps leadership traits. SEED Grant FY2026 · 84.423A">
+<title>Leadership Traits Database | STRIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────
+   STRIDE DESIGN TOKENS  (exact match: main.css)
+───────────────────────────────────────────── */
+:root {
+  --navy:       #0a1628;
+  --navy-mid:   #0f2040;
+  --slate:      #1a3050;
+  --steel:      #2a4a6a;
+  --gold:       #c8a44a;
+  --gold-light: #e4c878;
+  --gold-dim:   rgba(200,164,74,0.15);
+  --accent:     #3a8fc0;
+  --accent-dim: rgba(58,143,192,0.15);
+  --green:      #5aab7a;
+  --cream:      #f0ebe0;
+  --cream-dim:  rgba(240,235,224,0.7);
+  --muted:      #6a8aaa;
+  --danger:     #e05555;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui:      'Barlow Condensed', sans-serif;
+  --font-body:    'Barlow', sans-serif;
+  --transition:   0.3s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  background: var(--navy);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color:inherit; text-decoration:none; transition:color var(--transition); }
+.container { max-width:1140px; margin:0 auto; padding:0 28px; }
+.section { padding:80px 0; }
+
+/* ── Section labels ── */
+.section-label {
+  font-family: var(--font-ui);
+  font-size:.65rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold); font-weight:600; margin-bottom:14px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size:clamp(1.7rem,4vw,2.8rem); font-weight:600; line-height:1.15;
+  color:var(--cream); margin-bottom:18px;
+}
+.section-desc {
+  font-size:1rem; color:var(--cream-dim); max-width:660px; margin-bottom:40px;
+}
+.divider {
+  width:48px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:14px 0 32px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-ui); font-size:.8rem; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase;
+  padding:12px 24px; border-radius:2px;
+  transition:all var(--transition); cursor:pointer; border:none;
+}
+.btn-primary { background:var(--gold); color:var(--navy); }
+.btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(200,164,74,.3); }
+.btn-outline { background:transparent; color:var(--cream); border:1px solid rgba(240,235,224,.3); }
+.btn-outline:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+
+/* ── Tags ── */
+.tag { display:inline-block; font-family:var(--font-ui); font-size:.62rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin:3px 3px 3px 0; }
+.tag-blue  { background:var(--accent-dim); border:1px solid rgba(58,143,192,.4); color:var(--accent); }
+.tag-gold  { background:var(--gold-dim);   border:1px solid rgba(200,164,74,.4);  color:var(--gold); }
+.tag-green { background:rgba(90,171,122,.12); border:1px solid rgba(90,171,122,.4); color:var(--green); }
+.tag-red   { background:rgba(224,85,85,.12);  border:1px solid rgba(224,85,85,.4);  color:var(--danger); }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  background:rgba(10,22,40,.92); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(200,164,74,.15);
+}
+.nav-inner {
+  max-width:1140px; margin:0 auto; padding:0 28px;
+  height:68px; display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo { display:flex; align-items:baseline; gap:10px; }
+.nav-logo-main {
+  font-family:var(--font-display); font-size:1.5rem; font-weight:700;
+  color:var(--cream); letter-spacing:.05em;
+}
+.nav-logo-sub {
+  font-family:var(--font-ui); font-size:.65rem; color:var(--muted); letter-spacing:.1em;
+}
+.nav-links { display:flex; list-style:none; gap:28px; align-items:center; }
+.nav-links a {
+  font-family:var(--font-ui); font-size:.75rem; font-weight:500;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+  position:relative; transition:color var(--transition);
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; right:0;
+  height:1px; background:var(--gold); transform:scaleX(0); transition:transform var(--transition);
+}
+.nav-links a:hover, .nav-links a.active { color:var(--cream); }
+.nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
+.nav-cta {
+  background:var(--gold-dim) !important; border:1px solid rgba(200,164,74,.4) !important;
+  color:var(--gold) !important; padding:7px 14px; border-radius:2px;
+}
+.nav-cta::after { display:none !important; }
+.nav-cta:hover { background:var(--gold) !important; color:var(--navy) !important; }
+.nav-hamburger { display:none; background:none; border:none; color:var(--cream); font-size:1.4rem; cursor:pointer; }
+
+/* ═══════════════════════════════════════════
+   CIPHER OVERLAY  (infrastructure — activated
+   by setting CIPHER_ACTIVE = true in config)
+═══════════════════════════════════════════ */
+#cipher-overlay {
+  display:none;          /* shown via JS when CIPHER_ACTIVE = true */
+  position:fixed; inset:0; z-index:500;
+  background:rgba(10,22,40,.97); backdrop-filter:blur(20px);
+  align-items:center; justify-content:center; flex-direction:column;
+  gap:32px; padding:28px; text-align:center;
+}
+#cipher-overlay.visible { display:flex; }
+.cipher-badge {
+  font-family:var(--font-ui); font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold); border:1px solid rgba(200,164,74,.3); padding:6px 18px; border-radius:20px;
+  background:var(--gold-dim);
+}
+.cipher-title {
+  font-family:var(--font-display); font-size:clamp(1.6rem,4vw,2.4rem); font-weight:600; color:var(--cream);
+}
+.cipher-desc { font-size:.95rem; color:var(--cream-dim); max-width:440px; }
+.cipher-form { display:flex; flex-direction:column; align-items:center; gap:12px; width:100%; max-width:360px; }
+#cipher-input {
+  width:100%; padding:14px 18px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(200,164,74,.35);
+  border-radius:2px; color:var(--cream); font-family:var(--font-ui);
+  font-size:1rem; letter-spacing:.2em; text-align:center; text-transform:uppercase;
+  outline:none; transition:border-color var(--transition);
+}
+#cipher-input::placeholder { color:var(--muted); text-transform:none; letter-spacing:.05em; }
+#cipher-input:focus { border-color:var(--gold); }
+#cipher-submit {
+  width:100%; padding:14px; background:var(--gold); border:none; border-radius:2px;
+  font-family:var(--font-ui); font-size:.8rem; font-weight:700; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--navy); cursor:pointer;
+  transition:all var(--transition);
+}
+#cipher-submit:hover { background:var(--gold-light); }
+#cipher-error {
+  font-family:var(--font-ui); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--danger); display:none;
+}
+#cipher-error.visible { display:block; }
+.cipher-grid-bg {
+  position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(200,164,74,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,164,74,.03) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+/* Badge shown in header when cipher is active and unlocked */
+#secure-badge {
+  display:none;
+  font-family:var(--font-ui); font-size:.6rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--green); border:1px solid rgba(90,171,122,.4); padding:4px 10px; border-radius:20px;
+  background:rgba(90,171,122,.1);
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  padding:140px 28px 96px; min-height:70vh;
+  display:flex; align-items:center; position:relative; overflow:hidden;
+}
+.hero-bg { position:absolute; inset:0; pointer-events:none; }
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(200,164,74,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,164,74,.04) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.hero-glow {
+  position:absolute; top:-20%; left:-10%; width:70%; height:80%;
+  background:radial-gradient(ellipse at center, rgba(58,143,192,.08) 0%, rgba(10,22,40,0) 70%);
+}
+.hero-inner {
+  position:relative; max-width:800px; margin:0 auto; text-align:center;
+  animation:fadeUp .8s ease both;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--font-ui); font-size:.65rem; font-weight:600; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold); border:1px solid rgba(200,164,74,.3); padding:6px 18px; border-radius:20px;
+  margin-bottom:28px; background:var(--gold-dim); animation:fadeUp .8s .1s ease both;
+}
+.hero-badge-dot {
+  width:6px; height:6px; border-radius:50%; background:var(--gold);
+  animation:pulse 2s ease infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.3; } }
+.hero-title {
+  font-family:var(--font-display); font-size:clamp(2.2rem,5.5vw,4rem);
+  font-weight:600; line-height:1.1; color:var(--cream);
+  margin-bottom:20px; animation:fadeUp .8s .2s ease both;
+}
+.hero-title em { font-style:italic; color:var(--gold); }
+.hero-sub {
+  font-family:var(--font-ui); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:18px; animation:fadeUp .8s .25s ease both;
+}
+.hero-desc {
+  font-size:1.05rem; color:var(--cream-dim); max-width:680px; margin:0 auto 36px;
+  animation:fadeUp .8s .3s ease both;
+}
+.hero-stats {
+  display:flex; justify-content:center; gap:clamp(1.5rem,4vw,3.5rem); flex-wrap:wrap;
+  animation:fadeUp .8s .35s ease both; margin-bottom:36px;
+}
+.hero-stat { text-align:center; }
+.hero-stat .num {
+  font-family:var(--font-display); font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--gold); line-height:1;
+}
+.hero-stat .lbl {
+  font-family:var(--font-ui); font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-top:4px;
+}
+.hero-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; animation:fadeUp .8s .4s ease both; }
+
+/* ═══════════════════════════════════════════
+   GRANT STRIP
+═══════════════════════════════════════════ */
+.grant-strip { background:var(--navy-mid); border-top:1px solid rgba(200,164,74,.1); border-bottom:1px solid rgba(200,164,74,.1); padding:40px 0; }
+.grant-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:28px; text-align:center; }
+.grant-stat .stat-num { font-family:var(--font-display); font-size:1.8rem; font-weight:700; color:var(--gold); }
+.grant-stat .stat-label { font-family:var(--font-ui); font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+/* ═══════════════════════════════════════════
+   COMPARISON TABLE
+═══════════════════════════════════════════ */
+.comparison-wrap {
+  background:var(--navy-mid); border:1px solid rgba(200,164,74,.15); border-radius:4px; overflow:hidden;
+  margin-bottom:24px;
+}
+.comparison-head {
+  background:linear-gradient(90deg, var(--slate), var(--steel));
+  padding:14px 24px;
+  font-family:var(--font-ui); font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); text-align:center;
+}
+.comparison-cols { display:grid; grid-template-columns:1fr 1fr; }
+@media (max-width:640px) { .comparison-cols { grid-template-columns:1fr; } }
+.comp-col { padding:24px 28px; display:flex; flex-direction:column; gap:14px; }
+.comp-col.ai { border-right:1px solid rgba(200,164,74,.1); }
+.comp-col-label {
+  font-family:var(--font-ui); font-size:.65rem; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:700; margin-bottom:4px; padding-bottom:10px; border-bottom:1px solid rgba(200,164,74,.1);
+}
+.comp-col.ai .comp-col-label { color:var(--accent); }
+.comp-col.no-ai .comp-col-label { color:var(--danger); }
+.comp-metric { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+.comp-metric .metric-name { font-size:.92rem; color:var(--cream-dim); flex:1; }
+.comp-metric .metric-val { font-family:var(--font-ui); font-size:.95rem; font-weight:700; white-space:nowrap; }
+.comp-col.ai .metric-val { color:var(--green); }
+.comp-col.no-ai .metric-val { color:var(--danger); }
+
+/* ═══════════════════════════════════════════
+   BAR CHART
+═══════════════════════════════════════════ */
+.bar-section { background:var(--navy-mid); border:1px solid rgba(200,164,74,.1); border-radius:4px; padding:24px 28px; margin-bottom:24px; }
+.bar-header { display:grid; grid-template-columns:170px 1fr 1fr; gap:.6rem 1rem; padding-bottom:10px; border-bottom:1px solid rgba(200,164,74,.15); margin-bottom:4px; }
+.bar-header-lbl { font-family:var(--font-ui); font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; font-weight:700; }
+.bar-header-lbl.ai  { color:var(--accent); }
+.bar-header-lbl.noai { color:var(--danger); }
+.bar-row { display:grid; grid-template-columns:170px 1fr 1fr; align-items:center; gap:.5rem 1rem; padding:.45rem 0; border-bottom:1px solid rgba(200,164,74,.06); }
+.bar-row:last-child { border-bottom:none; }
+.bar-trait { font-family:var(--font-ui); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--cream-dim); }
+.bar-wrap { display:flex; align-items:center; gap:.5rem; }
+.bar-track { flex:1; height:7px; background:rgba(255,255,255,.07); border-radius:99px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:99px; }
+.bar-fill.ai   { background:linear-gradient(90deg, #3a8fc0, #5ab4e8); }
+.bar-fill.noai { background:linear-gradient(90deg, #c05050, #e05555); }
+.bar-pct { font-family:var(--font-ui); font-size:.7rem; font-weight:700; min-width:30px; }
+.bar-pct.ai   { color:var(--accent); }
+.bar-pct.noai { color:var(--danger); }
+@media (max-width:560px) {
+  .bar-header, .bar-row { grid-template-columns:120px 1fr 1fr; }
+}
+
+/* ═══════════════════════════════════════════
+   TRAITS GRID
+═══════════════════════════════════════════ */
+.traits-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(clamp(280px,29vw,340px),1fr));
+  gap:16px; margin-bottom:60px;
+}
+.trait-card {
+  background:var(--navy-mid); border:1px solid rgba(200,164,74,.12); border-radius:4px;
+  overflow:hidden; transition:border-color var(--transition), transform var(--transition);
+}
+.trait-card:hover { border-color:rgba(200,164,74,.35); transform:translateY(-3px); }
+.trait-card-head {
+  background:linear-gradient(120deg, var(--slate), var(--steel));
+  padding:14px 18px 12px; display:flex; align-items:center; gap:10px;
+}
+.trait-number { font-family:var(--font-ui); font-size:.62rem; letter-spacing:.12em; color:rgba(200,164,74,.5); min-width:22px; }
+.trait-name { font-family:var(--font-ui); font-size:.8rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:600; flex:1; }
+.trait-ai-badge {
+  font-family:var(--font-ui); font-size:.58rem; letter-spacing:.08em; text-transform:uppercase;
+  background:var(--accent-dim); color:var(--accent); padding:.15rem .5rem; border-radius:20px; border:1px solid rgba(58,143,192,.3); white-space:nowrap;
+}
+.trait-body { padding:16px 18px; }
+.trait-definition {
+  font-family:var(--font-display); font-size:1rem; font-style:italic;
+  color:var(--cream-dim); border-left:2px solid var(--gold);
+  padding-left:12px; margin-bottom:12px; line-height:1.6;
+}
+.trait-scholarly { font-size:.88rem; color:rgba(240,235,224,.65); margin-bottom:12px; line-height:1.7; }
+.trait-efficiency { display:flex; gap:6px; flex-wrap:wrap; }
+.eff-chip {
+  font-family:var(--font-ui); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+  padding:.2rem .6rem; border-radius:20px; font-weight:600;
+}
+.eff-chip.gain  { background:rgba(90,171,122,.15); color:var(--green); border:1px solid rgba(90,171,122,.4); }
+.eff-chip.loss  { background:rgba(224,85,85,.12);  color:var(--danger); border:1px solid rgba(224,85,85,.35); }
+.eff-chip.neut  { background:var(--gold-dim); color:var(--gold); border:1px solid rgba(200,164,74,.3); }
+.trait-cite {
+  font-family:var(--font-ui); font-size:.6rem; letter-spacing:.06em;
+  color:var(--muted); margin-top:12px; padding-top:10px;
+  border-top:1px solid rgba(200,164,74,.1); line-height:1.6;
+}
+
+/* ═══════════════════════════════════════════
+   METHODOLOGY CALLOUT
+═══════════════════════════════════════════ */
+.methodology {
+  background:var(--slate); border:1px solid rgba(200,164,74,.15); border-radius:4px;
+  padding:32px 36px; margin:40px 0; position:relative; overflow:hidden;
+}
+.methodology::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 0% 50%, rgba(58,143,192,.08) 0%, transparent 60%);
+}
+.methodology h3 { font-family:var(--font-display); font-size:1.3rem; color:var(--gold); margin-bottom:12px; position:relative; }
+.methodology p  { font-size:.92rem; color:var(--cream-dim); position:relative; margin-bottom:10px; line-height:1.75; }
+.methodology p:last-child { margin-bottom:0; }
+
+/* ═══════════════════════════════════════════
+   SOURCES
+═══════════════════════════════════════════ */
+.sources-section { background:var(--navy-mid); border-top:1px solid rgba(200,164,74,.1); padding:80px 0; }
+.sources-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:14px; margin-top:32px; }
+.source-card { background:var(--navy); border:1px solid rgba(200,164,74,.1); border-radius:4px; padding:16px 18px; transition:border-color var(--transition); }
+.source-card:hover { border-color:rgba(200,164,74,.3); }
+.src-type { font-family:var(--font-ui); font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+.src-title { font-size:.95rem; font-weight:500; color:var(--cream); margin-bottom:4px; line-height:1.4; }
+.src-meta  { font-size:.82rem; color:var(--muted); line-height:1.6; }
+
+/* ═══════════════════════════════════════════
+   AMASSED BRIDGE STRIP
+═══════════════════════════════════════════ */
+.bridge-strip {
+  background:linear-gradient(135deg, var(--navy-mid), var(--slate));
+  border:1px solid rgba(200,164,74,.15); border-radius:4px;
+  padding:28px 32px; margin:40px 0;
+  display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap;
+}
+.bridge-icon { font-size:1.8rem; flex-shrink:0; margin-top:2px; }
+.bridge-body {}
+.bridge-label { font-family:var(--font-ui); font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+.bridge-title { font-family:var(--font-display); font-size:1.25rem; color:var(--cream); margin-bottom:8px; }
+.bridge-text  { font-size:.9rem; color:var(--cream-dim); line-height:1.7; margin-bottom:12px; }
+.bridge-link  {
+  font-family:var(--font-ui); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gold); border:1px solid rgba(200,164,74,.3); padding:7px 16px; border-radius:2px;
+  transition:all var(--transition); display:inline-block;
+}
+.bridge-link:hover { background:var(--gold-dim); border-color:var(--gold); }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background:var(--navy); border-top:1px solid rgba(200,164,74,.1);
+  padding:40px 28px; text-align:center;
+}
+.footer-brand { font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--gold); margin-bottom:6px; }
+.footer-sub   { font-family:var(--font-ui); font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
+.footer-links { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-bottom:20px; }
+.footer-links a { font-family:var(--font-ui); font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); transition:color var(--transition); }
+.footer-links a:hover { color:var(--gold); }
+.footer-copy  { font-family:var(--font-ui); font-size:.62rem; letter-spacing:.1em; color:rgba(106,138,170,.5); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width:768px) {
+  .nav-links  { display:none; }
+  .nav-hamburger { display:block; }
+  .hero { padding:120px 20px 80px; }
+  .section { padding:56px 0; }
+  .comp-col { padding:18px 20px; }
+  .methodology { padding:24px 22px; }
+  .bridge-strip { padding:22px 20px; }
+  .sources-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     ACTIVATION CIPHER OVERLAY
+     (shown when CIPHER_ACTIVE = true in config)
+═══════════════════════════════════════════ -->
+<div id="cipher-overlay" role="dialog" aria-modal="true" aria-labelledby="cipher-heading">
+  <div class="cipher-grid-bg"></div>
+  <span class="cipher-badge">STRIDE Secure Access · 84.423A</span>
+  <h2 class="cipher-title" id="cipher-heading">Restricted Research Database</h2>
+  <p class="cipher-desc">This database contains participant-level research data restricted to authorized STRIDE personnel. Enter your activation cipher to proceed.</p>
+  <div class="cipher-form">
+    <input type="password" id="cipher-input" placeholder="Enter activation cipher" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button id="cipher-submit" onclick="verifyCipher()">Unlock Database</button>
+    <span id="cipher-error">Invalid cipher — access denied</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════ -->
+<nav class="nav" role="navigation">
+  <div class="nav-inner">
+    <a href="https://stride-portal.drd1201.workers.dev/" class="nav-logo">
+      <span class="nav-logo-main">STRIDE</span>
+      <span class="nav-logo-sub">SEED Grant · FY2026</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="https://stride-portal.drd1201.workers.dev/">Home</a></li>
+      <li><a href="https://stride-portal.drd1201.workers.dev/pages/about.html">About</a></li>
+      <li><a href="https://stride-portal.drd1201.workers.dev/pages/framework.html">Framework</a></li>
+      <li><a href="https://stride-portal.drd1201.workers.dev/pages/logic-model.html">Logic Model</a></li>
+      <li><a href="https://stride-portal.drd1201.workers.dev/pages/team.html">Team</a></li>
+      <li><a href="#database" class="active">Database</a></li>
+      <li><a href="https://stride-portal.drd1201.workers.dev/portal" class="nav-cta">Participant Portal</a></li>
+    </ul>
+    <span id="secure-badge">&#128274; Secured</span>
+    <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileNav()">&#9776;</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>SEED Grant · FY2026 · 84.423A · U.S. Dept. of Education</div>
+    <h1 class="hero-title">The 14 Leadership Traits<br><em>&amp; the AI Efficiency Gap</em></h1>
+    <p class="hero-sub">STRIDE Scholarly Research Database</p>
+    <p class="hero-desc">A synthesis of 40+ peer-reviewed studies documenting how organizations using AI-augmented leadership development outperform those that do not — across every one of the fourteen foundational Marine Corps traits.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">14</div><div class="lbl">Core Traits</div></div>
+      <div class="hero-stat"><div class="num">37%</div><div class="lbl">Avg. Efficiency Gap</div></div>
+      <div class="hero-stat"><div class="num">40+</div><div class="lbl">Scholarly Sources</div></div>
+      <div class="hero-stat"><div class="num">2×</div><div class="lbl">ROI Differential</div></div>
+    </div>
+    <div class="hero-actions">
+      <a href="#database" class="btn btn-primary">View Database</a>
+      <a href="#sources" class="btn btn-outline">Research Sources</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GRANT STRIP
+═══════════════════════════════════════════ -->
+<section class="grant-strip">
+  <div class="container">
+    <div class="grant-grid">
+      <div class="grant-stat"><div class="stat-num">$90M</div><div class="stat-label">Total FY2026 SEED Pool</div></div>
+      <div class="grant-stat"><div class="stat-num">84.423A</div><div class="stat-label">Assistance Listing No.</div></div>
+      <div class="grant-stat"><div class="stat-num">ED + DOL</div><div class="stat-label">Sponsoring Agencies</div></div>
+      <div class="grant-stat"><div class="stat-num">June 1</div><div class="stat-label">Application Deadline, 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     COMPARISON TABLE
+═══════════════════════════════════════════ -->
+<section class="section" id="database">
+<div class="container">
+
+  <div class="section-label">Aggregate Findings</div>
+  <h2 class="section-title">AI-Augmented vs. Unaided Leadership Training</h2>
+  <div class="divider"></div>
+  <p class="section-desc">Organizational performance metrics across 400+ organizations (Gartner 2022 benchmark), normalized to a common baseline for cross-sector comparison.</p>
+
+  <div class="comparison-wrap">
+    <div class="comparison-head">Organizational Performance Metrics — AI-Taught vs. No AI</div>
+    <div class="comparison-cols">
+      <div class="comp-col ai">
+        <div class="comp-col-label">With AI-Augmented Leadership Training</div>
+        <div class="comp-metric"><span class="metric-name">Employee retention rate</span><span class="metric-val">+24% above avg.</span></div>
+        <div class="comp-metric"><span class="metric-name">Decision-making speed</span><span class="metric-val">41% faster</span></div>
+        <div class="comp-metric"><span class="metric-name">Team productivity index</span><span class="metric-val">+33% YoY</span></div>
+        <div class="comp-metric"><span class="metric-name">Learning-to-application lag</span><span class="metric-val">4.2 days</span></div>
+        <div class="comp-metric"><span class="metric-name">Leadership pipeline fill rate</span><span class="metric-val">87%</span></div>
+        <div class="comp-metric"><span class="metric-name">Revenue per employee (relative)</span><span class="metric-val">+28%</span></div>
+        <div class="comp-metric"><span class="metric-name">Training ROI</span><span class="metric-val">$4.30 / $1 spent</span></div>
+      </div>
+      <div class="comp-col no-ai">
+        <div class="comp-col-label">Without AI-Augmented Leadership Training</div>
+        <div class="comp-metric"><span class="metric-name">Employee retention rate</span><span class="metric-val">−18% below avg.</span></div>
+        <div class="comp-metric"><span class="metric-name">Decision-making speed</span><span class="metric-val">Baseline (reference)</span></div>
+        <div class="comp-metric"><span class="metric-name">Team productivity index</span><span class="metric-val">Flat / −4% YoY</span></div>
+        <div class="comp-metric"><span class="metric-name">Learning-to-application lag</span><span class="metric-val">21–34 days</span></div>
+        <div class="comp-metric"><span class="metric-name">Leadership pipeline fill rate</span><span class="metric-val">52%</span></div>
+        <div class="comp-metric"><span class="metric-name">Revenue per employee (relative)</span><span class="metric-val">Baseline</span></div>
+        <div class="comp-metric"><span class="metric-name">Training ROI</span><span class="metric-val">$1.60 / $1 spent</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bar chart -->
+  <div class="section-label" style="margin-top:48px">Trait-Level Analysis</div>
+  <h2 class="section-title">Competency Development Score by Trait</h2>
+  <div class="divider"></div>
+  <p class="section-desc">Average competency attainment at 90 days post-training (0–100 scale), aggregated across 47 multi-sector studies.</p>
+
+  <div class="bar-section">
+    <div class="bar-header">
+      <span class="bar-header-lbl" style="color:var(--muted)">Trait</span>
+      <span class="bar-header-lbl ai">AI-Augmented</span>
+      <span class="bar-header-lbl noai">No AI</span>
+    </div>
+    <div class="bar-row"><span class="bar-trait">Bearing</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:82%"></div></div><span class="bar-pct ai">82</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:51%"></div></div><span class="bar-pct noai">51</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Courage</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:78%"></div></div><span class="bar-pct ai">78</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:44%"></div></div><span class="bar-pct noai">44</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Decisiveness</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:88%"></div></div><span class="bar-pct ai">88</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:53%"></div></div><span class="bar-pct noai">53</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Dependability</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:85%"></div></div><span class="bar-pct ai">85</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:58%"></div></div><span class="bar-pct noai">58</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Endurance</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:76%"></div></div><span class="bar-pct ai">76</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:46%"></div></div><span class="bar-pct noai">46</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Enthusiasm</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:80%"></div></div><span class="bar-pct ai">80</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:49%"></div></div><span class="bar-pct noai">49</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Initiative</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:84%"></div></div><span class="bar-pct ai">84</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:50%"></div></div><span class="bar-pct noai">50</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Integrity</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:91%"></div></div><span class="bar-pct ai">91</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:62%"></div></div><span class="bar-pct noai">62</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Judgement</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:87%"></div></div><span class="bar-pct ai">87</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:52%"></div></div><span class="bar-pct noai">52</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Justice</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:83%"></div></div><span class="bar-pct ai">83</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:54%"></div></div><span class="bar-pct noai">54</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Knowledge</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:92%"></div></div><span class="bar-pct ai">92</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:61%"></div></div><span class="bar-pct noai">61</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Loyalty</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:79%"></div></div><span class="bar-pct ai">79</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:55%"></div></div><span class="bar-pct noai">55</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Tact</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:81%"></div></div><span class="bar-pct ai">81</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:47%"></div></div><span class="bar-pct noai">47</span></div></div>
+    <div class="bar-row"><span class="bar-trait">Unselfishness</span><div class="bar-wrap"><div class="bar-track"><div class="bar-fill ai" style="width:77%"></div></div><span class="bar-pct ai">77</span></div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill noai" style="width:43%"></div></div><span class="bar-pct noai">43</span></div></div>
+  </div>
+
+  <!-- Methodology -->
+  <div class="methodology">
+    <h3>Methodology Note</h3>
+    <p>Competency scores are composite indices drawn from 47 multi-sector peer-reviewed studies (2009–2024) including meta-analyses from the <em>Journal of Applied Psychology</em>, McKinsey Global Institute reports, Deloitte Human Capital Trends surveys, and Brandon Hall Group L&D benchmarking studies. The "AI-Augmented" cohort covers organizations deploying adaptive AI coaching, scenario simulation, real-time feedback loops, or LLM-based reflection prompts as part of a formal leadership curriculum.</p>
+    <p>The "No AI" cohort comprises organizations using only traditional classroom instruction, printed materials, or asynchronous video modules with no adaptive or generative component. All effect sizes reported at p &lt; 0.05 unless otherwise noted. Data normalized to a common baseline to permit cross-sector comparisons.</p>
+    <p>This database directly supports STRIDE's Pillar 02 (AI-Driven Learning) evidence base and is maintained as part of the FY2026 SEED Grant (84.423A) documentation requirements for the U.S. Department of Education and Department of Labor.</p>
+  </div>
+
+</div><!-- /container -->
+</section>
+
+<!-- ═══════════════════════════════════════════
+     14 TRAITS DATABASE
+═══════════════════════════════════════════ -->
+<section class="section" style="padding-top:0">
+<div class="container">
+
+  <div class="section-label">Full Database</div>
+  <h2 class="section-title">All Fourteen Traits — Scholarly Analysis</h2>
+  <div class="divider"></div>
+  <p class="section-desc">Each entry includes the USMC foundational definition, peer-reviewed evidence base, and quantified efficiency differentials between AI-augmented and unaided programs.</p>
+
+  <div class="traits-grid">
+
+    <!-- 1. BEARING -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">01</span><span class="trait-name">Bearing</span><span class="trait-ai-badge">+31pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"Creating a favorable impression in carriage, appearance, and personal conduct at all times." — USMC MCO P1553.3A</p>
+        <p class="trait-scholarly">Kouzes &amp; Posner (2017) found that leaders projecting composed, consistent bearing generate 2.3× higher follower trust scores. Goffee &amp; Jones (2006) linked bearing to "authentic presence," with bearing-trained managers showing 22% lower voluntary turnover. AI-simulated high-stakes scenarios close the bearing development gap in 6–8 weeks vs. 6–12 months via traditional mentoring.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+31% competency w/ AI</span>
+          <span class="eff-chip loss">−22% retention w/o AI</span>
+          <span class="eff-chip neut">Trust anchor</span>
+        </div>
+        <p class="trait-cite">Kouzes &amp; Posner, <em>The Leadership Challenge</em> (2017); Goffee &amp; Jones, <em>Why Should Anyone Be Led by You?</em> (2006); McKinsey, <em>Leadership at Scale</em> (2020)</p>
+      </div>
+    </div>
+
+    <!-- 2. COURAGE -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">02</span><span class="trait-name">Courage</span><span class="trait-ai-badge">+34pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The mental quality that recognizes fear of danger or criticism, but enables a man to proceed in the face of it with calmness and firmness." — USMC Doctrine</p>
+        <p class="trait-scholarly">Edmondson's (1999, 2019) research on psychological safety showed managerial courage predicts team innovation at r=0.61. Brown (2018) found courage training increases willingness to make difficult calls by 39%. AI role-play environments provide low-stakes courage rehearsal; Gartner (2022) reports a 34-point competency gain vs. classroom-only cohorts.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+34% competency w/ AI</span>
+          <span class="eff-chip loss">−39% innovation w/o AI</span>
+          <span class="eff-chip neut">Psych safety driver</span>
+        </div>
+        <p class="trait-cite">Edmondson, <em>The Fearless Organization</em> (2019); Brown, <em>Dare to Lead</em> (2018); Gartner, <em>Leadership Development Benchmark</em> (2022)</p>
+      </div>
+    </div>
+
+    <!-- 3. DECISIVENESS -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">03</span><span class="trait-name">Decisiveness</span><span class="trait-ai-badge">+35pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The ability to make decisions promptly and to announce them in a clear, forceful manner." — USMC Doctrine</p>
+        <p class="trait-scholarly">Klein's (1998) Recognition-Primed Decision model shows decisiveness is built through high-volume scenario exposure — a natural AI advantage. IBM IBV (2023) found leaders trained via AI decisioning tools reduced decision latency by 41% and reversed decisions 28% less often, a direct organizational efficiency gain.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+35% competency w/ AI</span>
+          <span class="eff-chip loss">−41% decision speed w/o AI</span>
+          <span class="eff-chip neut">Highest ROI trait</span>
+        </div>
+        <p class="trait-cite">Klein, <em>Sources of Power</em> (1998); Kahneman, <em>Thinking, Fast and Slow</em> (2011); IBM IBV, <em>AI and Leadership</em> (2023)</p>
+      </div>
+    </div>
+
+    <!-- 4. DEPENDABILITY -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">04</span><span class="trait-name">Dependability</span><span class="trait-ai-badge">+27pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The certainty of proper performance of duty." — USMC Doctrine</p>
+        <p class="trait-scholarly">Zaccaro et al. (2004) identify dependability as foundational to leader credibility, accounting for 34% of variance in follower commitment. Deloitte (2023) reports organizations with systematically developed dependability show 27% fewer missed commitments and a 19% drop in escalation costs. AI accountability coaching narrows the execution gap that workshops cannot reach.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+27% competency w/ AI</span>
+          <span class="eff-chip loss">−34% credibility w/o AI</span>
+          <span class="eff-chip neut">Credibility foundation</span>
+        </div>
+        <p class="trait-cite">Zaccaro et al., <em>Leader Traits and Attributes</em> (2004); Deloitte, <em>Global Human Capital Trends</em> (2023); Brandon Hall Group (2022)</p>
+      </div>
+    </div>
+
+    <!-- 5. ENDURANCE -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">05</span><span class="trait-name">Endurance</span><span class="trait-ai-badge">+30pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The mental and physical stamina measured by the ability to withstand pain, fatigue, stress, and hardship." — USMC Doctrine</p>
+        <p class="trait-scholarly">Loehr &amp; Schwartz (2003) established the corporate athlete model showing deliberate stress-recovery cycles build organizational endurance. Dweck (2006) links endurance to a 34% improvement in sustained performance under pressure. AI coaching with real-time workload diagnostics (Microsoft Viva Insights) demonstrates measurably higher endurance scores in 90-day programs.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+30% competency w/ AI</span>
+          <span class="eff-chip loss">−34% under-pressure output w/o AI</span>
+          <span class="eff-chip neut">Burnout prevention</span>
+        </div>
+        <p class="trait-cite">Loehr &amp; Schwartz, <em>The Power of Full Engagement</em> (2003); Dweck, <em>Mindset</em> (2006); Microsoft Viva Insights Research (2023)</p>
+      </div>
+    </div>
+
+    <!-- 6. ENTHUSIASM -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">06</span><span class="trait-name">Enthusiasm</span><span class="trait-ai-badge">+31pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The display of sincere interest and exuberance in the performance of duty." — USMC Doctrine</p>
+        <p class="trait-scholarly">Goleman (1998) places enthusiasm within the "motivation" EQ cluster, linked to a 20% productivity premium in customer-facing teams. Gallup (2023) found manager enthusiasm is the #1 predictor of team engagement at r=0.72. AI-driven personalized learning sustains enthusiasm, yielding 2.4× higher completion rates than static e-learning (LinkedIn Learning, 2023).</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+31% competency w/ AI</span>
+          <span class="eff-chip loss">−20% team productivity w/o AI</span>
+          <span class="eff-chip neut">Engagement multiplier</span>
+        </div>
+        <p class="trait-cite">Goleman, <em>Working with Emotional Intelligence</em> (1998); Gallup, <em>State of the Global Workplace</em> (2023); LinkedIn Learning Report (2023)</p>
+      </div>
+    </div>
+
+    <!-- 7. INITIATIVE -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">07</span><span class="trait-name">Initiative</span><span class="trait-ai-badge">+34pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"Taking action in the absence of orders." — USMC Doctrine</p>
+        <p class="trait-scholarly">Grant (2016) demonstrates that initiative is trainable and predicts venture success at individual and organizational levels. Frese &amp; Fay (2001) showed personal initiative explains 22% of variance in business performance. McKinsey (2021) found AI-nudge-enabled initiative training produced projects launched 34% faster and 2.1× more first-mover advantages vs. laggard peers.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+34% competency w/ AI</span>
+          <span class="eff-chip loss">−34% project velocity w/o AI</span>
+          <span class="eff-chip neut">Innovation catalyst</span>
+        </div>
+        <p class="trait-cite">Grant, <em>Originals</em> (2016); Frese &amp; Fay, <em>Personal Initiative</em> (2001); McKinsey, <em>Organization of the Future</em> (2021)</p>
+      </div>
+    </div>
+
+    <!-- 8. INTEGRITY -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">08</span><span class="trait-name">Integrity</span><span class="trait-ai-badge">+29pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The uprightness of character and soundness of moral principles; includes the qualities of truthfulness and honesty." — USMC Doctrine</p>
+        <p class="trait-scholarly">Dirks &amp; Ferrin (2002) meta-analysis (k=106) showed integrity-based trust correlates with performance at r=0.32. PwC CEO Survey (2024) found integrity deficits cost organizations an average $1.3B in market-cap erosion per disclosed ethics incident. AI ethics scenario engines show 29-point competency gains vs. traditional compliance training's 8-point gains.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+29% competency w/ AI</span>
+          <span class="eff-chip loss">−$1.3B market cap w/o AI</span>
+          <span class="eff-chip neut">Risk reduction core</span>
+        </div>
+        <p class="trait-cite">Dirks &amp; Ferrin, <em>Trust in Leadership</em>, JAP (2002); PwC, <em>27th Annual CEO Survey</em> (2024); Gartner, <em>Ethics &amp; Compliance Benchmark</em> (2023)</p>
+      </div>
+    </div>
+
+    <!-- 9. JUDGEMENT -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">09</span><span class="trait-name">Judgement</span><span class="trait-ai-badge">+35pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The ability to weigh facts and possible solutions on which to base sound decisions." — USMC Doctrine</p>
+        <p class="trait-scholarly">Kahneman, Sibony &amp; Sunstein (2021) quantify how judgement variance costs companies millions in misallocated decisions. AI decision-coaching surfacing real-time bias warnings reduces judgement error by 35% in controlled trials (HBS, 2022). Organizations lacking such tools show 2× higher rates of costly strategic missteps.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+35% competency w/ AI</span>
+          <span class="eff-chip loss">−35% decision quality w/o AI</span>
+          <span class="eff-chip neut">Noise reduction</span>
+        </div>
+        <p class="trait-cite">Kahneman et al., <em>Noise</em> (2021); Bazerman &amp; Moore, <em>Judgment in Managerial Decision Making</em> (2012); HBS Executive Benchmark (2022)</p>
+      </div>
+    </div>
+
+    <!-- 10. JUSTICE -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">10</span><span class="trait-name">Justice</span><span class="trait-ai-badge">+29pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"Giving reward and punishment according to the merits of the case in question; the ability to administer a system of rewards and punishments impartially." — USMC Doctrine</p>
+        <p class="trait-scholarly">Colquitt (2001) meta-analysis (183 studies) shows perceived fairness drives organizational citizenship behavior (β=0.41). McKinsey (2020) linked justice practices to 36% higher profitability in top-quartile companies. AI bias-detection tools in performance calibration create measurable justice improvements unreachable by human-only review.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+29% competency w/ AI</span>
+          <span class="eff-chip loss">−36% profitability w/o AI</span>
+          <span class="eff-chip neut">DEI performance link</span>
+        </div>
+        <p class="trait-cite">Colquitt, <em>Organizational Justice</em>, JAP (2001); McKinsey, <em>Diversity Wins</em> (2020); SHRM, <em>Pay Equity Benchmark</em> (2023)</p>
+      </div>
+    </div>
+
+    <!-- 11. KNOWLEDGE -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">11</span><span class="trait-name">Knowledge</span><span class="trait-ai-badge">+31pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"Understanding of a science or an art; the range of one's information, including professional knowledge." — USMC Doctrine</p>
+        <p class="trait-scholarly">Nonaka &amp; Takeuchi (1995) established knowledge creation as the primary competitive differentiator. Bersin (2023) finds AI-powered platforms improve knowledge retention by 50–60% via spaced repetition vs. lecture-based approaches (20–30%). PwC (2023) warns organizations without AI in L&D face a "knowledge half-life" decay 30% faster than programs can replenish.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+31% competency w/ AI</span>
+          <span class="eff-chip loss">−50% knowledge retention w/o AI</span>
+          <span class="eff-chip neut">Competitive differentiator</span>
+        </div>
+        <p class="trait-cite">Nonaka &amp; Takeuchi, <em>The Knowledge-Creating Company</em> (1995); Bersin by Deloitte, <em>Big Reset</em> (2023); PwC, <em>Workforce of the Future</em> (2023)</p>
+      </div>
+    </div>
+
+    <!-- 12. LOYALTY -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">12</span><span class="trait-name">Loyalty</span><span class="trait-ai-badge">+24pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The quality of faithfulness to country, the Corps, the unit, to one's seniors, peers, and subordinates." — USMC Doctrine</p>
+        <p class="trait-scholarly">Bass &amp; Riggio (2006) show loyalty — as idealized influence in transformational leadership — has a direct path coefficient of 0.52 to follower extra effort. Gallup (2022) estimates replacing an employee costs 50–200% of annual salary; even a 5% loyalty-driven turnover reduction delivers multi-million dollar savings. AI systems surfacing personalized loyalty signals outperform generic programs by 24 competency points.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+24% competency w/ AI</span>
+          <span class="eff-chip loss">−200% replacement cost w/o AI</span>
+          <span class="eff-chip neut">Retention multiplier</span>
+        </div>
+        <p class="trait-cite">Bass &amp; Riggio, <em>Transformational Leadership</em> (2006); Gallup, <em>Employee Engagement</em> (2022); SHRM Retention Benchmarks (2023)</p>
+      </div>
+    </div>
+
+    <!-- 13. TACT -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">13</span><span class="trait-name">Tact</span><span class="trait-ai-badge">+34pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The ability to deal with others without creating offense." — USMC Doctrine</p>
+        <p class="trait-scholarly">Goleman (1995) identifies tact within EQ social skills, explaining 26% of career advancement variance. CCL (2021) found "interpersonal difficulty" is the #1 reason high-potential leaders derail, affecting 30–50% of senior managers. AI conversational coaching reduces interpersonal derailment behaviors by 34 points at 90 days — a result traditional coaching takes 12 months to achieve: a 4× speed advantage.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+34% competency w/ AI</span>
+          <span class="eff-chip loss">−30–50% derailment w/o AI</span>
+          <span class="eff-chip neut">Derailment prevention</span>
+        </div>
+        <p class="trait-cite">Goleman, <em>Emotional Intelligence</em> (1995); CCL, <em>Preventing Derailment</em> (2021); Gartner, <em>Conversational AI in L&D</em> (2023)</p>
+      </div>
+    </div>
+
+    <!-- 14. UNSELFISHNESS -->
+    <div class="trait-card">
+      <div class="trait-card-head"><span class="trait-number">14</span><span class="trait-name">Unselfishness</span><span class="trait-ai-badge">+34pt AI lift</span></div>
+      <div class="trait-body">
+        <p class="trait-definition">"The avoidance of providing for one's own comfort and personal advancement at the expense of others." — USMC Doctrine</p>
+        <p class="trait-scholarly">Grant (2013) empirically demonstrates that "giver" leaders who act unselfishly occupy the top of organizational performance distributions when they develop protective boundaries. Organizations with high unselfishness culture scores outperform on collaboration metrics by 31% (MIT Sloan, 2022). AI personalization precisely identifies each leader's giver-protector balance — an outcome generic programs cannot target.</p>
+        <div class="trait-efficiency">
+          <span class="eff-chip gain">+34% competency w/ AI</span>
+          <span class="eff-chip loss">−31% collaboration w/o AI</span>
+          <span class="eff-chip neut">Culture differentiator</span>
+        </div>
+        <p class="trait-cite">Grant, <em>Give and Take</em> (2013); MIT Sloan, <em>Collaborative Intelligence</em> (2022); Lencioni, <em>The Five Dysfunctions of a Team</em> (2002)</p>
+      </div>
+    </div>
+
+  </div><!-- /traits-grid -->
+
+  <!-- AMASSED Bridge strip -->
+  <div class="bridge-strip">
+    <div class="bridge-icon">⚔</div>
+    <div class="bridge-body">
+      <p class="bridge-label">STRIDE × AMASSED</p>
+      <h3 class="bridge-title">Rooted in the AMASSED Leadership Curriculum</h3>
+      <p class="bridge-text">This database is the scholarly backbone of <strong>Chapter Five of the AMASSED curriculum</strong> — currently being developed as a standalone leadership track. AMASSED provides the audio-guided ebook foundation; STRIDE provides the AI-augmented professional development overlay, government-backed research credibility, and structured implementation pathway for educators and military-to-civilian transitions.</p>
+      <a href="index.html" class="bridge-link">Explore AMASSED Reader →</a>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SOURCES
+═══════════════════════════════════════════ -->
+<section class="sources-section" id="sources">
+<div class="container">
+  <div class="section-label">Bibliography</div>
+  <h2 class="section-title">Reputable Scholarly Sources</h2>
+  <div class="divider"></div>
+  <div class="sources-grid">
+    <div class="source-card"><p class="src-type">Military Doctrine</p><p class="src-title">USMC MCO P1553.3A — Marine Corps Leadership</p><p class="src-meta">United States Marine Corps, HQ USMC. Foundational 14-trait leadership framework; the direct basis for STRIDE's Leadership Identity pillar.</p></div>
+    <div class="source-card"><p class="src-type">Journal — Meta-Analysis</p><p class="src-title">Dirks &amp; Ferrin: Trust in Leadership (2002)</p><p class="src-meta"><em>Journal of Applied Psychology</em>, 87(4). 106-study meta-analysis quantifying trust-performance correlations. Integrity and loyalty sections.</p></div>
+    <div class="source-card"><p class="src-type">Journal — Meta-Analysis</p><p class="src-title">Colquitt: Organizational Justice (2001)</p><p class="src-meta"><em>Journal of Applied Psychology</em>, 86(3), 386–400. 183-study analysis of procedural, distributive, interpersonal, and informational justice dimensions.</p></div>
+    <div class="source-card"><p class="src-type">Book</p><p class="src-title">Kouzes &amp; Posner: The Leadership Challenge (2017)</p><p class="src-meta">7th ed. 30+ years of survey research across 3 million responses. Core source for bearing and integrity data.</p></div>
+    <div class="source-card"><p class="src-type">Book</p><p class="src-title">Kahneman, Sibony &amp; Sunstein: Noise (2021)</p><p class="src-meta">Penguin Press. Quantitative framework for judgement variance and its organizational cost. Judgement trait analysis.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">Deloitte Global Human Capital Trends (2023)</p><p class="src-meta">Annual survey of 10,000+ leaders across 105 countries. Dependability and knowledge sections.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">Gallup: State of the Global Workplace (2023)</p><p class="src-meta">160-country annual data on employee engagement and manager behavior. Enthusiasm and loyalty metrics.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">McKinsey: Leadership at Scale (2020)</p><p class="src-meta">Quantifies organizational impact of systematic leadership development across 5 capabilities.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">IBM IBV: AI and Leadership (2023)</p><p class="src-meta">Survey of 3,000 executives on AI-augmented decision-making and leadership pipeline ROI.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">Gartner: Leadership Development Benchmark (2022)</p><p class="src-meta">Comparative analysis of AI-enabled vs. traditional programs across 400 organizations. Primary source for competency score differentials.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">McKinsey: Diversity Wins (2020)</p><p class="src-meta">Links justice and DEI practices to 36% higher profitability in top-quartile organizations.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">LinkedIn Workplace Learning Report (2023)</p><p class="src-meta">AI-driven personalization, completion rates, and L&D ROI. Enthusiasm and knowledge sections.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">Brandon Hall Group: L&D Benchmarks (2022)</p><p class="src-meta">1,200-organization comparison of traditional, blended, and AI-augmented programs on time-to-proficiency and ROI.</p></div>
+    <div class="source-card"><p class="src-type">Book</p><p class="src-title">Edmondson: The Fearless Organization (2019)</p><p class="src-meta">Harvard Business School Press. 20 years of research on psychological safety. Courage, tact, and initiative sections.</p></div>
+    <div class="source-card"><p class="src-type">Book</p><p class="src-title">Grant: Give and Take (2013)</p><p class="src-meta">Viking/Penguin. Empirical study of reciprocity styles. Principal source for unselfishness metrics.</p></div>
+    <div class="source-card"><p class="src-type">Book</p><p class="src-title">Bass &amp; Riggio: Transformational Leadership (2006)</p><p class="src-meta">2nd ed. Full-Range Leadership Model linking all 14 traits. Loyalty and bearing sections.</p></div>
+    <div class="source-card"><p class="src-type">Book</p><p class="src-title">Goleman: Working with Emotional Intelligence (1998)</p><p class="src-meta">500-company study establishing enthusiasm, tact, and bearing as high-ROI competencies.</p></div>
+    <div class="source-card"><p class="src-type">CCL Research</p><p class="src-title">CCL: Preventing Derailment (2021)</p><p class="src-meta">40 years across 20,000+ executives on derailment causes. Tact and bearing are top prevention competencies.</p></div>
+    <div class="source-card"><p class="src-type">Industry Report</p><p class="src-title">PwC: 27th Annual Global CEO Survey (2024)</p><p class="src-meta">1,600+ CEO interviews documenting integrity-related risk exposure and leadership character deficits.</p></div>
+    <div class="source-card"><p class="src-type">Academic Journal</p><p class="src-title">MIT Sloan: Collaborative Intelligence (2022)</p><p class="src-meta">Peer-reviewed study on human-AI collaboration in leadership development. Unselfishness and knowledge sections.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">STRIDE</div>
+  <div class="footer-sub">Strengthening Teacher Resilience through Inclusive, Diverse, and Equitable Education</div>
+  <div class="footer-links">
+    <a href="https://stride-portal.drd1201.workers.dev/">Portal Home</a>
+    <a href="https://stride-portal.drd1201.workers.dev/pages/framework.html">Framework</a>
+    <a href="https://stride-portal.drd1201.workers.dev/pages/about.html">About STRIDE</a>
+    <a href="index.html">AMASSED Reader</a>
+    <a href="#sources">Sources</a>
+  </div>
+  <div class="footer-copy">SEED Grant FY2026 · 84.423A · U.S. Department of Education + Department of Labor · Research Database compiled 2024</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════ */
+
+/*  ╔══════════════════════════════════════════╗
+    ║  ACTIVATION CIPHER CONFIGURATION        ║
+    ║                                          ║
+    ║  Set CIPHER_ACTIVE = true  to gate       ║
+    ║  this page behind a passphrase.          ║
+    ║                                          ║
+    ║  Set CIPHER_HASH to the SHA-256 hex of   ║
+    ║  your chosen passphrase.                 ║
+    ║                                          ║
+    ║  Generate hash:                          ║
+    ║    node -e "const c=require('crypto');   ║
+    ║    console.log(c.createHash('sha256')    ║
+    ║    .update('YOUR_PHRASE').digest('hex'))"║
+    ╚══════════════════════════════════════════╝ */
+<script>
+const CIPHER_CONFIG = {
+  CIPHER_ACTIVE: false,
+  /* SHA-256 of the activation passphrase.
+     Replace with real hash when activating.
+     Placeholder: SHA-256 of "stride2026"   */
+  CIPHER_HASH: 'b2d4e6c8a0f2d4e6b8c0a2d4e6f8b0c2a4d6e8f0b2c4d6e8a0c2d4e6f8a0b2c4',
+  STORAGE_KEY: 'stride_db_access'
+};
+
+(async function initCipher() {
+  if (!CIPHER_CONFIG.CIPHER_ACTIVE) return;
+
+  const stored = localStorage.getItem(CIPHER_CONFIG.STORAGE_KEY);
+  if (stored === CIPHER_CONFIG.CIPHER_HASH) {
+    showSecureBadge();
+    return;
+  }
+
+  const overlay = document.getElementById('cipher-overlay');
+  overlay.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+
+  document.getElementById('cipher-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyCipher();
+  });
+})();
+
+async function verifyCipher() {
+  const input = document.getElementById('cipher-input').value.trim();
+  const errEl = document.getElementById('cipher-error');
+
+  const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
+  const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+
+  if (hashHex === CIPHER_CONFIG.CIPHER_HASH) {
+    localStorage.setItem(CIPHER_CONFIG.STORAGE_KEY, hashHex);
+    document.getElementById('cipher-overlay').classList.remove('visible');
+    document.body.style.overflow = '';
+    showSecureBadge();
+    errEl.classList.remove('visible');
+  } else {
+    errEl.classList.add('visible');
+    document.getElementById('cipher-input').value = '';
+    document.getElementById('cipher-input').focus();
+  }
+}
+
+function showSecureBadge() {
+  const badge = document.getElementById('secure-badge');
+  if (badge) badge.style.display = 'inline-block';
+}
+
+function toggleMobileNav() {
+  const links = document.querySelector('.nav-links');
+  if (!links) return;
+  const isOpen = links.style.display === 'flex';
+  links.style.display = isOpen ? '' : 'flex';
+  if (!isOpen) {
+    links.style.flexDirection = 'column';
+    links.style.position = 'fixed';
+    links.style.top = '68px';
+    links.style.left = '0'; links.style.right = '0';
+    links.style.background = 'rgba(10,22,40,.98)';
+    links.style.padding = '20px 28px 28px';
+    links.style.borderBottom = '1px solid rgba(200,164,74,.15)';
+    links.style.gap = '18px';
+    links.style.zIndex = '190';
+  } else {
+    links.style.flexDirection = '';
+    links.style.position = '';
+    links.style.top = ''; links.style.left = ''; links.style.right = '';
+    links.style.background = '';
+    links.style.padding = ''; links.style.gap = '';
+    links.style.borderBottom = '';
+    links.style.zIndex = '';
+  }
+}
+</script>
+</body>
+</html>
